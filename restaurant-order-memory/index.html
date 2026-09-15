@@ -203,7 +203,7 @@ td.code{font-family:var(--f-mono);font-weight:700;white-space:nowrap}
       <div id="setup-diagram"></div>
 
       <button class="btn btn-big" id="btn-start">Take the table</button>
-      <p class="tip">A customer speaks one line at a time. Say each line back out loud, in slot order, then tap. Drink · starter · main · temp · side · mods. Same order every time.</p>
+      <p class="tip">A customer speaks one line at a time. Say each line back out loud, in slot order, then tap. Drink · snack · main · temp · side · dessert · mods. Same order every time.</p>
 
       <div class="card">
         <div class="fields">
@@ -233,19 +233,20 @@ td.code{font-family:var(--f-mono);font-weight:700;white-space:nowrap}
             <select id="c-order"><option value="seated">Seat 1, 2, 3…</option><option value="random" selected>Whoever's ready</option></select></div>
           <div class="field"><span>Tables back to back</span>
             <select id="c-tables"><option value="1">One</option><option value="2">Two</option></select></div>
-          <div class="field"><span>Starters and sides</span>
+          <div class="field"><span>Snacks, sides and desserts</span>
             <select id="c-full"><option value="1" selected>On</option><option value="0">Off (drink + main + mods)</option></select></div>
         </div>
       </div>
 
       <details class="card">
         <summary>The menu (one item per line)</summary>
-        <p class="tip" style="margin-top:0" id="menu-provenance">Loaded with the Vic on George menu (Level 3, Myer Sydney City) as reconstructed on 15 Sep 2026 from the venue site and Uber Eats listings. Neither could be opened directly from where this was built, so it is item names and descriptions from search listings, not a photo of the printed menu. Milk and egg options are standard cafe mods, not verified. Check it against the board and fix anything that has changed. Add <b>*</b> after anything that gets a temperature.</p>
+        <p class="tip" style="margin-top:0" id="menu-provenance">Loaded with the Vic on George menu (Level 3, Myer Sydney City). Food, snacks, sweets, sauces and cold drinks are verbatim from the Uber Eats listing read on 15 Sep 2026. Coffee and tea, plus the fried chicken burger, Angus rump, schnitzel and eggs-your-way, come from the venue site listing and were not seen on Uber Eats. Milk and egg options are standard cafe mods, not verified. Fix anything the board says differently. Add <b>*</b> after anything that gets a temperature.</p>
         <div class="fields">
           <div class="field"><span>Drinks</span><textarea id="m-drinks"></textarea></div>
-          <div class="field"><span>Starters</span><textarea id="m-starters"></textarea></div>
+          <div class="field"><span>Snacks</span><textarea id="m-starters"></textarea></div>
           <div class="field"><span>Mains</span><textarea id="m-mains"></textarea></div>
           <div class="field"><span>Sides</span><textarea id="m-sides"></textarea></div>
+          <div class="field"><span>Desserts</span><textarea id="m-desserts"></textarea></div>
           <div class="field wide"><span>Mods</span><textarea id="m-mods"></textarea></div>
         </div>
         <div class="btn-row">
@@ -261,7 +262,7 @@ td.code{font-family:var(--f-mono);font-weight:700;white-space:nowrap}
       <div class="progress"><span id="floor-table"></span><span id="floor-prog"></span></div>
       <div class="line" id="floor-line"><div class="who" id="floor-who"></div><div class="what" id="floor-what"></div></div>
       <button class="btn btn-big" id="btn-next">Got it</button>
-      <p class="tip" id="floor-tip">Say it back before you tap. Slot order, compressed: “Coke. Burger, medium, no onions, fries.”</p>
+      <p class="tip" id="floor-tip">Say it back before you tap. Slot order, compressed: “Flat white, oat. Wagyu, no bacon, salad.”</p>
     </div>
 
     <div id="stage-sweep" class="stack" hidden>
@@ -323,9 +324,9 @@ td.code{font-family:var(--f-mono);font-weight:700;white-space:nowrap}
     <h3>The seven rules</h3>
     <ol class="steps">
       <li class="step"><b><i>1</i>Anchor</b><div><p>Before the first word, seat 1 is fixed by a rule you never change: the seat on your left as you stand at your usual spot, then clockwise. Stand in the same place at every table. Position is the key the ticket runs on. Then tag each seat with one thing about the person (glasses, red shirt, the loud one). Waiters who ran on position alone got wrecked when customers swapped seats between ordering and delivery. The one who tagged faces did not.</p></div></li>
-      <li class="step"><b><i>2</i>Slot</b><div><p>Every seat has the same slots in the same order: drink, starter, main, temp, side, mods. The customer says it in whatever order they like. You file it in slot order. An empty slot is “none” and you remember the “none” too.</p></div></li>
-      <li class="step"><b><i>3</i>Say</b><div><p>Repeat every item back, out loud, immediately, compressed, in slot order. This is the encoding step. It is also the customer's one cheap chance to correct you. Skipping it because it feels slow is how you end up back at the table asking again.</p><p class="example">They say: “Can I get the burger, no onions, with the sweet potato fries, medium please, and a Coke.”
-You say: “Coke. Burger, medium, no onions, sweet potato fries.”</p></div></li>
+      <li class="step"><b><i>2</i>Slot</b><div><p>Every seat has the same slots in the same order: drink, snack, main, temp, side, dessert, mods. The customer says it in whatever order they like. You file it in slot order. An empty slot is “none” and you remember the “none” too.</p></div></li>
+      <li class="step"><b><i>3</i>Say</b><div><p>Repeat every item back, out loud, immediately, compressed, in slot order. This is the encoding step. It is also the customer's one cheap chance to correct you. Skipping it because it feels slow is how you end up back at the table asking again.</p><p class="example">They say: “Can I get the wagyu burger with the salad instead of chips, no bacon, and a flat white on oat.”
+You say: “Flat white, oat. Wagyu, no bacon, salad.”</p></div></li>
       <li class="step"><b><i>4</i>Overwrite</b><div><p>When they change their mind, say the change out loud as a replacement: “Scratch the fries, salad.” Then re-say the whole seat. Never hold two versions. The old one was rehearsed longer and it will win at the POS if you let it live.</p></div></li>
       <li class="step"><b><i>5</i>Sweep</b><div><p>After the last seat, before you step away, run seat 1 to seat N in your head or under your breath, slot order. Any seat that comes up blank, you ask now, at the table, with a smile. That is free. The same question from the POS is a walk back and a table that now doubts you.</p></div></li>
       <li class="step"><b><i>6</i>Dump</b><div><p>Straight to the POS. Do not stop. Enter it clockwise, seat numbers on, in slot order. Every “quick question” between the table and the terminal costs you a seat. If you are stopped, run the sweep again before you answer anyone.</p></div></li>
@@ -339,7 +340,7 @@ You say: “Coke. Burger, medium, no onions, sweet potato fries.”</p></div></l
 
     <h3>Bulk tables and who sits where</h3>
     <p>Seat numbers solve “who ordered what.” The ticket carries the seat, the runner reads the seat, and you never have to remember faces. When you have to hold two tables before you can ring, take table A, sweep A, take table B, sweep B, then ring A then B. Never ring B first because it is fresher; A decays faster the longer you leave it.</p>
-    <p>Once slot order is automatic, add the trick expert waiters use: for a slot with only a few options, remember the table as a pattern, not as individuals. Steak temps around a four-top become “M, M, MR, W.” Dressings become “ranch, ranch, blue, ranch.” Two or three short patterns plus the seat anchor rebuild the whole table. This only works when the slot is fixed and the options are few, which is why the slots come first.</p>
+    <p>Once slot order is automatic, add the trick expert waiters use: for a slot with only a few options, remember the table as a pattern, not as individuals. Milks around a four-top become “oat, full, full, skim.” Chips-or-salad becomes “chips, salad, chips, chips.” Two or three short patterns plus the seat anchor rebuild the whole table. This only works when the slot is fixed and the options are few, which is why the slots come first.</p>
 
     <h3>Tonight</h3>
     <p><b>Before the shift, 45 minutes.</b></p>
@@ -397,13 +398,13 @@ You say: “Coke. Burger, medium, no onions, sweet potato fries.”</p></div></l
     </table>
     </div>
     <div class="example" style="margin-top:14px">T14  ○ tick at 6 o'clock
-S1  coke | wings | RE MR | fries | −on
-S2  water | – | salmon | sal drs OTS
-S3  IPA | – | burg M | <s>fries</s>→ sw fries | X sauce
-S4  tea | calam | chix sand | rings | ALL! shellfish</div>
+S1  FW oat | – | wagyu −bacon | sal | brulee
+S2  latte L | ceviche | vic club | chips | +aioli
+S3  coke | – | cuban | <s>chips</s>→ sal | churros
+S4  OJ | croq | chix salad | – | ALL! nuts</div>
     <h3>Your own marks</h3>
     <p>Your menu has its own five items that come up every night. Give each one a two-letter mark and keep them here.</p>
-    <textarea id="my-shorthand" placeholder="RE = ribeye&#10;CS = chicken sandwich&#10;SPF = sweet potato fries"></textarea>
+    <textarea id="my-shorthand" placeholder="WB = wagyu burger&#10;VC = Victoria club&#10;FW = flat white"></textarea>
     <p class="tip">Saved on this phone only.</p>
   </section>
 
@@ -439,14 +440,15 @@ const now=()=>Date.now();
 
 /* ---------- menu ---------- */
 const DEFAULT_MENU={
-  drinks:['Cappuccino','Flat white','Latte','Long black','Piccolo','Macchiato','Chai latte','Mocha','Matcha latte','Hot chocolate','English breakfast tea','Peppermint tea','Chamomile tea','Green tea','Iced latte','Iced long black','Iced chai','Iced matcha','Chocolate milkshake','Caramel milkshake','Strawberry milkshake','Vanilla milkshake','Coke','Coke Zero','Sprite','Fanta','Ginger beer','Lemonade','Orange juice','San Pellegrino sparkling','Still mineral water','House wine'],
-  starters:['Victoria chips with two sauces','Crispy potato gems with pecorino','Cheeseburger spring rolls','Salmon ceviche'],
-  mains:['Bacon and egg brioche','Smashed avocado on sourdough','Eggs your way on toast','Wagyu burger','Fried chicken burger','Chipotle pulled chicken burger','Pulled pork ciabatta','Club sandwich','Prawn roll','Antipasto vegetable ciabatta','Falafel wrap','Angus rump 200g*','Schnitzel','Grilled chicken salad','Grilled prawn salad'],
-  sides:['Victoria chips','Garden salad','Potato gems'],
-  mods:['Large','Oat milk','Almond milk','Soy milk','Skim milk','Extra shot','Decaf','Extra hot','Eggs poached','Eggs scrambled','Eggs fried','Add bacon','Add chorizo','Add smoked salmon','Add avocado','Add mushroom','Add ham','Add roasted tomato','Add grilled chicken','No bacon','No cheese','No onion','No pickles','Sauce on the side','No ice']
+  drinks:['Cappuccino','Flat white','Latte','Long black','Piccolo','Macchiato','Chai latte','Mocha','Matcha latte','Hot chocolate','English breakfast tea','Peppermint tea','Chamomile tea','Green tea','Iced latte','Iced long black','Iced chai','Iced matcha','Chocolate milkshake','Caramel milkshake','Strawberry milkshake','Vanilla milkshake','Coke','Coke Zero','Sprite','Fanta','Ginger beer','Lemonade','Orange juice','San Pellegrino sparkling','Acqua Panna','Mineral water','House wine'],
+  starters:['Salmon ceviche nachos','Seafood croquettes','Prawn panko','Bowl of Victoria chips','Potato gems and parmesan','Cheeseburger spring rolls'],
+  mains:['Smashed avocado','Prawn toast','Bacon and egg roll','Falafel salad','Grill chicken salad','Grill prawn avocado salad','Victoria club sandwich','Wagyu beef burger','Cuban sandwich','Prawn poboy','Chipotle pulled chicken','Antipasto ciabatta','Fried chicken burger','Angus rump 200g*','Schnitzel','Eggs your way on toast'],
+  sides:['Victoria chips','Garden salad'],
+  desserts:['Carrot cake','Macarons','Mixed berry muffin','Apple flan','Mini cheesecake','Brulee tart','Gluten free brownie','Gluten free cookie','Rye chocolate cookie','Churros and dulce de leche'],
+  mods:['Large','Oat milk','Almond milk','Soy milk','Skim milk','Extra shot','Decaf','Extra hot','Eggs poached','Eggs scrambled','Eggs fried','Add bacon','Add chorizo','Add smoked salmon','Add avocado','Add mushroom','Add ham','Add roasted tomato','Add grilled chicken','Add spicy mayo','Add Jack Daniels BBQ','Add aioli','Add tomato sauce','Add sweet chilli','Add mayo','No bacon','No cheese','No onion','No pickles','No egg','Sauce on the side','No ice']
 };
 const TEMPS=['Rare','Medium rare','Medium','Medium well','Well done'];
-const CATS=['drinks','starters','mains','sides','mods'];
+const CATS=['drinks','starters','mains','sides','desserts','mods'];
 let menu=loadMenu();
 function loadMenu(){const m=LS.get('soc.menu',null);if(m&&CATS.every(c=>Array.isArray(m[c])&&m[c].length))return m;return JSON.parse(JSON.stringify(DEFAULT_MENU))}
 function mainsMeta(){return menu.mains.map(x=>({name:x.replace(/\*+$/,'').trim(),temp:/\*$/.test(x.trim())}))}
@@ -463,12 +465,12 @@ $('#btn-menu-reset').addEventListener('click',()=>{menu=JSON.parse(JSON.stringif
 fillMenuEditor();
 
 /* ---------- levels ---------- */
-const FULL=['drink','starter','main','side','mods'];
+const FULL=['drink','starter','main','side','dessert','mods'];
 const LEVELS=[
   {seats:2,slots:['drink','main'],mods:0,changes:0,inter:'none',order:'seated',tables:1,label:'2 seats · drink and main · nothing else'},
   {seats:2,slots:['drink','main','mods'],mods:.5,changes:0,inter:'walk',order:'seated',tables:1,label:'2 seats · mods appear · a walk to the POS'},
   {seats:3,slots:['drink','main','side','mods'],mods:.5,changes:0,inter:'walk',order:'seated',tables:1,label:'3 seats · sides · a walk to the POS'},
-  {seats:3,slots:FULL,mods:.5,changes:1,inter:'walk',order:'seated',tables:1,label:'3 seats · starters · one “actually…”'},
+  {seats:3,slots:FULL,mods:.5,changes:1,inter:'walk',order:'seated',tables:1,label:'3 seats · snacks and sweets · one “actually…”'},
   {seats:4,slots:FULL,mods:.6,changes:1,inter:'interrupt',order:'seated',tables:1,label:'4 seats · interrupted on the way to the POS'},
   {seats:4,slots:FULL,mods:.7,changes:2,inter:'interrupt',order:'random',tables:1,label:'4 seats · they order out of sequence · two changes'},
   {seats:5,slots:FULL,mods:.7,changes:2,inter:'interrupt',order:'random',tables:1,label:'5 seats · out of sequence · two changes'},
@@ -552,9 +554,10 @@ function diagram(n,active,done,label){
 /* ---------- generation ---------- */
 function genGuest(cfg){
   const mm=pick(mainsMeta());
-  const g={drink:pick(menu.drinks),starter:null,main:mm.name,temp:mm.temp?pick(TEMPS):null,side:null,mods:[]};
+  const g={drink:pick(menu.drinks),starter:null,main:mm.name,temp:mm.temp?pick(TEMPS):null,side:null,dessert:null,mods:[]};
   if(cfg.slots.includes('starter')&&Math.random()<.55)g.starter=pick(menu.starters);
   if(cfg.slots.includes('side')&&Math.random()<.75)g.side=pick(menu.sides);
+  if(cfg.slots.includes('dessert')&&Math.random()<.35)g.dessert=pick(menu.desserts);
   if(cfg.slots.includes('mods')&&Math.random()<cfg.mods){g.mods.push(pick(menu.mods));if(Math.random()<.3){const o=pickOther(menu.mods,g.mods[0]);if(o)g.mods.push(o)}}
   return g;
 }
@@ -578,6 +581,7 @@ function guestLines(g,seat,cfg){
   else m=pick(["I'll have the "+lower(g.main)+temp+side+mods+'.','Can I do the '+lower(g.main)+side+mods+temp+'?',g.main+' for me'+temp+side+mods+'.']);
   say(m);
   if(sepTemp)say(pick(['Oh, '+lower(g.temp)+' on the '+lower(g.main)+'.',g.temp+' on that, please.']));
+  if(g.dessert)say(pick(['And the '+lower(g.dessert)+' after.','Can I get the '+lower(g.dessert)+' as well?','Oh, and '+art(lower(g.dessert))+' for after.']));
   return L;
 }
 function makeChange(table,cfg){
@@ -586,6 +590,7 @@ function makeChange(table,cfg){
   if(cfg.slots.includes('side'))opts.push('side');
   if(g.temp)opts.push('temp');
   if(g.starter)opts.push('starter');
+  if(cfg.slots.includes('dessert'))opts.push('dessert');
   if(cfg.slots.includes('mods'))opts.push('modadd');
   if(g.mods.length)opts.push('modrm');
   const slot=pick(opts);let text,from=null,to=null,key=slot;
@@ -593,6 +598,7 @@ function makeChange(table,cfg){
   else if(slot==='side'){from=g.side;to=pickOther(menu.sides,from);if(!to)return null;g.side=to;text=from?pick(['Actually, '+lower(to)+' instead of the '+lower(from)+'.','Can I get '+lower(to)+' instead of '+lower(from)+'?']):'Oh, can I add '+lower(to)+' on the side?'}
   else if(slot==='temp'){from=g.temp;to=pickOther(TEMPS,from);g.temp=to;text=pick(['Actually, make that '+lower(to)+', not '+lower(from)+'.','Sorry, '+lower(to)+' on the '+lower(g.main)+'.'])}
   else if(slot==='starter'){from=g.starter;if(Math.random()<.5){to=null;g.starter=null;text='Actually, skip the '+lower(from)+'.'}else{to=pickOther(menu.starters,from);if(!to)return null;g.starter=to;text='Make that the '+lower(to)+' instead of the '+lower(from)+' to start.'}}
+  else if(slot==='dessert'){from=g.dessert;if(from&&Math.random()<.5){to=null;g.dessert=null;text='Actually, skip the '+lower(from)+'.'}else{to=pickOther(menu.desserts,from);if(!to)return null;g.dessert=to;text=from?'Make that the '+lower(to)+' instead of the '+lower(from)+'.':'Oh, can I add the '+lower(to)+' for after?'}}
   else if(slot==='main'){from=g.main;to=pickOther(mainNames(),from);if(!to)return null;const oldTemp=g.temp;g.main=to;g.temp=needsTemp(to)?pick(TEMPS):null;text='Actually, change mine to the '+lower(to)+(g.temp?', '+lower(g.temp):'')+' instead of the '+lower(from)+'.';if(oldTemp)table.stale.push({seat:i,slot:'temp',from:oldTemp,to:g.temp})}
   else if(slot==='modadd'){to=pickOther(menu.mods.filter(x=>!g.mods.includes(x)),null);if(!to)return null;g.mods.push(to);text=pick(['Oh, and '+lower(to)+' on that.','Can I also get '+lower(to)+'?']);key='mods'}
   else{from=g.mods[rnd(g.mods.length)];to=null;g.mods=g.mods.filter(x=>x!==from);text='Never mind on the '+lower(from)+'.';key='mods'}
@@ -669,7 +675,7 @@ function showSweep(){
   timer=setInterval(()=>{c--;$('#sweep-count').textContent=String(c);if(c<=0)sweepDone()},1000);
 }
 function finalOrderText(g){
-  const parts=[g.drink,g.starter||'no starter',g.main+(g.temp?' ('+lower(g.temp)+')':''),g.side||'no side'];
+  const parts=[g.drink,g.starter||'no snack',g.main+(g.temp?' ('+lower(g.temp)+')':''),g.side||'no side',g.dessert||'no dessert'];
   if(g.mods.length)parts.push(g.mods.join(', '));
   return parts.join(' · ');
 }
@@ -735,10 +741,11 @@ function showRecall(){
       const id='t'+ti+'s'+i;
       html+='<div class="ticket" data-t="'+ti+'" data-s="'+i+'"><div class="ticket-h"><span class="seat">Seat '+(i+1)+'</span><span class="tbl">Table '+t.num+'</span></div>';
       html+='<div class="row"><span class="k"><label for="'+id+'-drink">Drink</label></span><select id="'+id+'-drink" data-slot="drink">'+opt(menu.drinks,'','—')+'</select></div>';
-      if(cfg.slots.includes('starter'))html+='<div class="row"><span class="k"><label for="'+id+'-starter">Starter</label></span><select id="'+id+'-starter" data-slot="starter">'+opt(menu.starters,'','— none')+'</select></div>';
+      if(cfg.slots.includes('starter'))html+='<div class="row"><span class="k"><label for="'+id+'-starter">Snack</label></span><select id="'+id+'-starter" data-slot="starter">'+opt(menu.starters,'','— none')+'</select></div>';
       html+='<div class="row"><span class="k"><label for="'+id+'-main">Main</label></span><select id="'+id+'-main" data-slot="main">'+opt(mainNames(),'','—')+'</select></div>';
       html+='<div class="row temp-row" hidden><span class="k"><label for="'+id+'-temp">Temp</label></span><select id="'+id+'-temp" data-slot="temp">'+opt(TEMPS,'','—')+'</select></div>';
       if(cfg.slots.includes('side'))html+='<div class="row"><span class="k"><label for="'+id+'-side">Side</label></span><select id="'+id+'-side" data-slot="side">'+opt(menu.sides,'','— none')+'</select></div>';
+      if(cfg.slots.includes('dessert'))html+='<div class="row"><span class="k"><label for="'+id+'-dessert">Dessert</label></span><select id="'+id+'-dessert" data-slot="dessert">'+opt(menu.desserts,'','— none')+'</select></div>';
       if(cfg.slots.includes('mods'))html+='<div class="row"><span class="k">Mods</span><div class="chips" data-slot="mods">'+menu.mods.map(m=>'<button type="button" class="chip" aria-pressed="false" data-v="'+esc(m)+'">'+esc(m)+'</button>').join('')+'</div></div>';
       html+='</div>';
     });
@@ -757,7 +764,7 @@ function readAnswers(){
     const tk=$('.ticket[data-t="'+ti+'"][data-s="'+i+'"]');
     const val=slot=>{const s=tk.querySelector('select[data-slot="'+slot+'"]');return s&&s.value?s.value:null};
     const mainV=val('main');
-    return {drink:val('drink'),starter:val('starter'),main:mainV,temp:(mainV&&needsTemp(mainV))?val('temp'):null,side:val('side'),mods:$$('.chip[aria-pressed="true"]',tk).map(c=>c.dataset.v)};
+    return {drink:val('drink'),starter:val('starter'),main:mainV,temp:(mainV&&needsTemp(mainV))?val('temp'):null,side:val('side'),dessert:val('dessert'),mods:$$('.chip[aria-pressed="true"]',tk).map(c=>c.dataset.v)};
   }));
 }
 function scoreTable(t,ans,cfg){
@@ -766,7 +773,7 @@ function scoreTable(t,ans,cfg){
   const staleAdd=(i,v)=>t.stale.some(s=>s.seat===i&&s.slot==='mods'&&s.to===v);
   t.seats.forEach((g,i)=>{
     const a=ans[i];const seatRows=[];
-    const scalar=['drink'].concat(cfg.slots.includes('starter')?['starter']:[],['main'],(g.temp||a.temp)?['temp']:[],cfg.slots.includes('side')?['side']:[]);
+    const scalar=['drink'].concat(cfg.slots.includes('starter')?['starter']:[],['main'],(g.temp||a.temp)?['temp']:[],cfg.slots.includes('side')?['side']:[],cfg.slots.includes('dessert')?['dessert']:[]);
     scalar.forEach(slot=>{
       const exp=g[slot],got=a[slot];
       if(exp!=null)items++;
@@ -789,7 +796,7 @@ function scoreTable(t,ans,cfg){
   });
   return {rows,err,items:Math.max(items,1)};
 }
-const SLOTNAME={drink:'Drink',starter:'Starter',main:'Main',temp:'Temp',side:'Side',mod:'Mod'};
+const SLOTNAME={drink:'Drink',starter:'Snack',main:'Main',temp:'Temp',side:'Side',dessert:'Dessert',mod:'Mod'};
 const ERRNAME={miss:'missed',wrong:'wrong item',stale:'stale',seat:'wrong seat',extra:'not ordered'};
 $('#btn-submit').addEventListener('click',()=>{
   const tDone=now();const ans=readAnswers();const cfg=run.cfg;

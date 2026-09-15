@@ -22,14 +22,14 @@ while getting ready for item two. Hearing is not encoding.
    (glasses, red shirt) so a seat swap between ordering and delivery does
    not wreck you.
 2. **Slot.** Every seat has the same slots in the same order: drink,
-   starter, main, temp, side, mods. They say it in any order. You file it in
+   snack, main, temp, side, dessert, mods. They say it in any order. You file it in
    slot order. An empty slot is "none", and you remember the none.
 3. **Say.** Repeat every item back, out loud, immediately, compressed, in
    slot order. This is the encoding step and the customer's one cheap chance
    to correct you.
-   They say: "Can I get the burger, no onions, with the sweet potato fries,
-   medium please, and a Coke."
-   You say: "Coke. Burger, medium, no onions, sweet potato fries."
+   They say: "Can I get the wagyu burger with the salad instead of chips,
+   no bacon, and a flat white on oat."
+   You say: "Flat white, oat. Wagyu, no bacon, salad."
 4. **Overwrite.** On a change, say it as a replacement: "Scratch the fries,
    salad." Re-say the whole seat. Never hold two versions. The old one was
    rehearsed longer and will win at the POS.
@@ -54,7 +54,8 @@ never mis-ring. This version does that with the memory you have.
 Seat numbers solve "who ordered what". Two tables before you can ring: take
 A, sweep A, take B, sweep B, ring A then B. A decays faster the longer you
 leave it. Once slots are automatic, encode a few-option slot as a table-wide
-pattern (temps: "M, M, MR, W"). That is what the 20-order waiter did.
+pattern (milks: "oat, full, full, skim"; chips-or-salad: "chips, salad,
+chips, chips"). That is what the 20-order waiter did.
 
 ## Tonight
 
@@ -62,8 +63,8 @@ Before the shift, 45 minutes:
 
 1. Pick the anchor rule and where you stand.
 2. Open the menu panel in the drill. It is pre-loaded with the Vic on George
-   menu as reconstructed from delivery and venue listings; check it against
-   the printed menu and fix anything that has changed. Mark what gets a temp
+   menu: Uber Eats verbatim, plus coffee and a few site-only dishes (see
+   MENU.md). Fix anything the board says differently. Mark what gets a temp
    with `*`.
 3. Drill, tap-to-advance, voice on, from level 1. Three clean tickets in a
    row moves you up. Stop after 30 minutes. Where you are is your cap.
