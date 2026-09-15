@@ -240,7 +240,7 @@ td.code{font-family:var(--f-mono);font-weight:700;white-space:nowrap}
 
       <details class="card">
         <summary>The menu (one item per line)</summary>
-        <p class="tip" style="margin-top:0" id="menu-provenance">Loaded with the Vic on George menu (Level 3, Myer Sydney City) as reconstructed on 15 Sep 2026 from Uber Eats and venue listings. The venue site itself could not be opened from where this was built, so check it against the printed menu and fix anything that has changed. Add <b>*</b> after anything that gets a temperature.</p>
+        <p class="tip" style="margin-top:0" id="menu-provenance">Loaded with the Vic on George menu (Level 3, Myer Sydney City) as reconstructed on 15 Sep 2026 from the venue site and Uber Eats listings. Neither could be opened directly from where this was built, so it is item names and descriptions from search listings, not a photo of the printed menu. Milk and egg options are standard cafe mods, not verified. Check it against the board and fix anything that has changed. Add <b>*</b> after anything that gets a temperature.</p>
         <div class="fields">
           <div class="field"><span>Drinks</span><textarea id="m-drinks"></textarea></div>
           <div class="field"><span>Starters</span><textarea id="m-starters"></textarea></div>
@@ -439,11 +439,11 @@ const now=()=>Date.now();
 
 /* ---------- menu ---------- */
 const DEFAULT_MENU={
-  drinks:['Coke','Diet Coke','Sprite','Ginger ale','Iced tea','Sweet tea','Lemonade','Water','Sparkling water','Coffee','House red','House white','IPA','Lager','Margarita','Old fashioned'],
-  starters:['Wings','Calamari','Caesar salad','House salad','Soup of the day','Nachos','Bruschetta','Shrimp cocktail','Spinach dip'],
-  mains:['Ribeye*','NY strip*','Burger*','Chicken sandwich','Salmon','Fish & chips','Chicken alfredo','Mushroom risotto','Fish tacos','Club sandwich','Veggie burger','Pork chop'],
-  sides:['Fries','Sweet potato fries','Mashed potatoes','Rice','Steamed veg','Side salad','Onion rings','Coleslaw','Baked potato'],
-  mods:['No onions','No cheese','No tomato','No pickles','Extra sauce','Sauce on the side','Dressing on the side','Gluten free','Add bacon','Add avocado','No ice','Extra lemon','Light ice','No mayo','Extra crispy']
+  drinks:['Cappuccino','Flat white','Latte','Long black','Piccolo','Macchiato','Chai latte','Mocha','Matcha latte','Hot chocolate','English breakfast tea','Peppermint tea','Chamomile tea','Green tea','Iced latte','Iced long black','Iced chai','Iced matcha','Chocolate milkshake','Caramel milkshake','Strawberry milkshake','Vanilla milkshake','Coke','Coke Zero','Sprite','Fanta','Ginger beer','Lemonade','Orange juice','San Pellegrino sparkling','Still mineral water','House wine'],
+  starters:['Victoria chips with two sauces','Crispy potato gems with pecorino','Cheeseburger spring rolls','Salmon ceviche'],
+  mains:['Bacon and egg brioche','Smashed avocado on sourdough','Eggs your way on toast','Wagyu burger','Fried chicken burger','Chipotle pulled chicken burger','Pulled pork ciabatta','Club sandwich','Prawn roll','Antipasto vegetable ciabatta','Falafel wrap','Angus rump 200g*','Schnitzel','Grilled chicken salad','Grilled prawn salad'],
+  sides:['Victoria chips','Garden salad','Potato gems'],
+  mods:['Large','Oat milk','Almond milk','Soy milk','Skim milk','Extra shot','Decaf','Extra hot','Eggs poached','Eggs scrambled','Eggs fried','Add bacon','Add chorizo','Add smoked salmon','Add avocado','Add mushroom','Add ham','Add roasted tomato','Add grilled chicken','No bacon','No cheese','No onion','No pickles','Sauce on the side','No ice']
 };
 const TEMPS=['Rare','Medium rare','Medium','Medium well','Well done'];
 const CATS=['drinks','starters','mains','sides','mods'];
@@ -558,7 +558,7 @@ function genGuest(cfg){
   if(cfg.slots.includes('mods')&&Math.random()<cfg.mods){g.mods.push(pick(menu.mods));if(Math.random()<.3){const o=pickOther(menu.mods,g.mods[0]);if(o)g.mods.push(o)}}
   return g;
 }
-const NOART=/^(water|sparkling water|still water|mineral water|coffee|iced tea|sweet tea|lemonade|tea)$/i;
+const NOART=/^(water|sparkling water|still water|still mineral water|mineral water|coffee|iced tea|sweet tea|lemonade|tea|house wine)$/i;
 const art=s=>(/^[aeiou]/i.test(s)?'an ':'a ')+s;
 function guestLines(g,seat,cfg){
   const L=[];const say=t=>L.push({seat,text:t});
