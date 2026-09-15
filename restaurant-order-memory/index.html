@@ -239,8 +239,8 @@ td.code{font-family:var(--f-mono);font-weight:700;white-space:nowrap}
       </div>
 
       <details class="card">
-        <summary>Your menu (one item per line)</summary>
-        <p class="tip" style="margin-top:0">Put your real menu in. Add <b>*</b> after anything that gets a temperature (steaks, burgers). Drilling a menu you don't serve trains the wrong thing.</p>
+        <summary>The menu (one item per line)</summary>
+        <p class="tip" style="margin-top:0" id="menu-provenance">Loaded with the Vic on George menu (Level 3, Myer Sydney City) as reconstructed on 15 Sep 2026 from Uber Eats and venue listings. The venue site itself could not be opened from where this was built, so check it against the printed menu and fix anything that has changed. Add <b>*</b> after anything that gets a temperature.</p>
         <div class="fields">
           <div class="field"><span>Drinks</span><textarea id="m-drinks"></textarea></div>
           <div class="field"><span>Starters</span><textarea id="m-starters"></textarea></div>
@@ -250,7 +250,7 @@ td.code{font-family:var(--f-mono);font-weight:700;white-space:nowrap}
         </div>
         <div class="btn-row">
           <button class="btn" id="btn-menu-save">Save menu</button>
-          <button class="btn btn-ghost" id="btn-menu-reset">Back to the sample menu</button>
+          <button class="btn btn-ghost" id="btn-menu-reset">Back to the Vic on George menu</button>
         </div>
         <p class="tip" id="menu-msg"></p>
       </details>
@@ -459,7 +459,7 @@ $('#btn-menu-save').addEventListener('click',()=>{
   if(bad){$('#menu-msg').textContent='Each list needs at least two items. '+bad+' is short.';return}
   menu=m;LS.set('soc.menu',menu);$('#menu-msg').textContent='Saved. The next table uses this menu.';
 });
-$('#btn-menu-reset').addEventListener('click',()=>{menu=JSON.parse(JSON.stringify(DEFAULT_MENU));LS.set('soc.menu',null);fillMenuEditor();$('#menu-msg').textContent='Sample menu restored.'});
+$('#btn-menu-reset').addEventListener('click',()=>{menu=JSON.parse(JSON.stringify(DEFAULT_MENU));LS.set('soc.menu',null);fillMenuEditor();$('#menu-msg').textContent='Vic on George menu restored.'});
 fillMenuEditor();
 
 /* ---------- levels ---------- */
@@ -558,11 +558,12 @@ function genGuest(cfg){
   if(cfg.slots.includes('mods')&&Math.random()<cfg.mods){g.mods.push(pick(menu.mods));if(Math.random()<.3){const o=pickOther(menu.mods,g.mods[0]);if(o)g.mods.push(o)}}
   return g;
 }
-const NOART=/^(water|sparkling water|coffee|iced tea|sweet tea|lemonade|tea)$/i;
+const NOART=/^(water|sparkling water|still water|mineral water|coffee|iced tea|sweet tea|lemonade|tea)$/i;
+const art=s=>(/^[aeiou]/i.test(s)?'an ':'a ')+s;
 function guestLines(g,seat,cfg){
   const L=[];const say=t=>L.push({seat,text:t});
   const noArt=NOART.test(g.drink);
-  let d=noArt?pick([g.drink+', please.','Just '+lower(g.drink)+' for me.',g.drink+' for me.']):pick(['Can I get a '+g.drink+'?',"I'll do a "+g.drink+'.',g.drink+', please.','A '+g.drink+' for me.']);
+  let d=noArt?pick([g.drink+', please.','Just '+lower(g.drink)+' for me.',g.drink+' for me.']):pick(['Can I get '+art(g.drink)+'?',"I'll do "+art(g.drink)+'.',g.drink+', please.',art(g.drink).replace(/^a/,'A')+' for me.']);
   if(g.starter){
     if(Math.random()<.5){d+=' And the '+lower(g.starter)+' to start.';say(d)}
     else{say(d);say(pick(['Can I start with the '+lower(g.starter)+'?',g.starter+' to start.',"I'll do the "+lower(g.starter)+' first.']))}
@@ -588,7 +589,7 @@ function makeChange(table,cfg){
   if(cfg.slots.includes('mods'))opts.push('modadd');
   if(g.mods.length)opts.push('modrm');
   const slot=pick(opts);let text,from=null,to=null,key=slot;
-  if(slot==='drink'){from=g.drink;to=pickOther(menu.drinks,from);if(!to)return null;g.drink=to;text=pick(['Actually, can you make that a '+to+' instead of the '+from+'?','Sorry, swap the '+from+' for a '+to+'.'])}
+  if(slot==='drink'){from=g.drink;to=pickOther(menu.drinks,from);if(!to)return null;g.drink=to;text=pick(['Actually, can you make that '+art(to)+' instead of the '+from+'?','Sorry, swap the '+from+' for '+art(to)+'.'])}
   else if(slot==='side'){from=g.side;to=pickOther(menu.sides,from);if(!to)return null;g.side=to;text=from?pick(['Actually, '+lower(to)+' instead of the '+lower(from)+'.','Can I get '+lower(to)+' instead of '+lower(from)+'?']):'Oh, can I add '+lower(to)+' on the side?'}
   else if(slot==='temp'){from=g.temp;to=pickOther(TEMPS,from);g.temp=to;text=pick(['Actually, make that '+lower(to)+', not '+lower(from)+'.','Sorry, '+lower(to)+' on the '+lower(g.main)+'.'])}
   else if(slot==='starter'){from=g.starter;if(Math.random()<.5){to=null;g.starter=null;text='Actually, skip the '+lower(from)+'.'}else{to=pickOther(menu.starters,from);if(!to)return null;g.starter=to;text='Make that the '+lower(to)+' instead of the '+lower(from)+' to start.'}}

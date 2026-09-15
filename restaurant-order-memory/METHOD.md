@@ -61,7 +61,10 @@ pattern (temps: "M, M, MR, W"). That is what the 20-order waiter did.
 Before the shift, 45 minutes:
 
 1. Pick the anchor rule and where you stand.
-2. Put the real menu into the drill. Mark what gets a temp with `*`.
+2. Open the menu panel in the drill. It is pre-loaded with the Vic on George
+   menu as reconstructed from delivery and venue listings; check it against
+   the printed menu and fix anything that has changed. Mark what gets a temp
+   with `*`.
 3. Drill, tap-to-advance, voice on, from level 1. Three clean tickets in a
    row moves you up. Stop after 30 minutes. Where you are is your cap.
 4. Copy the shorthand table onto your pad for anything over the cap.
