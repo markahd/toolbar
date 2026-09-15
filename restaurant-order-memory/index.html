@@ -55,8 +55,9 @@ body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:1
 .masthead{display:flex;align-items:baseline;justify-content:space-between;gap:12px;flex-wrap:wrap;padding-block:14px 10px;border-bottom:2px solid var(--ink)}
 .masthead h1{font-family:var(--f-display);font-weight:700;font-size:30px;letter-spacing:.01em;margin:0;line-height:1;text-transform:uppercase}
 .masthead .tag{font-size:12px;color:var(--ink-2);letter-spacing:.08em;text-transform:uppercase}
-.tabs{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border-bottom:1px solid var(--line);padding-block:6px 0}
-.tabs button{appearance:none;background:none;border:0;border-bottom:3px solid transparent;padding:10px 2px 8px;font:700 15px var(--f-display);text-transform:uppercase;letter-spacing:.08em;color:var(--ink-3);cursor:pointer;min-width:0;overflow:hidden}
+.tabs{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);display:flex;overflow-x:auto;scrollbar-width:none;border-bottom:1px solid var(--line);padding-block:6px 0}
+.tabs::-webkit-scrollbar{display:none}
+.tabs button{appearance:none;background:none;border:0;border-bottom:3px solid transparent;padding:10px 10px 8px;font:700 15px var(--f-display);text-transform:uppercase;letter-spacing:.08em;color:var(--ink-3);cursor:pointer;flex:1 0 auto;white-space:nowrap}
 .tabs button[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--accent)}
 .tabs button:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
 main > section{padding-block:18px}
@@ -192,6 +193,23 @@ th{font:600 12px var(--f-body);letter-spacing:.1em;text-transform:uppercase;colo
 td.n,th.n{text-align:right}
 td.code{font-family:var(--f-mono);font-weight:700;white-space:nowrap}
 .tablewrap{overflow-x:auto}
+.playbar{display:grid;grid-template-columns:2fr 1fr;gap:8px;position:sticky;top:calc(env(safe-area-inset-top,0px) + 44px);z-index:4;background:var(--bg);padding:8px 0 10px;border-bottom:1px solid var(--line)}
+.playbar .btn{font:700 18px var(--f-display);letter-spacing:.06em;text-transform:uppercase;padding:13px 10px}
+.playopts{display:flex;gap:14px;flex-wrap:wrap;align-items:center;font-size:14px;color:var(--ink-2);margin:8px 0 2px}
+.playopts select{width:auto;padding:5px 8px;font-size:14px}
+.playopts .check input{width:18px;height:18px}
+.msec{margin-top:18px}
+.msec h3{margin:0 0 2px;display:flex;justify-content:space-between;align-items:baseline}
+.msec h3 small{font:500 12px var(--f-body);letter-spacing:.04em;text-transform:none;color:var(--ink-3)}
+.msec .note{font-size:13px;color:var(--ink-3);margin:0 0 6px}
+.mitem{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:4px 12px;width:100%;appearance:none;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:10px 12px;margin-bottom:6px;text-align:left;color:var(--ink);cursor:pointer;font:inherit}
+.mitem .n{font-weight:600;font-size:16px}
+.mitem .p{font-variant-numeric:tabular-nums;color:var(--ink-2);white-space:nowrap}
+.mitem .d{grid-column:1 / -1;font-size:14px;color:var(--ink-2);line-height:1.4}
+.mitem .a{grid-column:1 / -1;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3)}
+.mitem .tag{font:600 11px var(--f-body);letter-spacing:.06em;text-transform:uppercase;color:var(--good);grid-column:1 / -1}
+.mitem.playing{border-color:var(--accent);background:var(--accent-soft);box-shadow:0 0 0 2px var(--accent) inset}
+.mitem:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 .cite{font-size:14px;color:var(--ink-2)}
 .cite li{margin-bottom:8px}
 @media (max-width:440px){
@@ -214,6 +232,7 @@ td.code{font-family:var(--f-mono);font-weight:700;white-space:nowrap}
 
   <nav class="tabs" role="tablist" aria-label="Sections">
     <button role="tab" id="tabbtn-drill" aria-selected="true" aria-controls="tab-drill" data-tab="drill">Drill</button>
+    <button role="tab" id="tabbtn-menu" aria-selected="false" aria-controls="tab-menu" data-tab="menu">Menu</button>
     <button role="tab" id="tabbtn-method" aria-selected="false" aria-controls="tab-method" data-tab="method">Method</button>
     <button role="tab" id="tabbtn-shorthand" aria-selected="false" aria-controls="tab-shorthand" data-tab="shorthand">Shorthand</button>
     <button role="tab" id="tabbtn-stats" aria-selected="false" aria-controls="tab-stats" data-tab="stats">Stats</button>
@@ -355,6 +374,25 @@ td.code{font-family:var(--f-mono);font-weight:700;white-space:nowrap}
         <button class="btn btn-ghost" id="btn-setup">Back to setup</button>
       </div>
     </div>
+  </section>
+
+  <!-- ============ MENU ============ -->
+  <section id="tab-menu" role="tabpanel" aria-labelledby="tabbtn-menu" hidden>
+    <div class="eyebrow">Vic on George · Level 3, Myer Sydney City</div>
+    <h2>The whole menu, read to you</h2>
+    <p>Press play and it reads every section, item, price and description in order without stopping. Tap any item to start from there. Learn it the way the kitchen says it.</p>
+    <div class="playbar">
+      <button class="btn" id="btn-play">Play whole menu</button>
+      <button class="btn btn-ghost" id="btn-stopplay">Stop</button>
+    </div>
+    <div class="playopts">
+      <span id="play-prog" class="muted">Not playing</span>
+      <label class="check"><input type="checkbox" id="play-desc" checked> Descriptions</label>
+      <label class="check"><input type="checkbox" id="play-allergen" checked> Allergens</label>
+      <label>Speed <select id="play-rate"><option value="0.9">Slow</option><option value="1" selected>Normal</option><option value="1.15">Fast</option></select></label>
+    </div>
+    <div id="menu-list"></div>
+    <p class="tip" style="margin-top:16px">Food, snacks, sauces, cold drinks and sweets: Uber Eats listing, 15 September 2026, with allergen notes as listed there. Coffee, tea and the last section: venue site listing, not confirmed on the board.</p>
   </section>
 
   <!-- ============ METHOD ============ -->
@@ -543,7 +581,8 @@ function clearTimer(){if(timer){clearInterval(timer);clearTimeout(timer);timer=n
 function showTab(name){
   currentTab=name;
   $$('.tabs button').forEach(b=>b.setAttribute('aria-selected',String(b.dataset.tab===name)));
-  ['drill','method','shorthand','stats'].forEach(t=>{$('#tab-'+t).hidden=(t!==name)});
+  ['drill','menu','method','shorthand','stats'].forEach(t=>{$('#tab-'+t).hidden=(t!==name)});
+  if(name==='menu')renderMenuTab();
   if(name==='stats')renderStats();
   window.scrollTo({top:0});
 }
@@ -967,6 +1006,102 @@ $('#btn-reset-stats').addEventListener('click',()=>{if(confirm('Wipe every saved
 const sh=$('#my-shorthand');sh.value=LS.get('soc.shorthand','');sh.addEventListener('input',()=>LS.set('soc.shorthand',sh.value));
 
 /* ---------- evidence (filled at build time) ---------- */
+
+/* ---------- full menu + player ---------- */
+const LDG='lactose, dairy, gluten',LD='lactose, dairy',G='gluten';
+const MENU_FULL=[
+ {title:'Breakfast',items:[
+  {n:'Smashed Avocado',p:24,d:'Smashed avocado, feta cheese, dukkha, cherry tomato and organic olive oil on sourdough toast.',a:LDG},
+  {n:'Prawn Toast',p:26,d:'Banana prawn, fresh herbs, mayonnaise, rocket, cucumber and sesame oil on sourdough toast.',a:LDG},
+  {n:'Bacon and Egg Roll',p:18,d:'Streaky bacon with two free range eggs, melted cheese and smokey barbecue sauce on a brioche bun.',a:LDG}]},
+ {title:'Salads',items:[
+  {n:'Falafel Salad',p:27,d:'Falafel, cucumber, Spanish onion, mixed leaves, cherry tomato, radish, beetroot, flour tortilla, organic olive oil and garlic sauce.',a:LDG},
+  {n:'Grill Chicken Salad',p:28,d:'Grilled chicken, avocado, mixed leaves, cherry tomato, baby radish, red onion, carrots, corn kernels, feta cheese and mustard dressing.',a:LD},
+  {n:'Grill Prawn Avocado Salad',p:29,d:'Grilled prawns, avocado, sweet corn, Spanish onion, coriander, mixed baby leaves and mayonnaise and lime dressing.',a:LD}]},
+ {title:'Sandwich combo meals',note:'Each comes with Victoria chips or garden salad, and a drink.',items:[
+  {n:'Victoria Club Sandwich Meal',p:28,d:'Lettuce, tomato, grilled chicken, bacon, fried egg, American cheese, mayonnaise and Victoria chips or garden salad.',a:LDG,tag:'No. 3 most liked'},
+  {n:'Wagyu Beef Burger Meal',p:29,d:'Wagyu beef patty 150g, double cheddar cheese, bacon, caramelised onion, Jack Daniels barbecue sauce, mayonnaise on a brioche bun and Victoria chips or garden salad.',a:LDG},
+  {n:'Cuban Sandwich Meal',p:27,d:'Pulled pork, honey glazed ham, dill pickles, Swiss cheese, French mustard and aioli on a pan fried ciabatta with Victoria chips or garden salad.',a:LDG},
+  {n:'Prawn Poboy Meal',p:29,d:'Crispy panko prawns, tomato, lettuce, Spanish onion and mayonnaise on a ciabatta roll with Victoria chips or garden salad.',a:G},
+  {n:'Chipotle Pulled Chicken Meal',p:28,d:'Chipotle pulled chicken, Jack Daniels barbecue sauce, coleslaw and mayonnaise on a potato bun with Victoria chips or garden salad.',a:LDG},
+  {n:'Antipasto Ciabatta Meal',p:29,d:'Grilled red peppers, pickled artichokes, zucchini, ricotta, pesto, roasted tomatoes and organic olive oil on a ciabatta with Victoria chips or garden salad.',a:LDG},
+  {n:'Bacon and Egg Roll Meal',p:25,d:'Streaky bacon with two free range eggs, melted cheese and smokey barbecue sauce on a brioche bun with Victoria chips or garden salad.',a:LDG}]},
+ {title:'Snacks',items:[
+  {n:'Salmon Ceviche Nachos',p:18,d:'Atlantic salmon, lime, Spanish onion, capsicum, herbs, ginger and lemon Peruvian dressing with organic corn chips.',a:LDG},
+  {n:'Seafood Croquettes',p:19,d:'Crab meat, tiger prawn, scallops, sauvignon blanc, creme fraiche, paprika and Parmesan cheese with chilli mayonnaise.',a:LDG},
+  {n:'Prawn Panko',p:16,d:'Crispy panko crumbed prawn, salsa criolla, lettuce and mango chutney.',a:G},
+  {n:'Bowl of Victoria Chips',p:12,d:'Victoria chips with two sauces.',a:G},
+  {n:'Potato Gems and Parmesan',p:12,d:'Crispy potato gems with shredded pecorino cheese.',a:LDG},
+  {n:'Cheeseburger Spring Rolls',p:16,d:'Cheeseburger spring rolls with gherkin pickles and tomato sauce.',a:LDG,tag:'No. 2 most liked'}]},
+ {title:'Sauces',note:'$4.00 each.',items:[
+  {n:'Spicy Mayonnaise',p:4,a:'lactose'},{n:'Jack Daniels Barbecue',p:4,a:'lactose'},{n:'Aioli',p:4,a:'lactose'},{n:'Tomato Sauce',p:4,a:'may contain gluten'},{n:'Sweet Chilli',p:4,a:'may contain gluten'},{n:'Mayonnaise',p:4,a:'lactose'}]},
+ {title:'Cold drinks',items:[
+  {n:'Soft Drinks',p:5,d:'Range of chilled, carbonated soft drinks.'},{n:'Juice',p:6.8},{n:'Lemonade',p:6},{n:'Sparkling Water Pellegrino',p:6,d:'500 ml.'},{n:'Acqua Panna',p:6.8,d:'500 ml.'},{n:'Mineral Water',p:6.8,d:'500 ml.'}]},
+ {title:'Sweets',items:[
+  {n:'Carrot Cake',p:10,a:LDG},{n:'Macarons',p:13.8,d:'Four pack.',a:LDG},{n:'Mixed Berry Muffin',p:8,a:G},{n:'Apple Flan',p:14,a:G},{n:'Mini Cheesecake',p:11.4,a:LDG},
+  {n:'Brulee Tart',p:12,a:LDG,tag:'No. 1 most liked'},{n:'Gluten Free Brownie',p:13.8,d:'Rich, fudgy brownie made with gluten-free ingredients.',a:'gluten free'},
+  {n:'Gluten Free Cookie',p:7,d:'Soft and chewy cookie.',a:'gluten free'},{n:'Rye Chocolate Cookie',p:8,a:LDG},{n:'Churros and Dulce De Leche',p:14,d:'Four churros with dulce de leche and lotus biscuit crumb.'}]},
+ {title:'Coffee and tea',note:'Venue site prices. Small / large.',items:[
+  {n:'Cappuccino, Flat White, Latte, Long Black, Piccolo, Macchiato',ps:'$4.60 / $5.60'},
+  {n:'Chai Latte, Mocha, Matcha Latte, Hot Chocolate',ps:'$5.20 / $6.20'},
+  {n:'English Breakfast, Chamomile, Peppermint, Green Tea',p:6.5},
+  {n:'Iced Chai, Iced Latte, Iced Long Black, Iced Matcha',p:8},
+  {n:'Milkshakes: Caramel, Strawberry, Vanilla, Chocolate',p:8},
+  {n:'Coke, Coke Zero, Fanta, Sprite, Ginger Beer, Lemonade',p:7.5,d:'In-venue price on the site. Uber Eats lists soft drinks at $5.00.'},
+  {n:'Orange Juice',p:8.5},{n:'San Pellegrino Sparkling',p:7.5},{n:'Still Mineral Water',p:6.5},{n:'House wine',d:'Licensed venue. No wine, beer or cocktail list found.'}]},
+ {title:'On the venue site, not on Uber Eats',note:'Check the board before you rely on these.',items:[
+  {n:'Fried Chicken Burger',d:'Panko crumbed fried chicken, red and white slaw, gochujang sauce on a potato bun, ginger potato chips and Japanese mayonnaise.'},
+  {n:'Angus Rump 200 g',d:'Rocket and pear salad, potato gems, parmesan, cracked black pepper and homemade balsamic glaze. Ask the temperature.'},
+  {n:'Schnitzel',d:'Panko crumbed schnitzel, ham, Napoletana sauce and cheese, served with chips and salad.'},
+  {n:'Eggs Your Way on Toast',d:'Extras: chorizo, bacon, roasted tomato, smoked salmon, ham, grilled chicken, mushroom, avocado.'}]}
+];
+const FLAT=[];MENU_FULL.forEach((sec,si)=>sec.items.forEach((it,ii)=>FLAT.push({sec:sec.title,si,ii,it})));
+function priceText(it){return it.ps?it.ps:(it.p!=null?money(it.p):'')}
+function sayPrice(it){
+  if(it.ps){const m=it.ps.match(/\$([\d.]+)\s*\/\s*\$([\d.]+)/);return m?'small '+sayNum(+m[1])+', large '+sayNum(+m[2]):it.ps}
+  return it.p!=null?sayNum(it.p):'';
+}
+function sayNum(v){const d=Math.floor(v),c=Math.round((v-d)*100);return c?d+' '+String(c).padStart(2,'0'):d+(d===1?' dollar':' dollars')}
+let playIdx=-1,playing=false;
+function renderMenuTab(){
+  if($('#menu-list').childElementCount)return;
+  $('#menu-list').innerHTML=MENU_FULL.map((sec,si)=>'<div class="msec"><h3>'+esc(sec.title)+'<small>'+sec.items.length+' items</small></h3>'+(sec.note?'<p class="note">'+esc(sec.note)+'</p>':'')+
+    sec.items.map((it,ii)=>{const k=FLAT.findIndex(f=>f.si===si&&f.ii===ii);return '<button type="button" class="mitem" data-k="'+k+'"><span class="n">'+esc(it.n)+'</span><span class="p">'+esc(priceText(it))+'</span>'+(it.d?'<span class="d">'+esc(it.d)+'</span>':'')+(it.a?'<span class="a">'+esc(it.a)+'</span>':'')+(it.tag?'<span class="tag">'+esc(it.tag)+'</span>':'')+'</button>'}).join('')+'</div>').join('');
+  $$('#menu-list .mitem').forEach(b=>b.addEventListener('click',()=>playFrom(+b.dataset.k)));
+}
+function itemSpeech(k,sayTitle){
+  const f=FLAT[k],it=f.it;let t='';
+  if(sayTitle)t+=f.sec+'. ';
+  t+=it.n+'.';const pr=sayPrice(it);if(pr)t+=' '+pr+'.';
+  if($('#play-desc').checked&&it.d)t+=' '+it.d;
+  if($('#play-allergen').checked&&it.a)t+=' Contains '+it.a+'.';
+  return t.replace(/&/g,' and ');
+}
+function markPlaying(k){
+  $$('#menu-list .mitem.playing').forEach(b=>b.classList.remove('playing'));
+  if(k<0){$('#play-prog').textContent='Not playing';return}
+  const b=$('#menu-list .mitem[data-k="'+k+'"]');if(b){b.classList.add('playing');b.scrollIntoView({block:'center',behavior:'smooth'})}
+  $('#play-prog').textContent=(k+1)+' of '+FLAT.length+' · '+FLAT[k].sec;
+}
+function playFrom(k){
+  if(!('speechSynthesis' in window)){$('#play-prog').textContent='This browser has no speech voices.';return}
+  stopPlay();playing=true;playIdx=k;
+  const step=()=>{
+    if(!playing||playIdx>=FLAT.length){const done=playIdx>=FLAT.length;stopPlay();if(done)$('#play-prog').textContent='Done. '+FLAT.length+' items, start to finish.';return}
+    markPlaying(playIdx);
+    const first=playIdx===k||FLAT[playIdx].si!==FLAT[playIdx-1].si;
+    const u=new SpeechSynthesisUtterance(itemSpeech(playIdx,first));
+    u.rate=+$('#play-rate').value||1;u.lang='en-US';const v=pickVoice();if(v)u.voice=v;
+    u.onend=()=>{if(playing){playIdx++;step()}};
+    u.onerror=e=>{if(playing&&e.error!=='interrupted'&&e.error!=='canceled'){playIdx++;step()}};
+    try{speechSynthesis.speak(u)}catch(e){stopPlay()}
+  };
+  step();
+}
+function stopPlay(){playing=false;playIdx=-1;try{speechSynthesis.cancel()}catch(e){}markPlaying(-1)}
+$('#btn-play').addEventListener('click',()=>playFrom(0));
+$('#btn-stopplay').addEventListener('click',stopPlay);
+$$('.tabs button').forEach(b=>b.addEventListener('click',()=>{if(b.dataset.tab!=='menu')stopPlay()}));
 
 /* ---------- hot reload for open viewers ---------- */
 function start(data){try{if(data&&data.tab)showTab(data.tab)}catch(e){}}
