@@ -193,33 +193,38 @@ th{font:600 12px var(--f-body);letter-spacing:.1em;text-transform:uppercase;colo
 td.n,th.n{text-align:right}
 td.code{font-family:var(--f-mono);font-weight:700;white-space:nowrap}
 .tablewrap{overflow-x:auto}
-/* practice till: one deliberate visual world (classic Windows POS), every colour explicit */
-.win{background:#C0C0C0;color:#000;border:2px solid;border-color:#fff #404040 #404040 #fff;box-shadow:1px 1px 0 #000;padding:3px;font-family:Tahoma,"MS Sans Serif",Verdana,Arial,sans-serif;font-size:13px}
-.win-title{background:linear-gradient(90deg,#000080,#1084d0);color:#fff;font-weight:700;padding:4px 6px;display:flex;justify-content:space-between;align-items:center;font-size:13px;letter-spacing:.02em}
-.win-title .wbtns span{display:inline-block;width:16px;height:14px;background:#C0C0C0;border:1px solid;border-color:#fff #404040 #404040 #fff;color:#000;font-size:10px;line-height:12px;text-align:center;margin-left:2px;font-weight:700}
-.wbtn{appearance:none;background:#C0C0C0;color:#000;border:2px solid;border-color:#fff #404040 #404040 #fff;box-shadow:inset 1px 1px 0 #dfdfdf,inset -1px -1px 0 #808080;padding:7px 5px;font:700 12px/1.2 Tahoma,Verdana,Arial,sans-serif;text-transform:uppercase;cursor:pointer;min-height:46px;text-align:center;overflow-wrap:anywhere;border-radius:0}
-.wbtn:active,.wbtn[aria-pressed="true"]{border-color:#404040 #fff #fff #404040;box-shadow:inset 1px 1px 0 #808080,inset -1px -1px 0 #dfdfdf;filter:brightness(.92)}
-.wbtn:focus-visible{outline:1px dotted #000;outline-offset:-5px}
-.wbtn .wp{display:block;font-weight:400;font-size:11px;margin-top:2px;text-transform:none}
-.wrow{display:flex;flex-wrap:wrap;gap:4px;padding:4px}
-.wrow .wbtn{flex:1 1 28%}
-.wgrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:4px;padding:4px}
-@media (min-width:520px){.wgrid{grid-template-columns:repeat(4,minmax(0,1fr))}}
-.wlist{background:#fff;color:#000;border:2px solid;border-color:#808080 #fff #fff #808080;box-shadow:inset 1px 1px 0 #000;margin:4px;padding:3px 4px;font:13px/1.5 "Courier New",Courier,monospace;height:150px;overflow-y:auto}
-.wl{display:grid;grid-template-columns:28px minmax(0,1fr) auto;gap:6px;padding:0 3px;cursor:pointer;font-variant-numeric:tabular-nums}
-.wl.sel{background:#000080;color:#fff}
-.wl .r{text-align:right}
-.wl-empty{color:#808080}
-.wtotal{display:flex;justify-content:space-between;padding:3px 10px;font:700 15px Tahoma,Verdana,Arial,sans-serif;background:#C0C0C0;color:#000;font-variant-numeric:tabular-nums}
-.wstatus{border:1px solid;border-color:#808080 #fff #fff #808080;margin:4px;padding:3px 6px;font-size:12px;background:#C0C0C0;color:#000;min-height:22px}
-.wfn{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:4px;padding:4px;position:sticky;bottom:0;background:#C0C0C0;padding-bottom:calc(4px + env(safe-area-inset-bottom,0px))}
-.wpay{background:#b8e6b8}
-.wplaying{background:#000080!important;color:#fff!important}
-.wdlg{position:fixed;inset:0;background:rgba(0,0,0,.35);display:flex;align-items:center;justify-content:center;z-index:20;padding:16px}
-.wdlg .win{width:min(340px,100%)}
-.wdlg p{padding:16px 12px;margin:0;font-size:13px;color:#000;max-width:none}
-.wdlg .wrow{justify-content:center}
-.wdlg .wrow .wbtn{flex:0 0 100px;min-height:32px}
+/* practice till, Square / Lightspeed pattern: sale card, category pills, colour tiles, charge bar */
+.sq-sale{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden}
+.sq-sale-h{display:flex;justify-content:space-between;align-items:center;padding:10px 12px;border-bottom:1px solid var(--line);font:700 15px var(--f-display);letter-spacing:.08em;text-transform:uppercase}
+.sq-sale-h .mode{font:600 12px var(--f-body);letter-spacing:.04em;text-transform:uppercase;color:var(--accent);background:var(--accent-soft);padding:3px 8px;border-radius:999px}
+.sq-lines{max-height:168px;overflow-y:auto}
+.sq-line{display:grid;grid-template-columns:30px minmax(0,1fr) auto;gap:10px;align-items:center;width:100%;appearance:none;background:none;border:0;border-bottom:1px solid var(--line);padding:9px 12px;font:15px var(--f-body);color:var(--ink);text-align:left;cursor:pointer}
+.sq-line .q{font:700 13px var(--f-body);background:var(--seat);border-radius:999px;text-align:center;padding:3px 0;font-variant-numeric:tabular-nums}
+.sq-line .p{font-variant-numeric:tabular-nums;color:var(--ink-2)}
+.sq-line[aria-selected="true"]{background:var(--accent-soft)}
+.sq-line[aria-selected="true"] .q{background:var(--accent);color:var(--accent-ink)}
+.sq-empty{padding:14px 12px;color:var(--ink-3);font-size:14px}
+.sq-sale-f{display:flex;gap:8px;padding:8px 12px;border-top:1px solid var(--line);background:var(--bg)}
+.sq-sale-f .btn{padding:7px 10px;font-size:13px;flex:0 0 auto}
+.sq-sale-f .total{margin-left:auto;font:700 16px var(--f-display);letter-spacing:.06em;font-variant-numeric:tabular-nums;align-self:center}
+.sq-status{font-size:13px;color:var(--ink-3);min-height:18px}
+.tile.sq{aspect-ratio:1}
+.sheet{position:fixed;inset:0;background:rgba(0,0,0,.45);display:flex;align-items:flex-end;justify-content:center;z-index:20;padding:16px;padding-bottom:calc(16px + env(safe-area-inset-bottom,0px))}
+.sheet .card{width:min(420px,100%);text-align:center}
+.sheet .big{font:700 40px/1 var(--f-display);font-variant-numeric:tabular-nums;margin:6px 0 4px}
+.sheet .btn{width:100%;margin-top:12px}
+.mlist .msec{margin-top:16px}
+.mlist h3{margin:0 0 4px;display:flex;justify-content:space-between;align-items:baseline}
+.mlist h3 small{font:500 12px var(--f-body);letter-spacing:.04em;text-transform:none;color:var(--ink-3)}
+.mrow{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px;width:100%;appearance:none;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:9px 12px;margin-bottom:4px;text-align:left;color:var(--ink);cursor:pointer;font:600 16px var(--f-body)}
+.mrow .p{font:400 15px var(--f-body);font-variant-numeric:tabular-nums;color:var(--ink-2);white-space:nowrap}
+.mrow.playing{border-color:var(--accent);background:var(--accent-soft);box-shadow:0 0 0 2px var(--accent) inset}
+.mrow:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.playbar{display:grid;grid-template-columns:2fr 1fr;gap:8px;position:sticky;top:calc(env(safe-area-inset-top,0px) + 44px);z-index:4;background:var(--bg);padding:8px 0 10px;border-bottom:1px solid var(--line)}
+.playbar .btn{font:700 18px var(--f-display);letter-spacing:.06em;text-transform:uppercase;padding:13px 10px}
+.playopts{display:flex;gap:14px;flex-wrap:wrap;align-items:center;font-size:14px;color:var(--ink-2);margin:8px 0 2px}
+.playopts select{width:auto;padding:5px 8px;font-size:14px}
+.playopts .check input{width:18px;height:18px}
 .cite{font-size:14px;color:var(--ink-2)}
 .cite li{margin-bottom:8px}
 @media (max-width:440px){
@@ -242,6 +247,7 @@ td.code{font-family:var(--f-mono);font-weight:700;white-space:nowrap}
 
   <nav class="tabs" role="tablist" aria-label="Sections">
     <button role="tab" id="tabbtn-drill" aria-selected="true" aria-controls="tab-drill" data-tab="drill">Drill</button>
+    <button role="tab" id="tabbtn-till" aria-selected="false" aria-controls="tab-till" data-tab="till">Till</button>
     <button role="tab" id="tabbtn-menu" aria-selected="false" aria-controls="tab-menu" data-tab="menu">Menu</button>
     <button role="tab" id="tabbtn-method" aria-selected="false" aria-controls="tab-method" data-tab="method">Method</button>
     <button role="tab" id="tabbtn-shorthand" aria-selected="false" aria-controls="tab-shorthand" data-tab="shorthand">Shorthand</button>
@@ -386,28 +392,49 @@ td.code{font-family:var(--f-mono);font-weight:700;white-space:nowrap}
     </div>
   </section>
 
-  <!-- ============ MENU ============ -->
-  <section id="tab-menu" role="tabpanel" aria-labelledby="tabbtn-menu" hidden>
+  <!-- ============ TILL ============ -->
+  <section id="tab-till" role="tabpanel" aria-labelledby="tabbtn-till" hidden>
     <div class="eyebrow">Vic on George · practice till</div>
     <h2>Tap it like the real one</h2>
-    <p>Pick the order type, pick a category, tap items onto the docket. Void takes off the selected line, Pay clears the sale. Play walks every button on the till in order, presses it and says its name, so you learn where things live.</p>
-    <div class="win" id="till" aria-label="Practice till">
-      <div class="win-title"><span>VIC ON GEORGE · TILL 1</span><span class="wbtns" aria-hidden="true"><span>_</span><span>□</span><span>×</span></span></div>
-      <div class="wrow" id="till-modes"></div>
-      <div class="wlist" id="till-list"></div>
-      <div class="wtotal"><span id="till-mode-lbl">DINE IN</span><span id="till-total">$0.00</span></div>
-      <div class="wrow" id="till-cats"></div>
-      <div class="wgrid" id="till-items"></div>
-      <div class="wstatus" id="till-status">Ready.</div>
-      <div class="wfn">
-        <button type="button" class="wbtn" id="till-void">Void</button>
-        <button type="button" class="wbtn" id="till-clear">Clear</button>
-        <button type="button" class="wbtn" id="till-play">Play</button>
-        <button type="button" class="wbtn" id="till-stop">Stop</button>
-        <button type="button" class="wbtn wpay" id="till-pay">Pay</button>
+    <p>Order type, category, item. Tap a line on the sale to select it, then remove it. Charge clears the sale. Play walks every tile in order, lights it up and says its name.</p>
+    <div class="pos">
+      <div class="strip" id="till-modes"></div>
+      <div class="sq-sale">
+        <div class="sq-sale-h"><span>Current sale</span><span class="mode" id="till-mode-lbl">Dine in</span></div>
+        <div class="sq-lines" id="till-list"></div>
+        <div class="sq-sale-f">
+          <button type="button" class="btn btn-ghost" id="till-void">Remove line</button>
+          <button type="button" class="btn btn-ghost" id="till-clear">Clear</button>
+          <span class="total" id="till-total">$0.00</span>
+        </div>
       </div>
+      <div class="strip cats" id="till-cats"></div>
+      <div class="grid" id="till-items"></div>
+      <div class="sq-status" id="till-status">Ready.</div>
     </div>
-    <p class="tip" style="margin-top:16px">Buttons and prices: Uber Eats listing, 15 September 2026, plus coffee, tea and the Site Only page from the venue site listing. Soft drinks are individual buttons at the Uber Eats price. The real till's layout will differ; this one teaches the names and the habit of tapping in slot order.</p>
+    <div class="posbar">
+      <button type="button" class="btn btn-ghost" id="till-play">Play</button>
+      <button type="button" class="btn" id="till-pay">Charge $0.00</button>
+    </div>
+    <p class="tip" style="margin-top:12px">Tiles and prices: Uber Eats listing, 15 September 2026, plus coffee, tea and the Site Only page from the venue site listing. Soft drinks are individual tiles at the Uber Eats price. The real till's layout will differ; this one teaches the names and the habit of tapping in slot order.</p>
+  </section>
+
+  <!-- ============ MENU ============ -->
+  <section id="tab-menu" role="tabpanel" aria-labelledby="tabbtn-menu" hidden>
+    <div class="eyebrow">Vic on George · Level 3, Myer Sydney City</div>
+    <h2>The menu, read to you</h2>
+    <p>Press play and it reads every item name, section by section, without stopping. Tap any item to start from there.</p>
+    <div class="playbar">
+      <button type="button" class="btn" id="btn-play">Play whole menu</button>
+      <button type="button" class="btn btn-ghost" id="btn-stopplay">Stop</button>
+    </div>
+    <div class="playopts">
+      <span id="play-prog" class="muted">Not playing</span>
+      <label class="check"><input type="checkbox" id="play-price"> Say prices</label>
+      <label>Speed <select id="play-rate"><option value="0.9">Slow</option><option value="1" selected>Normal</option><option value="1.15">Fast</option></select></label>
+    </div>
+    <div class="mlist" id="menu-list"></div>
+    <p class="tip" style="margin-top:16px">Names and prices: Uber Eats listing, 15 September 2026, plus coffee, tea and the site-only dishes from the venue site listing.</p>
   </section>
 
   <!-- ============ METHOD ============ -->
@@ -596,8 +623,9 @@ function clearTimer(){if(timer){clearInterval(timer);clearTimeout(timer);timer=n
 function showTab(name){
   currentTab=name;
   $$('.tabs button').forEach(b=>b.setAttribute('aria-selected',String(b.dataset.tab===name)));
-  ['drill','menu','method','shorthand','stats'].forEach(t=>{$('#tab-'+t).hidden=(t!==name)});
-  if(name==='menu')renderTill();
+  ['drill','till','menu','method','shorthand','stats'].forEach(t=>{$('#tab-'+t).hidden=(t!==name)});
+  if(name==='till')renderTill();
+  if(name==='menu')renderMenuList();
   if(name==='stats')renderStats();
   window.scrollTo({top:0});
 }
@@ -1022,20 +1050,21 @@ const sh=$('#my-shorthand');sh.value=LS.get('soc.shorthand','');sh.addEventListe
 
 /* ---------- evidence (filled at build time) ---------- */
 
-/* ---------- practice till ---------- */
+/* ---------- practice till (Square / Lightspeed pattern) ---------- */
 const POS_MENU=[
- {t:'Breakfast',c:'#ffffc8',items:[['Smashed Avocado',24],['Prawn Toast',26],['Bacon & Egg Roll',18]]},
- {t:'Salads',c:'#d2f5d2',items:[['Falafel Salad',27],['Grill Chicken Salad',28],['Grill Prawn Avocado Salad',29]]},
- {t:'Combos',c:'#ffe2b8',items:[['Victoria Club Meal',28],['Wagyu Burger Meal',29],['Cuban Sandwich Meal',27],['Prawn Poboy Meal',29],['Chipotle Chicken Meal',28],['Antipasto Ciabatta Meal',29],['Bacon & Egg Roll Meal',25]]},
- {t:'Snacks',c:'#ffd6d6',items:[['Salmon Ceviche Nachos',18],['Seafood Croquettes',19],['Prawn Panko',16],['Bowl of Victoria Chips',12],['Potato Gems & Parmesan',12],['Cheeseburger Spring Rolls',16]]},
- {t:'Sauces',c:'#e8e8e8',items:[['Spicy Mayo',4],['Jack Daniels BBQ',4],['Aioli',4],['Tomato Sauce',4],['Sweet Chilli',4],['Mayonnaise',4]]},
- {t:'Cold Drinks',c:'#cfe4ff',items:[['Coke',5],['Coke Zero',5],['Fanta',5],['Sprite',5],['Ginger Beer',5],['Lemonade',6],['Juice',6.8],['Pellegrino 500ml',6],['Acqua Panna 500ml',6.8],['Mineral Water 500ml',6.8]]},
- {t:'Sweets',c:'#efd6ff',items:[['Carrot Cake',10],['Macarons x4',13.8],['Mixed Berry Muffin',8],['Apple Flan',14],['Mini Cheesecake',11.4],['Brulee Tart',12],['GF Brownie',13.8],['GF Cookie',7],['Rye Choc Cookie',8],['Churros & Dulce de Leche',14]]},
- {t:'Coffee',c:'#e6d3c4',items:[['Cappuccino',4.6],['Flat White',4.6],['Latte',4.6],['Long Black',4.6],['Piccolo',4.6],['Macchiato',4.6],['Chai Latte',5.2],['Mocha',5.2],['Matcha Latte',5.2],['Hot Chocolate',5.2],['Large',1],['English Breakfast',6.5],['Chamomile',6.5],['Peppermint',6.5],['Green Tea',6.5],['Iced Chai',8],['Iced Latte',8],['Iced Long Black',8],['Iced Matcha',8],['Caramel Shake',8],['Strawberry Shake',8],['Vanilla Shake',8],['Chocolate Shake',8],['House Wine',null]]},
- {t:'Site Only',c:'#dcdcdc',items:[['Fried Chicken Burger',null],['Angus Rump 200g',null],['Schnitzel',null],['Eggs Your Way',null]]}
+ {t:'Breakfast',c:'#E07B1A',items:[['Smashed Avocado',24],['Prawn Toast',26],['Bacon & Egg Roll',18]]},
+ {t:'Salads',c:'#3A9A4B',items:[['Falafel Salad',27],['Grill Chicken Salad',28],['Grill Prawn Avocado Salad',29]]},
+ {t:'Combos',c:'#D94A3D',items:[['Victoria Club Meal',28],['Wagyu Burger Meal',29],['Cuban Sandwich Meal',27],['Prawn Poboy Meal',29],['Chipotle Chicken Meal',28],['Antipasto Ciabatta Meal',29],['Bacon & Egg Roll Meal',25]]},
+ {t:'Snacks',c:'#B8860B',items:[['Salmon Ceviche Nachos',18],['Seafood Croquettes',19],['Prawn Panko',16],['Bowl of Victoria Chips',12],['Potato Gems & Parmesan',12],['Cheeseburger Spring Rolls',16]]},
+ {t:'Sauces',c:'#7D6A5C',items:[['Spicy Mayo',4],['Jack Daniels BBQ',4],['Aioli',4],['Tomato Sauce',4],['Sweet Chilli',4],['Mayonnaise',4]]},
+ {t:'Cold Drinks',c:'#2A8FD0',items:[['Coke',5],['Coke Zero',5],['Fanta',5],['Sprite',5],['Ginger Beer',5],['Lemonade',6],['Juice',6.8],['Pellegrino 500ml',6],['Acqua Panna 500ml',6.8],['Mineral Water 500ml',6.8]]},
+ {t:'Sweets',c:'#C2559A',items:[['Carrot Cake',10],['Macarons x4',13.8],['Mixed Berry Muffin',8],['Apple Flan',14],['Mini Cheesecake',11.4],['Brulee Tart',12],['GF Brownie',13.8],['GF Cookie',7],['Rye Choc Cookie',8],['Churros & Dulce de Leche',14]]},
+ {t:'Coffee',c:'#6B4A3A',items:[['Cappuccino',4.6],['Flat White',4.6],['Latte',4.6],['Long Black',4.6],['Piccolo',4.6],['Macchiato',4.6],['Chai Latte',5.2],['Mocha',5.2],['Matcha Latte',5.2],['Hot Chocolate',5.2],['Large',1],['English Breakfast',6.5],['Chamomile',6.5],['Peppermint',6.5],['Green Tea',6.5],['Iced Chai',8],['Iced Latte',8],['Iced Long Black',8],['Iced Matcha',8],['Caramel Shake',8],['Strawberry Shake',8],['Vanilla Shake',8],['Chocolate Shake',8],['House Wine',null]]},
+ {t:'Site Only',c:'#6F7C8A',items:[['Fried Chicken Burger',null],['Angus Rump 200g',null],['Schnitzel',null],['Eggs Your Way',null]]}
 ];
-const POS_MODES=['Dine In','Takeaway','Shopper','Staff','Delivery'];
+const POS_MODES=['Dine in','Takeaway','Shopper','Staff','Delivery'];
 const POS_FLAT=[];POS_MENU.forEach((c,ci)=>c.items.forEach((it,ii)=>POS_FLAT.push({ci,ii,name:it[0],price:it[1]})));
+const sayName=n=>n.replace(/&/g,' and ').replace(/\bGF\b/,'gluten free').replace(/\bx4\b/,'four pack').replace(/\b500ml\b/,'');
 const till={mode:0,cat:0,lines:[],sel:-1,built:false};
 let tillPlaying=false,tillIdx=-1;
 function tillTotal(){return till.lines.reduce((t,l)=>t+(l.price||0)*l.qty,0)}
@@ -1043,24 +1072,26 @@ function tillStatus(t){$('#till-status').textContent=t}
 function renderTill(){
   if(!till.built){
     till.built=true;
-    $('#till-modes').innerHTML=POS_MODES.map((m,i)=>'<button type="button" class="wbtn" data-mode="'+i+'">'+m+'</button>').join('');
-    $('#till-cats').innerHTML=POS_MENU.map((c,i)=>'<button type="button" class="wbtn" data-cat="'+i+'" style="background:'+c.c+'">'+esc(c.t)+'</button>').join('');
-    $('#till-modes').addEventListener('click',e=>{const b=e.target.closest('[data-mode]');if(!b)return;till.mode=+b.dataset.mode;tillStatus(POS_MODES[till.mode]+' selected.');renderTill()});
+    $('#till-modes').innerHTML=POS_MODES.map((m,i)=>'<button type="button" data-mode="'+i+'">'+m+'</button>').join('');
+    $('#till-cats').innerHTML=POS_MENU.map((c,i)=>'<button type="button" data-cat="'+i+'" style="--cat:'+c.c+'">'+esc(c.t)+'</button>').join('');
+    $('#till-modes').addEventListener('click',e=>{const b=e.target.closest('[data-mode]');if(!b)return;till.mode=+b.dataset.mode;tillStatus(POS_MODES[till.mode]+'.');renderTill()});
     $('#till-cats').addEventListener('click',e=>{const b=e.target.closest('[data-cat]');if(!b)return;till.cat=+b.dataset.cat;renderTill()});
     $('#till-items').addEventListener('click',e=>{const b=e.target.closest('[data-item]');if(!b)return;tillAdd(till.cat,+b.dataset.item)});
-    $('#till-list').addEventListener('click',e=>{const l=e.target.closest('[data-line]');if(!l)return;till.sel=+l.dataset.line;renderTill()});
-    $('#till-void').addEventListener('click',()=>{if(!till.lines.length){tillStatus('Nothing to void.');return}const i=till.sel>=0?till.sel:till.lines.length-1;const n=till.lines[i].name;till.lines.splice(i,1);till.sel=-1;tillStatus('Voided '+n+'.');renderTill()});
-    $('#till-clear').addEventListener('click',()=>{till.lines=[];till.sel=-1;tillStatus('Docket cleared.');renderTill()});
-    $('#till-pay').addEventListener('click',()=>{if(!till.lines.length){tillStatus('Nothing to pay.');return}const t=money(tillTotal());const n=till.lines.reduce((a,l)=>a+l.qty,0);tillDialog('Payment',POS_MODES[till.mode]+' · '+n+' item'+(n>1?'s':'')+'\nTotal '+t+'\n\nTendered. Docket sent.',()=>{till.lines=[];till.sel=-1;tillStatus('Sale complete. '+t+'.');renderTill()})});
-    $('#till-play').addEventListener('click',tillPlay);
-    $('#till-stop').addEventListener('click',()=>{tillStop();tillStatus('Stopped.')});
+    $('#till-list').addEventListener('click',e=>{const l=e.target.closest('[data-line]');if(!l)return;till.sel=(till.sel===+l.dataset.line)?-1:+l.dataset.line;renderTill()});
+    $('#till-void').addEventListener('click',()=>{if(!till.lines.length){tillStatus('Nothing on the sale.');return}const i=till.sel>=0?till.sel:till.lines.length-1;const n=till.lines[i].name;till.lines.splice(i,1);till.sel=-1;tillStatus('Removed '+n+'.');renderTill()});
+    $('#till-clear').addEventListener('click',()=>{till.lines=[];till.sel=-1;tillStatus('Sale cleared.');renderTill()});
+    $('#till-pay').addEventListener('click',()=>{if(!till.lines.length){tillStatus('Nothing to charge.');return}const t=money(tillTotal());const n=till.lines.reduce((a,l)=>a+l.qty,0);tillSheet(t,POS_MODES[till.mode]+' · '+n+' item'+(n>1?'s':''),()=>{till.lines=[];till.sel=-1;tillStatus('Charged '+t+'. New sale.');renderTill()})});
+    $('#till-play').addEventListener('click',()=>{if(tillPlaying){tillStop();tillStatus('Stopped.')}else tillPlay()});
   }
-  $$('#till-modes .wbtn').forEach(b=>b.setAttribute('aria-pressed',String(+b.dataset.mode===till.mode)));
-  $$('#till-cats .wbtn').forEach(b=>b.setAttribute('aria-pressed',String(+b.dataset.cat===till.cat)));
-  $('#till-mode-lbl').textContent=POS_MODES[till.mode].toUpperCase();
-  $('#till-items').innerHTML=POS_MENU[till.cat].items.map((it,i)=>'<button type="button" class="wbtn" data-item="'+i+'">'+esc(it[0])+(it[1]!=null?'<span class="wp">'+money(it[1])+'</span>':'')+'</button>').join('');
-  $('#till-list').innerHTML=till.lines.length?till.lines.map((l,i)=>'<div class="wl'+(i===till.sel?' sel':'')+'" data-line="'+i+'"><span>'+l.qty+'</span><span>'+esc(l.name)+'</span><span class="r">'+(l.price!=null?money(l.price*l.qty):'—')+'</span></div>').join(''):'<div class="wl-empty">No items. Tap a category, then an item.</div>';
+  $$('#till-modes button').forEach(b=>b.setAttribute('aria-pressed',String(+b.dataset.mode===till.mode)));
+  $$('#till-cats button').forEach(b=>b.setAttribute('aria-pressed',String(+b.dataset.cat===till.cat)));
+  $('#till-mode-lbl').textContent=POS_MODES[till.mode];
+  const c=POS_MENU[till.cat];
+  $('#till-items').innerHTML=c.items.map((it,i)=>'<button type="button" class="tile sq" style="--cat:'+c.c+'" data-item="'+i+'"><span class="t">'+esc(it[0])+'</span>'+(it[1]!=null?'<span class="p">'+money(it[1])+'</span>':'')+'</button>').join('');
+  $('#till-list').innerHTML=till.lines.length?till.lines.map((l,i)=>'<button type="button" class="sq-line" data-line="'+i+'" aria-selected="'+(i===till.sel)+'"><span class="q">'+l.qty+'</span><span>'+esc(l.name)+'</span><span class="p">'+(l.price!=null?money(l.price*l.qty):'—')+'</span></button>').join(''):'<div class="sq-empty">No items yet. Pick a category, tap a tile.</div>';
   $('#till-total').textContent=money(tillTotal());
+  $('#till-pay').textContent='Charge '+money(tillTotal());
+  $('#till-play').textContent=tillPlaying?'Stop':'Play';
 }
 function tillAdd(ci,ii){
   const it=POS_MENU[ci].items[ii];const ex=till.lines.findIndex(l=>l.name===it[0]);
@@ -1068,26 +1099,26 @@ function tillAdd(ci,ii){
   tillStatus('Added '+it[0]+'.');renderTill();
   const box=$('#till-list');box.scrollTop=box.scrollHeight;
 }
-function tillDialog(title,text,onOk){
-  const d=document.createElement('div');d.className='wdlg';
-  d.innerHTML='<div class="win" role="dialog" aria-label="'+esc(title)+'"><div class="win-title"><span>'+esc(title)+'</span><span class="wbtns" aria-hidden="true"><span>×</span></span></div><p style="white-space:pre-line">'+esc(text)+'</p><div class="wrow"><button type="button" class="wbtn" id="wdlg-ok">OK</button></div></div>';
+function tillSheet(total,sub,onOk){
+  const d=document.createElement('div');d.className='sheet';
+  d.innerHTML='<div class="card" role="dialog" aria-label="Charged"><div class="eyebrow">Charged</div><div class="big">'+esc(total)+'</div><div class="muted">'+esc(sub)+'</div><button type="button" class="btn" id="sheet-ok">New sale</button></div>';
   document.body.appendChild(d);
   const close=()=>{d.remove();if(onOk)onOk()};
-  d.querySelector('#wdlg-ok').addEventListener('click',close);d.addEventListener('click',e=>{if(e.target===d)close()});
-  setTimeout(()=>d.querySelector('#wdlg-ok').focus(),30);
+  d.querySelector('#sheet-ok').addEventListener('click',close);d.addEventListener('click',e=>{if(e.target===d)close()});
+  setTimeout(()=>d.querySelector('#sheet-ok').focus(),30);
 }
 function tillPlay(){
   if(!('speechSynthesis' in window)){tillStatus('No speech voices on this browser.');return}
-  tillStop();tillPlaying=true;tillIdx=0;
+  tillStop();tillPlaying=true;tillIdx=0;renderTill();
   const step=()=>{
-    if(!tillPlaying||tillIdx>=POS_FLAT.length){const done=tillIdx>=POS_FLAT.length;tillStop();if(done)tillStatus('Played every button. '+POS_FLAT.length+' items.');return}
+    if(!tillPlaying||tillIdx>=POS_FLAT.length){const done=tillIdx>=POS_FLAT.length;tillStop();if(done)tillStatus('Played every tile. '+POS_FLAT.length+' items.');return}
     const f=POS_FLAT[tillIdx];
     if(till.cat!==f.ci){till.cat=f.ci;renderTill()}
-    $$('#till-items .wplaying').forEach(b=>b.classList.remove('wplaying'));
-    const b=$('#till-items [data-item="'+f.ii+'"]');if(b){b.classList.add('wplaying');b.scrollIntoView({block:'nearest'})}
+    $$('#till-items .tile[aria-pressed="true"]').forEach(b=>b.setAttribute('aria-pressed','false'));
+    const b=$('#till-items [data-item="'+f.ii+'"]');if(b){b.setAttribute('aria-pressed','true');b.scrollIntoView({block:'nearest'})}
     tillStatus((tillIdx+1)+' of '+POS_FLAT.length+' · '+POS_MENU[f.ci].t+' · '+f.name);
     const first=tillIdx===0||POS_FLAT[tillIdx-1].ci!==f.ci;
-    const u=new SpeechSynthesisUtterance((first?POS_MENU[f.ci].t+'. ':'')+f.name.replace(/&/g,' and ').replace(/\bGF\b/,'gluten free').replace(/\bx4\b/,'four pack').replace(/\bml\b/,''));
+    const u=new SpeechSynthesisUtterance((first?POS_MENU[f.ci].t+'. ':'')+sayName(f.name));
     u.rate=1;u.lang='en-US';const v=pickVoice();if(v)u.voice=v;
     u.onend=()=>{if(tillPlaying){tillIdx++;step()}};
     u.onerror=e=>{if(tillPlaying&&e.error!=='interrupted'&&e.error!=='canceled'){tillIdx++;step()}};
@@ -1095,8 +1126,42 @@ function tillPlay(){
   };
   step();
 }
-function tillStop(){tillPlaying=false;tillIdx=-1;try{speechSynthesis.cancel()}catch(e){}$$('#till-items .wplaying').forEach(b=>b.classList.remove('wplaying'))}
-$$('.tabs button').forEach(b=>b.addEventListener('click',()=>{if(b.dataset.tab!=='menu')tillStop()}));
+function tillStop(){const was=tillPlaying;tillPlaying=false;tillIdx=-1;try{speechSynthesis.cancel()}catch(e){}$$('#till-items .tile[aria-pressed="true"]').forEach(b=>b.setAttribute('aria-pressed','false'));if(was&&till.built)$('#till-play').textContent='Play'}
+
+/* ---------- menu list, read aloud ---------- */
+let listPlaying=false,listIdx=-1;
+function renderMenuList(){
+  if($('#menu-list').childElementCount)return;
+  $('#menu-list').innerHTML=POS_MENU.map((c,ci)=>'<div class="msec"><h3>'+esc(c.t)+'<small>'+c.items.length+' items</small></h3>'+c.items.map((it,ii)=>{const k=POS_FLAT.findIndex(f=>f.ci===ci&&f.ii===ii);return '<button type="button" class="mrow" data-k="'+k+'"><span>'+esc(it[0])+'</span><span class="p">'+(it[1]!=null?money(it[1]):'')+'</span></button>'}).join('')+'</div>').join('');
+  $$('#menu-list .mrow').forEach(b=>b.addEventListener('click',()=>listPlayFrom(+b.dataset.k)));
+}
+function listMark(k){
+  $$('#menu-list .mrow.playing').forEach(b=>b.classList.remove('playing'));
+  if(k<0){$('#play-prog').textContent='Not playing';return}
+  const b=$('#menu-list .mrow[data-k="'+k+'"]');if(b){b.classList.add('playing');b.scrollIntoView({block:'center',behavior:'smooth'})}
+  $('#play-prog').textContent=(k+1)+' of '+POS_FLAT.length+' · '+POS_MENU[POS_FLAT[k].ci].t;
+}
+function listPlayFrom(k){
+  if(!('speechSynthesis' in window)){$('#play-prog').textContent='This browser has no speech voices.';return}
+  listStop();listPlaying=true;listIdx=k;
+  const step=()=>{
+    if(!listPlaying||listIdx>=POS_FLAT.length){const done=listIdx>=POS_FLAT.length;listStop();if(done)$('#play-prog').textContent='Done. '+POS_FLAT.length+' items, start to finish.';return}
+    listMark(listIdx);
+    const f=POS_FLAT[listIdx];const first=listIdx===k||POS_FLAT[listIdx-1].ci!==f.ci;
+    let t=(first?POS_MENU[f.ci].t+'. ':'')+sayName(f.name)+'.';
+    if($('#play-price').checked&&f.price!=null)t+=' '+sayNum(f.price)+'.';
+    const u=new SpeechSynthesisUtterance(t);u.rate=+$('#play-rate').value||1;u.lang='en-US';const v=pickVoice();if(v)u.voice=v;
+    u.onend=()=>{if(listPlaying){listIdx++;step()}};
+    u.onerror=e=>{if(listPlaying&&e.error!=='interrupted'&&e.error!=='canceled'){listIdx++;step()}};
+    try{speechSynthesis.speak(u)}catch(e){listStop()}
+  };
+  step();
+}
+function sayNum(v){const d=Math.floor(v),c=Math.round((v-d)*100);return c?d+' '+String(c).padStart(2,'0'):d+(d===1?' dollar':' dollars')}
+function listStop(){listPlaying=false;listIdx=-1;try{speechSynthesis.cancel()}catch(e){}listMark(-1)}
+$('#btn-play').addEventListener('click',()=>listPlayFrom(0));
+$('#btn-stopplay').addEventListener('click',listStop);
+$$('.tabs button').forEach(b=>b.addEventListener('click',()=>{if(b.dataset.tab!=='till')tillStop();if(b.dataset.tab!=='menu')listStop()}));
 
 /* ---------- hot reload for open viewers ---------- */
 function start(data){try{if(data&&data.tab)showTab(data.tab)}catch(e){}}
