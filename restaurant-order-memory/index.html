@@ -220,8 +220,12 @@ td.code{font-family:var(--f-mono);font-weight:700;white-space:nowrap}
               <option value="2">Auto · 2 s a line</option>
             </select>
           </div>
-          <div class="field wide">
-            <label class="check"><input type="checkbox" id="chk-tts" checked> Read lines aloud (uses your phone's voice, no internet)</label>
+          <div class="field">
+            <label class="check" style="padding-top:22px"><input type="checkbox" id="chk-tts" checked> Read lines aloud</label>
+          </div>
+          <div class="field">
+            <span>Voice</span>
+            <select id="sel-voice"><option value="Google US English">Google US English</option></select>
           </div>
         </div>
         <div id="custom-fields" class="fields" hidden style="margin-top:12px">
@@ -484,7 +488,8 @@ const MAXL=LEVELS.length;
 let stats=LS.get('soc.stats',null);
 if(!stats||typeof stats!=='object')stats={level:1,streak:0,levels:{},history:[]};
 stats.level=Math.min(Math.max(stats.level||1,1),MAXL);stats.streak=stats.streak||0;stats.levels=stats.levels||{};stats.history=stats.history||[];
-let settings=LS.get('soc.settings',{tts:true,pace:0});
+let settings=LS.get('soc.settings',{tts:true,pace:0,voice:'Google US English'});
+if(!settings.voice)settings.voice='Google US English';
 let currentTab='drill';
 let run=null;
 let timer=null;
@@ -623,9 +628,25 @@ function genTable(cfg,num){
 }
 
 /* ---------- speech ---------- */
+const selVoice=$('#sel-voice');
+function voices(){try{return speechSynthesis.getVoices()||[]}catch(e){return []}}
+function pickVoice(){
+  const v=voices();if(!v.length)return null;
+  return v.find(x=>x.name===settings.voice)||v.find(x=>/google us english/i.test(x.name))||v.find(x=>x.lang==='en-US'&&x.default)||v.find(x=>/^en[-_]US/i.test(x.lang))||v.find(x=>/^en/i.test(x.lang))||null;
+}
+function fillVoices(){
+  const v=voices();if(!v.length)return;
+  const en=v.filter(x=>/^en/i.test(x.lang));
+  const list=(en.length?en:v).slice().sort((a,b)=>(/google us english/i.test(b.name)-/google us english/i.test(a.name))||a.name.localeCompare(b.name));
+  selVoice.innerHTML=list.map(x=>'<option value="'+esc(x.name)+'">'+esc(x.name)+' ('+esc(x.lang)+')</option>').join('');
+  const chosen=pickVoice();if(chosen)selVoice.value=chosen.name;
+  if(!list.some(x=>/google us english/i.test(x.name))){const o=document.createElement('option');o.disabled=true;o.textContent='Google US English is not on this device';selVoice.appendChild(o)}
+}
+if('speechSynthesis' in window){fillVoices();try{speechSynthesis.onvoiceschanged=fillVoices}catch(e){}}
+selVoice.addEventListener('change',()=>{settings.voice=selVoice.value;LS.set('soc.settings',settings);speak('Seat one. Flat white, oat.')});
 function speak(t){
   if(!settings.tts||!('speechSynthesis' in window))return;
-  try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(t.replace(/&/g,' and '));u.rate=1.02;u.lang='en-US';speechSynthesis.speak(u)}catch(e){}
+  try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(t.replace(/&/g,' and '));u.rate=1.02;u.lang='en-US';const v=pickVoice();if(v)u.voice=v;speechSynthesis.speak(u)}catch(e){}
 }
 function hush(){try{if('speechSynthesis' in window)speechSynthesis.cancel()}catch(e){}}
 
