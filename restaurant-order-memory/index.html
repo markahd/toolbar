@@ -127,6 +127,36 @@ details summary{cursor:pointer;font:700 15px var(--f-display);text-transform:upp
 .chips{display:flex;flex-wrap:wrap;gap:6px}
 .chip{font:14px var(--f-mono);padding:5px 9px;border:1px solid var(--line-strong);border-radius:999px;background:var(--surface);color:var(--ink);cursor:pointer}
 .chip[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.pos{display:grid;gap:10px}
+.strip{display:flex;gap:6px;overflow-x:auto;padding-bottom:2px;-webkit-overflow-scrolling:touch;scrollbar-width:thin}
+.strip button{flex:0 0 auto;appearance:none;border:1px solid var(--line-strong);background:var(--surface);color:var(--ink);border-radius:var(--radius);padding:8px 12px;font:700 15px/1.1 var(--f-display);letter-spacing:.06em;text-transform:uppercase;cursor:pointer;min-width:64px;text-align:center}
+.strip button[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.strip button .n{display:block;font:500 11px var(--f-body);letter-spacing:.02em;text-transform:none;opacity:.75;margin-top:2px}
+.cats button{border-color:transparent;box-shadow:var(--shadow);border-left:5px solid var(--cat)}
+.cats button[aria-pressed="true"]{color:#fff;background:var(--cat);border-color:var(--cat)}
+.order{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden}
+.order-h{display:flex;justify-content:space-between;align-items:baseline;padding:10px 12px;border-bottom:1px solid var(--line);font:700 17px var(--f-display);letter-spacing:.06em;text-transform:uppercase}
+.order-h span:last-child{font:500 13px var(--f-body);color:var(--ink-3);text-transform:none;letter-spacing:0}
+.order-line{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px;width:100%;appearance:none;background:none;border:0;border-bottom:1px solid var(--line);padding:8px 12px;font:15px var(--f-body);color:var(--ink);text-align:left;cursor:pointer;align-items:baseline}
+.order-line:last-of-type{border-bottom:0}
+.order-line .k{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);display:block}
+.order-line .v{display:block;font-weight:600;overflow-wrap:anywhere}
+.order-line .v.empty{color:var(--ink-3);font-weight:400}
+.order-line .p{font-variant-numeric:tabular-nums;color:var(--ink-2)}
+.order-line[aria-current="true"]{background:var(--accent-soft)}
+.order-line[aria-current="true"] .k{color:var(--accent);font-weight:700}
+.order-t{display:flex;justify-content:space-between;padding:10px 12px;border-top:1px solid var(--line-strong);font:700 16px var(--f-display);letter-spacing:.06em;text-transform:uppercase;font-variant-numeric:tabular-nums}
+.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+@media (min-width:520px){.grid{grid-template-columns:repeat(4,minmax(0,1fr))}}
+.tile{appearance:none;aspect-ratio:1.25;border:0;border-radius:8px;background:var(--cat);color:#fff;padding:9px;font:600 14px/1.2 var(--f-body);text-align:left;display:flex;flex-direction:column;justify-content:space-between;gap:4px;cursor:pointer;overflow-wrap:anywhere;box-shadow:var(--shadow)}
+.tile .p{font:500 12px var(--f-body);opacity:.85;font-variant-numeric:tabular-nums}
+.tile[aria-pressed="true"]{outline:3px solid var(--ink);outline-offset:-3px}
+.tile[aria-pressed="true"] .t::before{content:"✓ "}
+.tile.none{background:var(--surface);color:var(--ink-2);border:1px dashed var(--line-strong);box-shadow:none;font-weight:500}
+.tile:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.posbar{position:sticky;bottom:0;z-index:4;background:var(--bg);display:grid;grid-template-columns:1fr 2fr;gap:8px;padding:10px 0 calc(10px + env(safe-area-inset-bottom,0px));border-top:1px solid var(--line)}
+.posbar .btn{padding:14px 10px;font:700 18px var(--f-display);letter-spacing:.06em;text-transform:uppercase;font-variant-numeric:tabular-nums}
+@media (prefers-reduced-motion: no-preference){.tile:active{transform:scale(.97)}}
 .r{display:grid;grid-template-columns:18px 74px minmax(0,1fr) auto;gap:8px;align-items:center;padding:5px 0;border-bottom:1px solid var(--line);font-size:15px}
 .r:last-child{border-bottom:0}
 .r .mark{font-weight:700}
@@ -244,7 +274,7 @@ td.code{font-family:var(--f-mono);font-weight:700;white-space:nowrap}
 
       <details class="card">
         <summary>The menu (one item per line)</summary>
-        <p class="tip" style="margin-top:0" id="menu-provenance">Loaded with the Vic on George menu (Level 3, Myer Sydney City). Food, snacks, sweets, sauces and cold drinks are verbatim from the Uber Eats listing read on 15 Sep 2026. Coffee and tea, plus the fried chicken burger, Angus rump, schnitzel and eggs-your-way, come from the venue site listing and were not seen on Uber Eats. Milk and egg options are standard cafe mods, not verified. Fix anything the board says differently. Add <b>*</b> after anything that gets a temperature.</p>
+        <p class="tip" style="margin-top:0" id="menu-provenance">Loaded with the Vic on George menu (Level 3, Myer Sydney City). Food, snacks, sweets, sauces and cold drinks are verbatim from the Uber Eats listing read on 15 Sep 2026. Coffee and tea, plus the fried chicken burger, Angus rump, schnitzel and eggs-your-way, come from the venue site listing and were not seen on Uber Eats. Milk and egg options are standard cafe mods, not verified. Prices: food and sweets from Uber Eats, drinks from the venue site. Fix anything the board says differently. Add <b>*</b> after anything that gets a temperature, and an optional <b>$price</b> at the end of a line to show it on the tile.</p>
         <div class="fields">
           <div class="field"><span>Drinks</span><textarea id="m-drinks"></textarea></div>
           <div class="field"><span>Snacks</span><textarea id="m-starters"></textarea></div>
@@ -302,9 +332,18 @@ td.code{font-family:var(--f-mono);font-weight:700;white-space:nowrap}
 
     <div id="stage-recall" class="stack" hidden>
       <h2>Ring it in</h2>
-      <p>Seat by seat, clockwise from your left. Fill in what was finally ordered, not what was first said.</p>
-      <div class="tickets" id="recall-tickets"></div>
-      <button class="btn btn-big" id="btn-submit">Send the ticket</button>
+      <p>Seat, category, tile. Clockwise from your left. Ring what was finally ordered, not what was first said.</p>
+      <div class="pos">
+        <div class="strip" id="pos-tables" hidden></div>
+        <div class="strip" id="pos-seats"></div>
+        <div class="order" id="pos-check"></div>
+        <div class="strip cats" id="pos-cats"></div>
+        <div class="grid" id="pos-grid"></div>
+      </div>
+      <div class="posbar">
+        <button class="btn btn-ghost" id="btn-next-seat">Next seat</button>
+        <button class="btn" id="btn-submit">Send</button>
+      </div>
     </div>
 
     <div id="stage-result" class="stack" hidden>
@@ -444,28 +483,33 @@ const now=()=>Date.now();
 
 /* ---------- menu ---------- */
 const DEFAULT_MENU={
-  drinks:['Cappuccino','Flat white','Latte','Long black','Piccolo','Macchiato','Chai latte','Mocha','Matcha latte','Hot chocolate','English breakfast tea','Peppermint tea','Chamomile tea','Green tea','Iced latte','Iced long black','Iced chai','Iced matcha','Chocolate milkshake','Caramel milkshake','Strawberry milkshake','Vanilla milkshake','Coke','Coke Zero','Sprite','Fanta','Ginger beer','Lemonade','Orange juice','San Pellegrino sparkling','Acqua Panna','Mineral water','House wine'],
-  starters:['Salmon ceviche nachos','Seafood croquettes','Prawn panko','Bowl of Victoria chips','Potato gems and parmesan','Cheeseburger spring rolls'],
-  mains:['Smashed avocado','Prawn toast','Bacon and egg roll','Falafel salad','Grill chicken salad','Grill prawn avocado salad','Victoria club sandwich','Wagyu beef burger','Cuban sandwich','Prawn poboy','Chipotle pulled chicken','Antipasto ciabatta','Fried chicken burger','Angus rump 200g*','Schnitzel','Eggs your way on toast'],
+  drinks:['Cappuccino $4.60','Flat white $4.60','Latte $4.60','Long black $4.60','Piccolo $4.60','Macchiato $4.60','Chai latte $5.20','Mocha $5.20','Matcha latte $5.20','Hot chocolate $5.20','English breakfast tea $6.50','Peppermint tea $6.50','Chamomile tea $6.50','Green tea $6.50','Iced latte $8','Iced long black $8','Iced chai $8','Iced matcha $8','Chocolate milkshake $8','Caramel milkshake $8','Strawberry milkshake $8','Vanilla milkshake $8','Coke $7.50','Coke Zero $7.50','Sprite $7.50','Fanta $7.50','Ginger beer $7.50','Lemonade $7.50','Orange juice $8.50','San Pellegrino sparkling $7.50','Acqua Panna $6.80','Mineral water $6.50','House wine'],
+  starters:['Salmon ceviche nachos $18','Seafood croquettes $19','Prawn panko $16','Bowl of Victoria chips $12','Potato gems and parmesan $12','Cheeseburger spring rolls $16'],
+  mains:['Smashed avocado $24','Prawn toast $26','Bacon and egg roll $18','Falafel salad $27','Grill chicken salad $28','Grill prawn avocado salad $29','Victoria club sandwich $28','Wagyu beef burger $29','Cuban sandwich $27','Prawn poboy $29','Chipotle pulled chicken $28','Antipasto ciabatta $29','Fried chicken burger','Angus rump 200g*','Schnitzel','Eggs your way on toast'],
   sides:['Victoria chips','Garden salad'],
-  desserts:['Carrot cake','Macarons','Mixed berry muffin','Apple flan','Mini cheesecake','Brulee tart','Gluten free brownie','Gluten free cookie','Rye chocolate cookie','Churros and dulce de leche'],
-  mods:['Large','Oat milk','Almond milk','Soy milk','Skim milk','Extra shot','Decaf','Extra hot','Eggs poached','Eggs scrambled','Eggs fried','Add bacon','Add chorizo','Add smoked salmon','Add avocado','Add mushroom','Add ham','Add roasted tomato','Add grilled chicken','Add spicy mayo','Add Jack Daniels BBQ','Add aioli','Add tomato sauce','Add sweet chilli','Add mayo','No bacon','No cheese','No onion','No pickles','No egg','Sauce on the side','No ice']
+  desserts:['Carrot cake $10','Macarons $13.80','Mixed berry muffin $8','Apple flan $14','Mini cheesecake $11.40','Brulee tart $12','Gluten free brownie $13.80','Gluten free cookie $7','Rye chocolate cookie $8','Churros and dulce de leche $14'],
+  mods:['Large $1','Oat milk','Almond milk','Soy milk','Skim milk','Extra shot','Decaf','Extra hot','Eggs poached','Eggs scrambled','Eggs fried','Add bacon','Add chorizo','Add smoked salmon','Add avocado','Add mushroom','Add ham','Add roasted tomato','Add grilled chicken','Add spicy mayo $4','Add Jack Daniels BBQ $4','Add aioli $4','Add tomato sauce $4','Add sweet chilli $4','Add mayo $4','No bacon','No cheese','No onion','No pickles','No egg','Sauce on the side','No ice']
 };
 const TEMPS=['Rare','Medium rare','Medium','Medium well','Well done'];
 const CATS=['drinks','starters','mains','sides','desserts','mods'];
-let menu=loadMenu();
-function loadMenu(){const m=LS.get('soc.menu',null);if(m&&CATS.every(c=>Array.isArray(m[c])&&m[c].length))return m;return JSON.parse(JSON.stringify(DEFAULT_MENU))}
+let menuRaw=loadMenuRaw(),menu={},PRICES={};
+function loadMenuRaw(){const m=LS.get('soc.menu',null);if(m&&CATS.every(c=>Array.isArray(m[c])&&m[c].length))return m;return JSON.parse(JSON.stringify(DEFAULT_MENU))}
+function parseLines(arr){const names=[],prices={};arr.forEach(x=>{let n=String(x).trim();const m=/^(.*?)\s*\$\s*(\d+(?:\.\d{1,2})?)\s*$/.exec(n);if(m){n=m[1].trim();prices[n.replace(/\*+$/,'').trim()]=+m[2]}if(n)names.push(n)});return {names,prices}}
+function applyMenu(){menu={};PRICES={};CATS.forEach(c=>{const r=parseLines(menuRaw[c]||[]);menu[c]=r.names;Object.assign(PRICES,r.prices)})}
+applyMenu();
+const priceOf=n=>PRICES[String(n||'').replace(/\*+$/,'').trim()];
+const money=v=>'$'+v.toFixed(2);
 function mainsMeta(){return menu.mains.map(x=>({name:x.replace(/\*+$/,'').trim(),temp:/\*$/.test(x.trim())}))}
 function mainNames(){return mainsMeta().map(m=>m.name)}
 function needsTemp(name){const m=mainsMeta().find(x=>x.name===name);return !!(m&&m.temp)}
-function fillMenuEditor(){CATS.forEach(c=>{$('#m-'+c).value=menu[c].join('\n')})}
+function fillMenuEditor(){CATS.forEach(c=>{$('#m-'+c).value=(menuRaw[c]||[]).join('\n')})}
 $('#btn-menu-save').addEventListener('click',()=>{
   const m={};let bad=null;
   CATS.forEach(c=>{m[c]=$('#m-'+c).value.split('\n').map(s=>s.trim()).filter(Boolean);if(m[c].length<2)bad=c});
   if(bad){$('#menu-msg').textContent='Each list needs at least two items. '+bad+' is short.';return}
-  menu=m;LS.set('soc.menu',menu);$('#menu-msg').textContent='Saved. The next table uses this menu.';
+  menuRaw=m;LS.set('soc.menu',menuRaw);applyMenu();$('#menu-msg').textContent='Saved. The next table uses this menu.';
 });
-$('#btn-menu-reset').addEventListener('click',()=>{menu=JSON.parse(JSON.stringify(DEFAULT_MENU));LS.set('soc.menu',null);fillMenuEditor();$('#menu-msg').textContent='Vic on George menu restored.'});
+$('#btn-menu-reset').addEventListener('click',()=>{menuRaw=JSON.parse(JSON.stringify(DEFAULT_MENU));LS.set('soc.menu',null);applyMenu();fillMenuEditor();$('#menu-msg').textContent='Vic on George menu restored.'});
 fillMenuEditor();
 
 /* ---------- levels ---------- */
@@ -747,46 +791,78 @@ $('#btn-inter-next').addEventListener('click',()=>{
 });
 $('#inter-ans').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();$('#btn-inter-next').click()}});
 
-function opt(list,cur,none){
-  let s=none?'<option value="">'+esc(none)+'</option>':'';
-  list.forEach(x=>{s+='<option value="'+esc(x)+'"'+(x===cur?' selected':'')+'>'+esc(x)+'</option>'});
-  return s;
-}
+const SLOTCATS=[['drink','Drinks','drinks'],['starter','Snacks','starters'],['main','Mains','mains'],['temp','Temp',null],['side','Sides','sides'],['dessert','Desserts','desserts'],['mods','Mods','mods']];
+const CHECKLABEL={drink:'Drink',starter:'Snack',main:'Main',temp:'Temp',side:'Side',dessert:'Dessert',mods:'Mods'};
+function emptyAns(){return {drink:null,starter:null,main:null,temp:null,side:null,dessert:null,mods:[]}}
 function showRecall(){
   stage('recall');hush();
   run.tRec=now();
-  const cfg=run.cfg;let html='';
-  run.tables.forEach((t,ti)=>{
-    if(cfg.tables>1)html+='<div class="tk-table">Table '+t.num+'</div>';
-    t.seats.forEach((g,i)=>{
-      const id='t'+ti+'s'+i;
-      html+='<div class="ticket" data-t="'+ti+'" data-s="'+i+'"><div class="ticket-h"><span class="seat">Seat '+(i+1)+'</span><span class="tbl">Table '+t.num+'</span></div>';
-      html+='<div class="row"><span class="k"><label for="'+id+'-drink">Drink</label></span><select id="'+id+'-drink" data-slot="drink">'+opt(menu.drinks,'','—')+'</select></div>';
-      if(cfg.slots.includes('starter'))html+='<div class="row"><span class="k"><label for="'+id+'-starter">Snack</label></span><select id="'+id+'-starter" data-slot="starter">'+opt(menu.starters,'','— none')+'</select></div>';
-      html+='<div class="row"><span class="k"><label for="'+id+'-main">Main</label></span><select id="'+id+'-main" data-slot="main">'+opt(mainNames(),'','—')+'</select></div>';
-      html+='<div class="row temp-row" hidden><span class="k"><label for="'+id+'-temp">Temp</label></span><select id="'+id+'-temp" data-slot="temp">'+opt(TEMPS,'','—')+'</select></div>';
-      if(cfg.slots.includes('side'))html+='<div class="row"><span class="k"><label for="'+id+'-side">Side</label></span><select id="'+id+'-side" data-slot="side">'+opt(menu.sides,'','— none')+'</select></div>';
-      if(cfg.slots.includes('dessert'))html+='<div class="row"><span class="k"><label for="'+id+'-dessert">Dessert</label></span><select id="'+id+'-dessert" data-slot="dessert">'+opt(menu.desserts,'','— none')+'</select></div>';
-      if(cfg.slots.includes('mods'))html+='<div class="row"><span class="k">Mods</span><div class="chips" data-slot="mods">'+menu.mods.map(m=>'<button type="button" class="chip" aria-pressed="false" data-v="'+esc(m)+'">'+esc(m)+'</button>').join('')+'</div></div>';
-      html+='</div>';
-    });
-  });
-  $('#recall-tickets').innerHTML=html;
-  $$('#recall-tickets select[data-slot="main"]').forEach(s=>{
-    const row=s.closest('.ticket').querySelector('.temp-row');
-    const upd=()=>{row.hidden=!needsTemp(s.value)};s.addEventListener('change',upd);upd();
-  });
-  $$('#recall-tickets .chip').forEach(c=>c.addEventListener('click',()=>c.setAttribute('aria-pressed',c.getAttribute('aria-pressed')==='true'?'false':'true')));
+  run.ans=run.tables.map(t=>t.seats.map(emptyAns));
+  run.pos={t:0,s:0,cat:'drink'};
+  renderPOS();
 }
+function posSlots(a){
+  return SLOTCATS.filter(([k])=>k==='drink'||k==='main'||(k==='temp'?needsTemp(a.main):run.cfg.slots.includes(k)));
+}
+function firstEmpty(a){
+  const sl=posSlots(a);const f=sl.find(([k])=>k!=='mods'&&a[k]==null);return f?f[0]:'mods';
+}
+function nextSlot(a,cur){
+  const sl=posSlots(a).map(x=>x[0]);const i=sl.indexOf(cur);return i<0||i>=sl.length-1?cur:sl[i+1];
+}
+const CATCOLOR={drink:'#2F6BD6',starter:'#C27A17',main:'#2E8B57',temp:'#8A4B9E',side:'#1F8A8A',dessert:'#C74E7C',mods:'#5B6B75'};
+function seatTotal(a){let t=0;['drink','starter','main','side','dessert'].forEach(k=>{const p=priceOf(a[k]);if(p)t+=p});a.mods.forEach(m=>{const p=priceOf(m);if(p)t+=p});return t}
+function runTotal(){return run.ans.reduce((t,seats)=>t+seats.reduce((u,a)=>u+seatTotal(a),0),0)}
+function renderPOS(){
+  const t=run.pos.t,sIdx=run.pos.s;const table=run.tables[t];const a=run.ans[t][sIdx];
+  const slots=posSlots(a);
+  if(!slots.some(([k])=>k===run.pos.cat))run.pos.cat=firstEmpty(a);
+  const cur=run.pos.cat;
+  const tb=$('#pos-tables');tb.hidden=run.tables.length<2;
+  tb.innerHTML=run.tables.map((x,i)=>'<button type="button" aria-pressed="'+(i===t)+'" data-t="'+i+'">Table '+x.num+'</button>').join('');
+  $('#pos-seats').innerHTML=table.seats.map((_,i)=>{const b=run.ans[t][i];const st=(b.drink&&b.main)?'rung':(b.drink||b.main||b.starter||b.side||b.dessert||b.mods.length)?'partial':'empty';return '<button type="button" aria-pressed="'+(i===sIdx)+'" data-s="'+i+'">Seat '+(i+1)+'<span class="n">'+st+'</span></button>'}).join('');
+  const lines=slots.map(([k])=>{
+    let v,p='';
+    if(k==='mods'){v=a.mods.join(', ');const pm=a.mods.reduce((x,m)=>x+(priceOf(m)||0),0);p=pm?money(pm):''}
+    else{v=a[k]||'';const pr=priceOf(v);p=pr?money(pr):''}
+    const empty=!v;const ph=(k==='drink'||k==='main'||k==='temp')?'—':'none';
+    return '<button type="button" class="order-line" data-cat="'+k+'" aria-current="'+(k===cur)+'"><span><span class="k">'+CHECKLABEL[k]+'</span><span class="v'+(empty?' empty':'')+'">'+(empty?ph:esc(v))+'</span></span><span class="p">'+p+'</span></button>';
+  }).join('');
+  $('#pos-check').innerHTML='<div class="order-h"><span>Seat '+(sIdx+1)+'</span><span>Table '+table.num+'</span></div>'+lines+'<div class="order-t"><span>Seat total</span><span>'+money(seatTotal(a))+'</span></div>';
+  $('#pos-cats').innerHTML=slots.map(([k,label])=>'<button type="button" style="--cat:'+CATCOLOR[k]+'" aria-pressed="'+(k===cur)+'" data-cat="'+k+'">'+label+'</button>').join('');
+  let items;
+  if(cur==='temp')items=TEMPS;else if(cur==='main')items=mainNames();else{const c=SLOTCATS.find(x=>x[0]===cur);items=menu[c[2]]}
+  const optional=!(cur==='drink'||cur==='main'||cur==='temp'||cur==='mods');
+  $('#pos-grid').innerHTML=(optional?'<button type="button" class="tile none" data-v=""><span class="t">None</span></button>':'')+items.map(v=>{const pr=priceOf(v);return '<button type="button" class="tile" style="--cat:'+CATCOLOR[cur]+'" aria-pressed="'+(cur==='mods'?a.mods.includes(v):a[cur]===v)+'" data-v="'+esc(v)+'"><span class="t">'+esc(v)+'</span>'+(pr?'<span class="p">'+money(pr)+'</span>':'')+'</button>'}).join('');
+  $$('#pos-tables button').forEach(b=>b.addEventListener('click',()=>{run.pos.t=+b.dataset.t;run.pos.s=0;run.pos.cat=firstEmpty(run.ans[run.pos.t][0]);renderPOS()}));
+  $$('#pos-seats button').forEach(b=>b.addEventListener('click',()=>{run.pos.s=+b.dataset.s;run.pos.cat=firstEmpty(run.ans[t][run.pos.s]);renderPOS()}));
+  $$('#pos-check .order-line, #pos-cats button').forEach(b=>b.addEventListener('click',()=>{run.pos.cat=b.dataset.cat;renderPOS()}));
+  $$('#pos-grid .tile').forEach(b=>b.addEventListener('click',()=>{
+    const v=b.dataset.v;
+    if(cur==='mods'){a.mods=a.mods.includes(v)?a.mods.filter(x=>x!==v):a.mods.concat([v])}
+    else{
+      a[cur]=(v===''||a[cur]===v)?null:v;
+      if(cur==='main'&&!needsTemp(a.main))a.temp=null;
+      if(cur==='main'&&a.main&&needsTemp(a.main))run.pos.cat='temp';
+      else if(a[cur]!=null||v==='')run.pos.cat=nextSlot(a,cur);
+    }
+    renderPOS();
+  }));
+  const last=(t===run.tables.length-1)&&(sIdx===table.seats.length-1);
+  $('#btn-next-seat').textContent=last?'Seat 1':'Next seat';
+  $('#btn-submit').textContent='Send · '+money(runTotal());
+}
+$('#btn-next-seat').addEventListener('click',()=>{
+  const table=run.tables[run.pos.t];
+  if(run.pos.s<table.seats.length-1)run.pos.s++;
+  else if(run.pos.t<run.tables.length-1){run.pos.t++;run.pos.s=0}
+  else{run.pos.t=0;run.pos.s=0}
+  run.pos.cat=firstEmpty(run.ans[run.pos.t][run.pos.s]);renderPOS();window.scrollTo({top:0});
+});
 
 /* ---------- scoring ---------- */
 function readAnswers(){
-  return run.tables.map((t,ti)=>t.seats.map((_,i)=>{
-    const tk=$('.ticket[data-t="'+ti+'"][data-s="'+i+'"]');
-    const val=slot=>{const s=tk.querySelector('select[data-slot="'+slot+'"]');return s&&s.value?s.value:null};
-    const mainV=val('main');
-    return {drink:val('drink'),starter:val('starter'),main:mainV,temp:(mainV&&needsTemp(mainV))?val('temp'):null,side:val('side'),dessert:val('dessert'),mods:$$('.chip[aria-pressed="true"]',tk).map(c=>c.dataset.v)};
-  }));
+  return run.ans.map(seats=>seats.map(a=>({drink:a.drink,starter:a.starter,main:a.main,temp:(a.main&&needsTemp(a.main))?a.temp:null,side:a.side,dessert:a.dessert,mods:a.mods.slice()})));
 }
 function scoreTable(t,ans,cfg){
   const rows=[];const err={miss:0,wrong:0,stale:0,seat:0,extra:0};let items=0;

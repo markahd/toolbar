@@ -119,6 +119,16 @@ mayonnaise. Loaded into the drill as "Add …" mods.
 These may be in-venue only, or stale. Delete them in the drill's menu panel
 if the board does not carry them.
 
+## Prices shown on the drill's tiles
+
+Food, snacks, sauces and sweets carry the Uber Eats prices above. Combo
+meal prices include chips or salad and a drink, so a rung ticket's total
+will run higher than the venue's actual bill when a drink is added on top.
+Drinks carry the venue site's in-venue prices (soft drinks $7.50, juice
+$8.50, Pellegrino $7.50, still $6.50, coffees from $4.60), which differ
+from Uber Eats. Large coffee is +$1.00 per the site. Items with no listed
+price show none. Edit any line in the menu panel with a `$price` suffix.
+
 ## Mods in the drill
 
 Size (large), milk (oat, almond, soy, skim), extra shot, decaf, extra hot,
