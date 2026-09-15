@@ -1,0 +1,871 @@
+<title>Seat One Clockwise</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Barlow:wght@400;500;600&family=Courier+Prime:wght@400;700&display=swap">
+<style>
+[hidden]{display:none!important}
+:root{
+  color-scheme:light;
+  --bg:#EEF4EC; --surface:#FFFFFF; --ticket:#FCFDF9;
+  --ink:#14211A; --ink-2:#48584E; --ink-3:#74847A;
+  --line:#CBD8CE; --line-strong:#9CB0A2;
+  --accent:#2457A6; --accent-ink:#FFFFFF; --accent-soft:#DCE6F7;
+  --good:#2C7A4B; --good-soft:#DCEFE2;
+  --warn:#A96F12; --warn-soft:#F7EBCF;
+  --bad:#B83A3A; --bad-soft:#F8DEDE;
+  --seat:#E3EEE5;
+  --radius:6px;
+  --shadow:0 1px 2px rgba(20,33,26,.08), 0 6px 18px -8px rgba(20,33,26,.18);
+  --f-display:"Barlow Condensed","Arial Narrow","Helvetica Neue",Arial,sans-serif;
+  --f-body:"Barlow","Helvetica Neue",Arial,sans-serif;
+  --f-mono:"Courier Prime","Courier New",Courier,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --bg:#0E1713; --surface:#16221C; --ticket:#1A2721;
+    --ink:#E4ECE6; --ink-2:#A7B7AC; --ink-3:#7E9084;
+    --line:#2B3B32; --line-strong:#46604F;
+    --accent:#86AEF2; --accent-ink:#0E1713; --accent-soft:#1E3050;
+    --good:#6CC08E; --good-soft:#173726;
+    --warn:#E0A94A; --warn-soft:#3A2C10;
+    --bad:#EF7A7A; --bad-soft:#3F1B1B;
+    --seat:#22332A;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 6px 18px -8px rgba(0,0,0,.6);
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --bg:#0E1713; --surface:#16221C; --ticket:#1A2721;
+  --ink:#E4ECE6; --ink-2:#A7B7AC; --ink-3:#7E9084;
+  --line:#2B3B32; --line-strong:#46604F;
+  --accent:#86AEF2; --accent-ink:#0E1713; --accent-soft:#1E3050;
+  --good:#6CC08E; --good-soft:#173726;
+  --warn:#E0A94A; --warn-soft:#3A2C10;
+  --bad:#EF7A7A; --bad-soft:#3F1B1B;
+  --seat:#22332A;
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 6px 18px -8px rgba(0,0,0,.6);
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.45;-webkit-font-smoothing:antialiased}
+.wrap{max-width:660px;margin:0 auto;padding-inline:16px;padding-block:6px 64px;overflow-x:clip}
+.masthead{display:flex;align-items:baseline;justify-content:space-between;gap:12px;flex-wrap:wrap;padding-block:14px 10px;border-bottom:2px solid var(--ink)}
+.masthead h1{font-family:var(--f-display);font-weight:700;font-size:30px;letter-spacing:.01em;margin:0;line-height:1;text-transform:uppercase}
+.masthead .tag{font-size:12px;color:var(--ink-2);letter-spacing:.08em;text-transform:uppercase}
+.tabs{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border-bottom:1px solid var(--line);padding-block:6px 0}
+.tabs button{appearance:none;background:none;border:0;border-bottom:3px solid transparent;padding:10px 2px 8px;font:700 15px var(--f-display);text-transform:uppercase;letter-spacing:.08em;color:var(--ink-3);cursor:pointer;min-width:0;overflow:hidden}
+.tabs button[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--accent)}
+.tabs button:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
+main > section{padding-block:18px}
+h2{font-family:var(--f-display);font-size:26px;text-transform:uppercase;letter-spacing:.02em;margin:0 0 8px;line-height:1.05;text-wrap:balance}
+h3{font-family:var(--f-display);font-size:19px;text-transform:uppercase;letter-spacing:.05em;margin:24px 0 8px;line-height:1.15}
+p{margin:0 0 12px;max-width:65ch}
+ul,ol{max-width:65ch;padding-left:20px;margin:0 0 12px}
+li{margin-bottom:6px}
+small,.muted{color:var(--ink-3)}
+.eyebrow{font:600 12px var(--f-body);letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);margin-bottom:4px}
+.stack{display:grid;gap:14px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:14px 16px;box-shadow:var(--shadow)}
+.level{display:grid;grid-template-columns:auto minmax(0,1fr);gap:2px 16px;align-items:center}
+.level .num{font:700 48px/1 var(--f-display);grid-row:span 2;font-variant-numeric:tabular-nums}
+.level .desc{font-size:15px;color:var(--ink-2)}
+.streak{display:flex;gap:6px;align-items:center;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3)}
+.dot{width:10px;height:10px;border-radius:50%;border:1.5px solid var(--line-strong)}
+.dot.on{background:var(--good);border-color:var(--good)}
+.fields{display:grid;gap:12px;grid-template-columns:repeat(2,minmax(0,1fr))}
+.field{display:grid;gap:4px}
+.field.wide{grid-column:1 / -1}
+label.lbl,.field > span{font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3)}
+select,input[type=number],input[type=text],textarea{font:inherit;font-size:16px;padding:9px 10px;border:1px solid var(--line-strong);border-radius:var(--radius);background:var(--surface);color:var(--ink);width:100%}
+textarea{font-family:var(--f-mono);font-size:14px;line-height:1.4;min-height:96px;resize:vertical}
+select:focus-visible,input:focus-visible,textarea:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.check{display:flex;align-items:center;gap:10px;font-size:15px}
+.check input{width:20px;height:20px;margin:0;accent-color:var(--accent)}
+.btn{appearance:none;font:600 15px var(--f-body);padding:11px 16px;border-radius:var(--radius);border:1px solid var(--accent);background:var(--accent);color:var(--accent-ink);cursor:pointer;letter-spacing:.02em}
+.btn:hover{filter:brightness(1.06)}
+.btn-ghost{background:transparent;color:var(--ink);border-color:var(--line-strong)}
+.btn-big{width:100%;padding:16px;font:700 22px var(--f-display);text-transform:uppercase;letter-spacing:.08em}
+.btn-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
+.btn-row .btn{flex:1 1 140px}
+.btn[disabled]{opacity:.5;cursor:default}
+details summary{cursor:pointer;font:700 15px var(--f-display);text-transform:uppercase;letter-spacing:.08em;color:var(--ink-2);padding:8px 0}
+.diagram{width:100%;max-width:340px;margin:0 auto;display:block}
+.table-c{fill:var(--surface);stroke:var(--line-strong);stroke-width:2}
+.table-t{font:700 15px var(--f-display);fill:var(--ink-3);letter-spacing:.1em}
+.seat-c circle{fill:var(--seat);stroke:var(--line-strong);stroke-width:1.5}
+.seat-c text{font:700 18px var(--f-display);fill:var(--ink)}
+.seat-c.done circle{fill:var(--accent-soft);stroke:var(--accent)}
+.seat-c.active circle{fill:var(--accent);stroke:var(--accent)}
+.seat-c.active text{fill:var(--accent-ink)}
+.you{fill:var(--ink)}
+.you-t{font:700 11px var(--f-body);fill:var(--bg);letter-spacing:.12em}
+.progress{display:flex;justify-content:space-between;font-size:12px;color:var(--ink-3);letter-spacing:.08em;text-transform:uppercase;margin:6px 0 8px}
+.line{background:var(--surface);border:1px solid var(--line);border-left:5px solid var(--accent);border-radius:var(--radius);padding:14px 16px;min-height:104px;box-shadow:var(--shadow)}
+.line .who{font:700 14px var(--f-display);letter-spacing:.14em;text-transform:uppercase;color:var(--accent)}
+.line .what{font-size:21px;line-height:1.35;margin-top:4px;text-wrap:pretty}
+.line.change{border-left-color:var(--warn)}
+.line.change .who{color:var(--warn)}
+.tip{font-size:14px;color:var(--ink-2);margin-top:10px}
+.count{font:700 72px/1 var(--f-display);text-align:center;font-variant-numeric:tabular-nums;margin:6px 0}
+.center{text-align:center}
+.seatbtns{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-top:10px}
+.seatbtns .btn{flex:0 0 auto;min-width:56px;font:700 18px var(--f-display)}
+.tickets{display:grid;gap:14px}
+.tk-table{font:700 13px var(--f-display);letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3);margin-top:6px}
+.ticket{font-family:var(--f-mono);background:var(--ticket);border:1px solid var(--line);border-radius:2px;padding:14px 12px 12px;box-shadow:var(--shadow);position:relative;overflow:hidden}
+.ticket::before{content:"";position:absolute;left:0;right:0;top:0;height:5px;background:repeating-linear-gradient(90deg,var(--line-strong) 0 5px,transparent 5px 11px);opacity:.55}
+.ticket-h{display:flex;justify-content:space-between;align-items:baseline;border-bottom:1px dashed var(--line-strong);padding-bottom:6px;margin-bottom:4px}
+.ticket-h .seat{font:700 22px var(--f-display);letter-spacing:.08em}
+.ticket-h .tbl{font-size:13px;color:var(--ink-3)}
+.row{display:grid;grid-template-columns:74px minmax(0,1fr);gap:8px;align-items:center;padding:5px 0;border-bottom:1px solid var(--line)}
+.row:last-child{border-bottom:0}
+.row .k{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3)}
+.row select{font-family:var(--f-mono);padding:7px 8px}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{font:14px var(--f-mono);padding:5px 9px;border:1px solid var(--line-strong);border-radius:999px;background:var(--surface);color:var(--ink);cursor:pointer}
+.chip[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.r{display:grid;grid-template-columns:18px 74px minmax(0,1fr) auto;gap:8px;align-items:center;padding:5px 0;border-bottom:1px solid var(--line);font-size:15px}
+.r:last-child{border-bottom:0}
+.r .mark{font-weight:700}
+.r .mark.ok{color:var(--good)}
+.r .mark.bad{color:var(--bad)}
+.r .v{overflow-wrap:anywhere}
+.r .was{color:var(--ink-3)}
+.pill{font:600 11px var(--f-body);letter-spacing:.1em;text-transform:uppercase;padding:2px 7px;border-radius:999px;white-space:nowrap}
+.pill.miss,.pill.wrong,.pill.extra{background:var(--bad-soft);color:var(--bad)}
+.pill.stale{background:var(--warn-soft);color:var(--warn)}
+.pill.seat{background:var(--accent-soft);color:var(--accent)}
+.verdict{padding:16px;border-radius:var(--radius);font:700 30px/1.05 var(--f-display);text-transform:uppercase;letter-spacing:.02em}
+.verdict.clean{background:var(--good-soft);color:var(--good)}
+.verdict.dirty{background:var(--bad-soft);color:var(--bad)}
+.verdict small{display:block;font:500 14px var(--f-body);text-transform:none;letter-spacing:0;margin-top:6px;color:inherit;opacity:.9}
+.kv{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px}
+.kv div{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:10px 12px}
+.kv b{display:block;font:700 26px/1 var(--f-display);font-variant-numeric:tabular-nums}
+.kv span{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3)}
+.steps{list-style:none;padding:0;margin:0 0 14px;display:grid;gap:10px;max-width:none}
+.step{display:grid;grid-template-columns:96px minmax(0,1fr);gap:12px;padding:12px 14px;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius)}
+.step b{font:700 20px/1.1 var(--f-display);text-transform:uppercase;letter-spacing:.04em;color:var(--accent)}
+.step b i{display:block;font:600 11px var(--f-body);letter-spacing:.12em;color:var(--ink-3);font-style:normal;margin-bottom:2px}
+.step p{margin:0 0 6px}
+.step p:last-child{margin:0}
+.callout{border-left:4px solid var(--warn);background:var(--surface);padding:12px 14px;border-radius:0 var(--radius) var(--radius) 0;margin:0 0 14px;max-width:65ch}
+.callout.bad{border-left-color:var(--bad)}
+.callout.good{border-left-color:var(--good)}
+.example{font-family:var(--f-mono);font-size:14px;background:var(--ticket);border:1px solid var(--line);padding:10px 12px;border-radius:2px;margin:0 0 14px;max-width:65ch;white-space:pre-wrap}
+table{border-collapse:collapse;width:100%;font-variant-numeric:tabular-nums}
+th,td{padding:8px 6px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top;font-size:15px}
+th{font:600 12px var(--f-body);letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3)}
+td.n,th.n{text-align:right}
+td.code{font-family:var(--f-mono);font-weight:700;white-space:nowrap}
+.tablewrap{overflow-x:auto}
+.cite{font-size:14px;color:var(--ink-2)}
+.cite li{margin-bottom:8px}
+@media (max-width:440px){
+  .tabs button{font-size:13px;letter-spacing:.04em}
+  .fields{grid-template-columns:1fr}
+  .step{grid-template-columns:1fr;gap:4px}
+  .r{grid-template-columns:18px 64px minmax(0,1fr);}
+  .r .pill{grid-column:2 / -1;justify-self:start}
+}
+@media (prefers-reduced-motion: no-preference){
+  .line{transition:border-color .15s}
+}
+</style>
+
+<div class="wrap">
+  <header class="masthead">
+    <h1>Seat One Clockwise</h1>
+    <span class="tag">Order-memory drill for servers</span>
+  </header>
+
+  <nav class="tabs" role="tablist" aria-label="Sections">
+    <button role="tab" id="tabbtn-drill" aria-selected="true" aria-controls="tab-drill" data-tab="drill">Drill</button>
+    <button role="tab" id="tabbtn-method" aria-selected="false" aria-controls="tab-method" data-tab="method">Method</button>
+    <button role="tab" id="tabbtn-shorthand" aria-selected="false" aria-controls="tab-shorthand" data-tab="shorthand">Shorthand</button>
+    <button role="tab" id="tabbtn-stats" aria-selected="false" aria-controls="tab-stats" data-tab="stats">Stats</button>
+  </nav>
+
+  <main>
+  <!-- ============ DRILL ============ -->
+  <section id="tab-drill" role="tabpanel" aria-labelledby="tabbtn-drill">
+
+    <div id="stage-setup" class="stack">
+      <div class="card level">
+        <div class="num" id="lvl-num">1</div>
+        <div class="desc" id="lvl-desc">2 seats · drink and main · nothing else</div>
+        <div class="streak" id="lvl-streak"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span>3 clean tickets moves you up</span></div>
+      </div>
+
+      <div id="setup-diagram"></div>
+
+      <button class="btn btn-big" id="btn-start">Take the table</button>
+      <p class="tip">A customer speaks one line at a time. Say each line back out loud, in slot order, then tap. Drink · starter · main · temp · side · mods. Same order every time.</p>
+
+      <div class="card">
+        <div class="fields">
+          <div class="field">
+            <span>Level</span>
+            <select id="sel-level"></select>
+          </div>
+          <div class="field">
+            <span>Customer pace</span>
+            <select id="sel-pace">
+              <option value="0">Tap when you've said it back</option>
+              <option value="4">Auto · 4 s a line</option>
+              <option value="3">Auto · 3 s a line</option>
+              <option value="2">Auto · 2 s a line</option>
+            </select>
+          </div>
+          <div class="field wide">
+            <label class="check"><input type="checkbox" id="chk-tts" checked> Read lines aloud (uses your phone's voice, no internet)</label>
+          </div>
+        </div>
+        <div id="custom-fields" class="fields" hidden style="margin-top:12px">
+          <div class="field"><span>Seats</span><input type="number" id="c-seats" min="2" max="8" value="4"></div>
+          <div class="field"><span>Changes (“actually…”)</span><input type="number" id="c-changes" min="0" max="4" value="1"></div>
+          <div class="field"><span>Between table and POS</span>
+            <select id="c-inter"><option value="none">Nothing</option><option value="walk">Walk (8 s blank)</option><option value="interrupt" selected>Two interruptions</option></select></div>
+          <div class="field"><span>Who speaks first</span>
+            <select id="c-order"><option value="seated">Seat 1, 2, 3…</option><option value="random" selected>Whoever's ready</option></select></div>
+          <div class="field"><span>Tables back to back</span>
+            <select id="c-tables"><option value="1">One</option><option value="2">Two</option></select></div>
+          <div class="field"><span>Starters and sides</span>
+            <select id="c-full"><option value="1" selected>On</option><option value="0">Off (drink + main + mods)</option></select></div>
+        </div>
+      </div>
+
+      <details class="card">
+        <summary>Your menu (one item per line)</summary>
+        <p class="tip" style="margin-top:0">Put your real menu in. Add <b>*</b> after anything that gets a temperature (steaks, burgers). Drilling a menu you don't serve trains the wrong thing.</p>
+        <div class="fields">
+          <div class="field"><span>Drinks</span><textarea id="m-drinks"></textarea></div>
+          <div class="field"><span>Starters</span><textarea id="m-starters"></textarea></div>
+          <div class="field"><span>Mains</span><textarea id="m-mains"></textarea></div>
+          <div class="field"><span>Sides</span><textarea id="m-sides"></textarea></div>
+          <div class="field wide"><span>Mods</span><textarea id="m-mods"></textarea></div>
+        </div>
+        <div class="btn-row">
+          <button class="btn" id="btn-menu-save">Save menu</button>
+          <button class="btn btn-ghost" id="btn-menu-reset">Back to the sample menu</button>
+        </div>
+        <p class="tip" id="menu-msg"></p>
+      </details>
+    </div>
+
+    <div id="stage-floor" class="stack" hidden>
+      <div id="floor-diagram"></div>
+      <div class="progress"><span id="floor-table"></span><span id="floor-prog"></span></div>
+      <div class="line" id="floor-line"><div class="who" id="floor-who"></div><div class="what" id="floor-what"></div></div>
+      <button class="btn btn-big" id="btn-next">Got it</button>
+      <p class="tip" id="floor-tip">Say it back before you tap. Slot order, compressed: “Coke. Burger, medium, no onions, fries.”</p>
+    </div>
+
+    <div id="stage-sweep" class="stack" hidden>
+      <div id="sweep-diagram"></div>
+      <h2 class="center">Sweep</h2>
+      <p class="center" style="max-width:none">Seat 1 to seat <span id="sweep-n"></span>, out loud, slot order. A seat that comes up blank is the one you ask about <em>now</em>, at the table.</p>
+      <div class="count" id="sweep-count">12</div>
+      <button class="btn btn-big" id="btn-sweep-done">Swept</button>
+      <div class="center">
+        <button class="btn btn-ghost" id="btn-reask">Re-ask a seat</button>
+        <div class="seatbtns" id="reask-seats" hidden></div>
+      </div>
+      <div class="card" id="reask-card" hidden>
+        <div class="eyebrow" id="reask-title">Seat 2 says</div>
+        <div id="reask-text" style="font-family:var(--f-mono);font-size:16px"></div>
+      </div>
+    </div>
+
+    <div id="stage-inter" class="stack" hidden>
+      <div id="inter-walk" hidden>
+        <h2 class="center">Walking to the POS</h2>
+        <p class="center" style="max-width:none">Nothing to look at. Keep the sweep running in your head.</p>
+        <div class="count" id="walk-count">8</div>
+      </div>
+      <div id="inter-q" hidden>
+        <div class="eyebrow">Interruption <span id="inter-idx"></span></div>
+        <div class="line"><div class="who">Someone else</div><div class="what" id="inter-text"></div></div>
+        <div class="field" style="margin-top:12px"><span>Answer</span><input type="number" id="inter-ans" inputmode="numeric"></div>
+        <p class="tip" id="inter-fb"></p>
+        <button class="btn btn-big" id="btn-inter-next">Answer and move on</button>
+      </div>
+    </div>
+
+    <div id="stage-recall" class="stack" hidden>
+      <h2>Ring it in</h2>
+      <p>Seat by seat, clockwise from your left. Fill in what was finally ordered, not what was first said.</p>
+      <div class="tickets" id="recall-tickets"></div>
+      <button class="btn btn-big" id="btn-submit">Send the ticket</button>
+    </div>
+
+    <div id="stage-result" class="stack" hidden>
+      <div class="verdict" id="verdict"></div>
+      <div class="kv" id="result-kv"></div>
+      <div class="tickets" id="result-tickets"></div>
+      <div class="btn-row">
+        <button class="btn" id="btn-again">Next table</button>
+        <button class="btn btn-ghost" id="btn-setup">Back to setup</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ METHOD ============ -->
+  <section id="tab-method" role="tabpanel" aria-labelledby="tabbtn-method" hidden>
+    <div class="eyebrow">The method</div>
+    <h2>Your memory is fine. Your procedure is missing.</h2>
+    <p>Working memory holds about four things for a few seconds. A four-top with drinks, mains, temps, sides and mods is fifteen to twenty-five things. Nobody holds that raw. The servers who look like they do are compressing it into a structure they built through repetition, and the structure does the remembering.</p>
+    <p>If you forget item one by item three, item one was never stored. You heard it while getting ready for item two. Hearing is not encoding. Every step below exists to force encoding to happen at the moment the words are said, and to give the POS a fixed order to unload into.</p>
+
+    <h3>The seven rules</h3>
+    <ol class="steps">
+      <li class="step"><b><i>1</i>Anchor</b><div><p>Before the first word, seat 1 is fixed by a rule you never change: the seat on your left as you stand at your usual spot, then clockwise. Stand in the same place at every table. Position is the key the ticket runs on. Then tag each seat with one thing about the person (glasses, red shirt, the loud one). Waiters who ran on position alone got wrecked when customers swapped seats between ordering and delivery. The one who tagged faces did not.</p></div></li>
+      <li class="step"><b><i>2</i>Slot</b><div><p>Every seat has the same slots in the same order: drink, starter, main, temp, side, mods. The customer says it in whatever order they like. You file it in slot order. An empty slot is “none” and you remember the “none” too.</p></div></li>
+      <li class="step"><b><i>3</i>Say</b><div><p>Repeat every item back, out loud, immediately, compressed, in slot order. This is the encoding step. It is also the customer's one cheap chance to correct you. Skipping it because it feels slow is how you end up back at the table asking again.</p><p class="example">They say: “Can I get the burger, no onions, with the sweet potato fries, medium please, and a Coke.”
+You say: “Coke. Burger, medium, no onions, sweet potato fries.”</p></div></li>
+      <li class="step"><b><i>4</i>Overwrite</b><div><p>When they change their mind, say the change out loud as a replacement: “Scratch the fries, salad.” Then re-say the whole seat. Never hold two versions. The old one was rehearsed longer and it will win at the POS if you let it live.</p></div></li>
+      <li class="step"><b><i>5</i>Sweep</b><div><p>After the last seat, before you step away, run seat 1 to seat N in your head or under your breath, slot order. Any seat that comes up blank, you ask now, at the table, with a smile. That is free. The same question from the POS is a walk back and a table that now doubts you.</p></div></li>
+      <li class="step"><b><i>6</i>Dump</b><div><p>Straight to the POS. Do not stop. Enter it clockwise, seat numbers on, in slot order. Every “quick question” between the table and the terminal costs you a seat. If you are stopped, run the sweep again before you answer anyone.</p></div></li>
+      <li class="step"><b><i>7</i>Cap</b><div><p>Above your cap you write. Tonight the cap is whatever level you cleared in the drill three times running, and it is probably three or four seats. A pad is not a failure. A wrong plate is.</p></div></li>
+    </ol>
+
+    <div class="callout bad">
+      <b>If you are the person who forgets item one by item three</b>
+      <p style="margin:6px 0 0">Run the failsafe version. Say-back is not optional. Sweep after every two seats, not only at the end. Cap at three seats. Write everything past that. You are not trying to impress anyone tonight. You are trying to never re-ask and never mis-ring. That is the whole job, and this version does it with the memory you have, not the one you wish you had.</p>
+    </div>
+
+    <h3>Bulk tables and who sits where</h3>
+    <p>Seat numbers solve “who ordered what.” The ticket carries the seat, the runner reads the seat, and you never have to remember faces. When you have to hold two tables before you can ring, take table A, sweep A, take table B, sweep B, then ring A then B. Never ring B first because it is fresher; A decays faster the longer you leave it.</p>
+    <p>Once slot order is automatic, add the trick expert waiters use: for a slot with only a few options, remember the table as a pattern, not as individuals. Steak temps around a four-top become “M, M, MR, W.” Dressings become “ranch, ranch, blue, ranch.” Two or three short patterns plus the seat anchor rebuild the whole table. This only works when the slot is fixed and the options are few, which is why the slots come first.</p>
+
+    <h3>Tonight</h3>
+    <p><b>Before the shift, 45 minutes.</b></p>
+    <ol>
+      <li>Pick your anchor rule. Decide where you stand. Write it on the pad if you have to.</li>
+      <li>Put your real menu into the drill. Mark what gets a temp.</li>
+      <li>Drill, tap-to-advance, voice on. Start at level 1. Three clean tickets in a row moves you up. Stop after 30 minutes wherever you are. That level is your honest cap for tonight.</li>
+      <li>Copy the shorthand table onto your pad for anything over the cap.</li>
+    </ol>
+    <p><b>On the shift.</b> Run the seven rules at every table, including the two-tops you could wing. The two-tops are where the habit gets built for free. Keep a tally on a receipt in your apron: re-asks and wrong items. That number, not a feeling, tells you whether tonight worked.</p>
+    <p><b>After.</b> One drill at your level. Write the tally next to the level. Sleep. Short sleep takes back most of what the drill gave you.</p>
+
+    <h3>The next two weeks</h3>
+    <p>Capacity is built by drilling your own menu, ten to fifteen minutes a day, with changes and interruptions on, and by running the rules on every real table. Expect to move up a level every few days, not every night. Brain-training apps and dual n-back games make you better at the app; the transfer to a dinner rush is close to zero in the research. The waiter who could take twenty orders unaided took years and built his tricks around one menu. The tricks are yours to copy. The speed is not, yet.</p>
+
+    <h3>What the research says, in one screen</h3>
+    <ul class="cite" id="evidence">
+      <li><b>Four things, not seven.</b> Adult working memory holds about four chunks when rehearsal and chunking are blocked. Anything bigger is structure borrowed from long-term memory. Cowan, <i>Behavioral and Brain Sciences</i>, 2001.</li>
+      <li><b>Unrehearsed, it is gone in seconds.</b> With rehearsal blocked by a counting task, recall of a three-letter item fell from roughly 80% at 3 seconds to roughly 10% at 18 seconds. That is the walk to the POS. Peterson &amp; Peterson, 1959.</li>
+      <li><b>The 20-order waiter.</b> JC encoded by category across the table, not by customer: all the dressings as an acronym (BOOT: blue, oil, oil, thousand), all the temps, all the starches, each tied to seat position, recalled clockwise, in units of four. Change the category structure and his performance collapsed. His trick is a structure, not a talent. Ericsson &amp; Polson, <i>JEP: Learning, Memory and Cognition</i>, 1988.</li>
+      <li><b>Position works until they move.</b> Nine Buenos Aires waiters who take orders unaided: eight served correctly while customers stayed put; when customers swapped seats before delivery, all but one erred. The exception used faces and clothing, not seats. Bekinschtein, Cardozo &amp; Manes, <i>Behavioural Neurology</i>, 2008.</li>
+      <li><b>Experts are not remembering harder.</b> Forty cocktail waitresses beat forty students on 7, 11 and 15 drink orders and placed drinks about twice as fast. The accurate ones reported vivid interaction with each customer at the moment of ordering. Encoding at the moment, not effort afterward. Bennett, <i>Human Learning</i>, 1983.</li>
+      <li><b>Saying it out loud works.</b> Reading aloud beats silent reading for later memory (the production effect, between-subjects g ≈ 0.37; acting it out is larger, g ≈ 1.2). Read-back is also standard in medicine because it catches errors at the source: 3.5% of critical lab calls were corrected by read-back alone. MacLeod et al. 2010; Fawcett 2013; Roberts et al. 2022; Barenfanger et al. 2004.</li>
+      <li><b>Testing yourself beats re-reading.</b> After one week, people who practised recalling kept 61% against 40% for people who re-studied. The drill is retrieval practice with interference on purpose. Roediger &amp; Karpicke, <i>Psychological Science</i>, 2006.</li>
+      <li><b>Brain-training apps do not transfer.</b> Across 145 comparisons, working-memory training improved the trained task and nothing in real life. A 6-week memory-palace course took ordinary people from about 26 to 62 words recalled; the dual n-back group in the same study gained nothing. Train the thing itself. Melby-Lervåg, Redick &amp; Hulme 2016; Simons et al. 2016; Dresler et al., <i>Neuron</i>, 2017.</li>
+      <li><b>Speed is years, structure is tonight.</b> The digit-span subject SF went from 7 to 79 digits, but it took 230 hours and his letter span stayed at 6. One session of instruction in an ordered mnemonic, however, already beats no method for recalling items in position. Ericsson, Chase &amp; Faloon, <i>Science</i>, 1980; Roediger 1980.</li>
+      <li><b>Sleep and drink are not optional variables.</b> Sleep loss hits sustained attention and working memory hardest of all cognitive domains. A hangover cuts short-term memory by g ≈ 0.64 the next day. Lim &amp; Dinges 2010; Gunn et al., <i>Addiction</i>, 2018.</li>
+      <li><b>Not evidence.</b> The story that waiters remember unpaid orders and forget them once paid (the Zeigarnik effect) does not replicate: 59 studies pooled, recall ratio 0.99. Do not build on it. Ghibellini &amp; Meier, 2025.</li>
+    </ul>
+  </section>
+
+  <!-- ============ SHORTHAND ============ -->
+  <section id="tab-shorthand" role="tabpanel" aria-labelledby="tabbtn-shorthand" hidden>
+    <div class="eyebrow">Above the cap, you write</div>
+    <h2>Pad shorthand</h2>
+    <p>Draw the table as a circle with a tick for where you stand. Seat 1 is on your left, clockwise. One line per seat, slot order, using these. Writing is not the failure. Standing at the POS guessing is.</p>
+    <div class="tablewrap">
+    <table>
+      <thead><tr><th>Mark</th><th>Means</th><th>Example</th></tr></thead>
+      <tbody>
+        <tr><td class="code">S1 S2 S3</td><td>Seat number, clockwise from your left</td><td class="code">S3 burg M no on</td></tr>
+        <tr><td class="code">R MR M MW W</td><td>Rare, medium rare, medium, medium well, well</td><td class="code">RE MR</td></tr>
+        <tr><td class="code">NO / −</td><td>Leave it off</td><td class="code">−on −tom</td></tr>
+        <tr><td class="code">X</td><td>Extra</td><td class="code">X sauce</td></tr>
+        <tr><td class="code">SUB</td><td>Substitute</td><td class="code">SUB sal</td></tr>
+        <tr><td class="code">OTS / SOS</td><td>On the side, sauce on the side</td><td class="code">drs OTS</td></tr>
+        <tr><td class="code">LT</td><td>Light</td><td class="code">LT ice</td></tr>
+        <tr><td class="code">W/ · W/O</td><td>With, without</td><td class="code">w/o cheese</td></tr>
+        <tr><td class="code">GF · VG · V</td><td>Gluten free, vegan, vegetarian</td><td class="code">pasta GF</td></tr>
+        <tr><td class="code">ALL!</td><td>Allergy. Circle it. Say it to the kitchen out loud.</td><td class="code">S2 ALL! nuts</td></tr>
+        <tr><td class="code">→</td><td>Changed to. Cross out the old one so it cannot win later.</td><td class="code"><s>fries</s> → sal</td></tr>
+        <tr><td class="code">86</td><td>Kitchen is out of it</td><td class="code">86 salmon</td></tr>
+        <tr><td class="code">ALL DAY</td><td>Total of one item across every open ticket</td><td class="code">4 burg all day</td></tr>
+      </tbody>
+    </table>
+    </div>
+    <div class="example" style="margin-top:14px">T14  ○ tick at 6 o'clock
+S1  coke | wings | RE MR | fries | −on
+S2  water | – | salmon | sal drs OTS
+S3  IPA | – | burg M | <s>fries</s>→ sw fries | X sauce
+S4  tea | calam | chix sand | rings | ALL! shellfish</div>
+    <h3>Your own marks</h3>
+    <p>Your menu has its own five items that come up every night. Give each one a two-letter mark and keep them here.</p>
+    <textarea id="my-shorthand" placeholder="RE = ribeye&#10;CS = chicken sandwich&#10;SPF = sweet potato fries"></textarea>
+    <p class="tip">Saved on this phone only.</p>
+  </section>
+
+  <!-- ============ STATS ============ -->
+  <section id="tab-stats" role="tabpanel" aria-labelledby="tabbtn-stats" hidden>
+    <div class="eyebrow">Saved on this phone</div>
+    <h2>Where you actually are</h2>
+    <div class="kv" id="stats-kv"></div>
+    <h3>By level</h3>
+    <div class="tablewrap"><table id="stats-levels"><thead><tr><th>Level</th><th class="n">Tickets</th><th class="n">Clean</th><th class="n">Items right</th></tr></thead><tbody></tbody></table></div>
+    <h3>How you fail</h3>
+    <div class="tablewrap"><table id="stats-errors"><thead><tr><th>Error</th><th class="n">Count</th><th>What it means</th></tr></thead><tbody></tbody></table></div>
+    <h3>Last ten tickets</h3>
+    <div class="tablewrap"><table id="stats-hist"><thead><tr><th>When</th><th>Level</th><th>Result</th><th class="n">Take</th><th class="n">Ring</th></tr></thead><tbody></tbody></table></div>
+    <div class="btn-row"><button class="btn btn-ghost" id="btn-reset-stats">Wipe stats</button></div>
+  </section>
+  </main>
+</div>
+
+<script>
+(function(){
+'use strict';
+const $=(s,r)=> (r||document).querySelector(s);
+const $$=(s,r)=> Array.from((r||document).querySelectorAll(s));
+const LS={get(k,d){try{const v=localStorage.getItem(k);return v==null?d:JSON.parse(v)}catch(e){return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
+const rnd=n=>Math.floor(Math.random()*n);
+const pick=a=>a[rnd(a.length)];
+const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=rnd(i+1);const t=a[i];a[i]=a[j];a[j]=t}return a};
+const pickOther=(a,not)=>{const c=a.filter(x=>x!==not);return c.length?pick(c):null};
+const lower=s=>(!s||/^[A-Z][A-Z]/.test(s))?s:s.charAt(0).toLowerCase()+s.slice(1);
+const esc=s=>String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const now=()=>Date.now();
+
+/* ---------- menu ---------- */
+const DEFAULT_MENU={
+  drinks:['Coke','Diet Coke','Sprite','Ginger ale','Iced tea','Sweet tea','Lemonade','Water','Sparkling water','Coffee','House red','House white','IPA','Lager','Margarita','Old fashioned'],
+  starters:['Wings','Calamari','Caesar salad','House salad','Soup of the day','Nachos','Bruschetta','Shrimp cocktail','Spinach dip'],
+  mains:['Ribeye*','NY strip*','Burger*','Chicken sandwich','Salmon','Fish & chips','Chicken alfredo','Mushroom risotto','Fish tacos','Club sandwich','Veggie burger','Pork chop'],
+  sides:['Fries','Sweet potato fries','Mashed potatoes','Rice','Steamed veg','Side salad','Onion rings','Coleslaw','Baked potato'],
+  mods:['No onions','No cheese','No tomato','No pickles','Extra sauce','Sauce on the side','Dressing on the side','Gluten free','Add bacon','Add avocado','No ice','Extra lemon','Light ice','No mayo','Extra crispy']
+};
+const TEMPS=['Rare','Medium rare','Medium','Medium well','Well done'];
+const CATS=['drinks','starters','mains','sides','mods'];
+let menu=loadMenu();
+function loadMenu(){const m=LS.get('soc.menu',null);if(m&&CATS.every(c=>Array.isArray(m[c])&&m[c].length))return m;return JSON.parse(JSON.stringify(DEFAULT_MENU))}
+function mainsMeta(){return menu.mains.map(x=>({name:x.replace(/\*+$/,'').trim(),temp:/\*$/.test(x.trim())}))}
+function mainNames(){return mainsMeta().map(m=>m.name)}
+function needsTemp(name){const m=mainsMeta().find(x=>x.name===name);return !!(m&&m.temp)}
+function fillMenuEditor(){CATS.forEach(c=>{$('#m-'+c).value=menu[c].join('\n')})}
+$('#btn-menu-save').addEventListener('click',()=>{
+  const m={};let bad=null;
+  CATS.forEach(c=>{m[c]=$('#m-'+c).value.split('\n').map(s=>s.trim()).filter(Boolean);if(m[c].length<2)bad=c});
+  if(bad){$('#menu-msg').textContent='Each list needs at least two items. '+bad+' is short.';return}
+  menu=m;LS.set('soc.menu',menu);$('#menu-msg').textContent='Saved. The next table uses this menu.';
+});
+$('#btn-menu-reset').addEventListener('click',()=>{menu=JSON.parse(JSON.stringify(DEFAULT_MENU));LS.set('soc.menu',null);fillMenuEditor();$('#menu-msg').textContent='Sample menu restored.'});
+fillMenuEditor();
+
+/* ---------- levels ---------- */
+const FULL=['drink','starter','main','side','mods'];
+const LEVELS=[
+  {seats:2,slots:['drink','main'],mods:0,changes:0,inter:'none',order:'seated',tables:1,label:'2 seats · drink and main · nothing else'},
+  {seats:2,slots:['drink','main','mods'],mods:.5,changes:0,inter:'walk',order:'seated',tables:1,label:'2 seats · mods appear · a walk to the POS'},
+  {seats:3,slots:['drink','main','side','mods'],mods:.5,changes:0,inter:'walk',order:'seated',tables:1,label:'3 seats · sides · a walk to the POS'},
+  {seats:3,slots:FULL,mods:.5,changes:1,inter:'walk',order:'seated',tables:1,label:'3 seats · starters · one “actually…”'},
+  {seats:4,slots:FULL,mods:.6,changes:1,inter:'interrupt',order:'seated',tables:1,label:'4 seats · interrupted on the way to the POS'},
+  {seats:4,slots:FULL,mods:.7,changes:2,inter:'interrupt',order:'random',tables:1,label:'4 seats · they order out of sequence · two changes'},
+  {seats:5,slots:FULL,mods:.7,changes:2,inter:'interrupt',order:'random',tables:1,label:'5 seats · out of sequence · two changes'},
+  {seats:6,slots:FULL,mods:.8,changes:2,inter:'interrupt',order:'random',tables:1,label:'6 seats · out of sequence · two changes'},
+  {seats:3,slots:FULL,mods:.6,changes:1,inter:'interrupt',order:'seated',tables:2,label:'two 3-tops back to back before you can ring'},
+  {seats:4,slots:FULL,mods:.7,changes:2,inter:'interrupt',order:'random',tables:2,label:'two 4-tops back to back · the bulk run'}
+];
+const MAXL=LEVELS.length;
+
+/* ---------- state ---------- */
+let stats=LS.get('soc.stats',null);
+if(!stats||typeof stats!=='object')stats={level:1,streak:0,levels:{},history:[]};
+stats.level=Math.min(Math.max(stats.level||1,1),MAXL);stats.streak=stats.streak||0;stats.levels=stats.levels||{};stats.history=stats.history||[];
+let settings=LS.get('soc.settings',{tts:true,pace:0});
+let currentTab='drill';
+let run=null;
+let timer=null;
+function clearTimer(){if(timer){clearInterval(timer);clearTimeout(timer);timer=null}}
+
+/* ---------- tabs ---------- */
+function showTab(name){
+  currentTab=name;
+  $$('.tabs button').forEach(b=>b.setAttribute('aria-selected',String(b.dataset.tab===name)));
+  ['drill','method','shorthand','stats'].forEach(t=>{$('#tab-'+t).hidden=(t!==name)});
+  if(name==='stats')renderStats();
+  window.scrollTo({top:0});
+}
+$$('.tabs button').forEach(b=>b.addEventListener('click',()=>showTab(b.dataset.tab)));
+
+/* ---------- setup ---------- */
+const selLevel=$('#sel-level');
+for(let i=1;i<=MAXL;i++){const o=document.createElement('option');o.value=String(i);o.textContent='Level '+i;selLevel.appendChild(o)}
+{const o=document.createElement('option');o.value='custom';o.textContent='Custom';selLevel.appendChild(o)}
+selLevel.value=String(stats.level);
+$('#sel-pace').value=String(settings.pace||0);
+$('#chk-tts').checked=!!settings.tts;
+$('#chk-tts').addEventListener('change',e=>{settings.tts=e.target.checked;LS.set('soc.settings',settings)});
+$('#sel-pace').addEventListener('change',e=>{settings.pace=+e.target.value;LS.set('soc.settings',settings)});
+selLevel.addEventListener('change',()=>{
+  if(selLevel.value!=='custom'){const L=+selLevel.value;if(L!==stats.level){stats.level=L;stats.streak=0;LS.set('soc.stats',stats)}}
+  renderLevelCard();
+});
+function currentCfg(){
+  if(selLevel.value==='custom'){
+    const full=$('#c-full').value==='1';
+    const seats=Math.min(Math.max(+$('#c-seats').value||4,2),8);
+    return {seats,slots:full?FULL:['drink','main','mods'],mods:.7,changes:Math.min(Math.max(+$('#c-changes').value||0,0),4),inter:$('#c-inter').value,order:$('#c-order').value,tables:+$('#c-tables').value,label:'custom · '+seats+' seats',level:'custom'};
+  }
+  const L=+selLevel.value;return Object.assign({level:L},LEVELS[L-1]);
+}
+function renderLevelCard(){
+  const cfg=currentCfg();
+  $('#custom-fields').hidden=(cfg.level!=='custom');
+  $('#lvl-num').textContent=cfg.level==='custom'?'C':String(cfg.level);
+  $('#lvl-desc').textContent=cfg.label;
+  const dots=$$('#lvl-streak .dot');
+  const s=cfg.level===stats.level?stats.streak:0;
+  dots.forEach((d,i)=>d.classList.toggle('on',i<s));
+  $('#lvl-streak span:last-child').textContent=cfg.level==='custom'?'custom tables do not change your level':(s+' of 3 clean in a row');
+  $('#setup-diagram').innerHTML=diagram(cfg.seats,-1,new Set(),'TABLE');
+}
+['#c-seats','#c-changes','#c-inter','#c-order','#c-tables','#c-full'].forEach(s=>$(s).addEventListener('change',renderLevelCard));
+renderLevelCard();
+
+/* ---------- diagram ---------- */
+function diagram(n,active,done,label){
+  const cx=160,cy=118,R=92,r=21;
+  let s='<svg class="diagram" viewBox="0 0 320 252" role="img" aria-label="Table with '+n+' seats, numbered clockwise from your left">';
+  s+='<circle class="table-c" cx="'+cx+'" cy="'+cy+'" r="56"/>';
+  s+='<text class="table-t" x="'+cx+'" y="'+(cy+5)+'" text-anchor="middle">'+esc(label)+'</text>';
+  for(let i=0;i<n;i++){
+    const a=(120+300*(i+.5)/n)*Math.PI/180;
+    const x=(cx+R*Math.cos(a)).toFixed(1),y=(cy+R*Math.sin(a)).toFixed(1);
+    const cls='seat-c'+(i===active?' active':(done&&done.has(i)?' done':''));
+    s+='<g class="'+cls+'"><circle cx="'+x+'" cy="'+y+'" r="'+r+'"/><text x="'+x+'" y="'+(+y+6).toFixed(1)+'" text-anchor="middle">'+(i+1)+'</text></g>';
+  }
+  s+='<rect class="you" x="'+(cx-24)+'" y="228" width="48" height="20" rx="4"/><text class="you-t" x="'+cx+'" y="242" text-anchor="middle">YOU</text>';
+  return s+'</svg>';
+}
+
+/* ---------- generation ---------- */
+function genGuest(cfg){
+  const mm=pick(mainsMeta());
+  const g={drink:pick(menu.drinks),starter:null,main:mm.name,temp:mm.temp?pick(TEMPS):null,side:null,mods:[]};
+  if(cfg.slots.includes('starter')&&Math.random()<.55)g.starter=pick(menu.starters);
+  if(cfg.slots.includes('side')&&Math.random()<.75)g.side=pick(menu.sides);
+  if(cfg.slots.includes('mods')&&Math.random()<cfg.mods){g.mods.push(pick(menu.mods));if(Math.random()<.3){const o=pickOther(menu.mods,g.mods[0]);if(o)g.mods.push(o)}}
+  return g;
+}
+const NOART=/^(water|sparkling water|coffee|iced tea|sweet tea|lemonade|tea)$/i;
+function guestLines(g,seat,cfg){
+  const L=[];const say=t=>L.push({seat,text:t});
+  const noArt=NOART.test(g.drink);
+  let d=noArt?pick([g.drink+', please.','Just '+lower(g.drink)+' for me.',g.drink+' for me.']):pick(['Can I get a '+g.drink+'?',"I'll do a "+g.drink+'.',g.drink+', please.','A '+g.drink+' for me.']);
+  if(g.starter){
+    if(Math.random()<.5){d+=' And the '+lower(g.starter)+' to start.';say(d)}
+    else{say(d);say(pick(['Can I start with the '+lower(g.starter)+'?',g.starter+' to start.',"I'll do the "+lower(g.starter)+' first.']))}
+  }else say(d);
+  const loose=cfg.order==='random';
+  const sepTemp=!!g.temp&&loose&&Math.random()<.4;
+  const temp=(g.temp&&!sepTemp)?', '+lower(g.temp):'';
+  const side=g.side?' with '+lower(g.side):'';
+  const mods=g.mods.length?', '+g.mods.map(lower).join(', '):'';
+  let m;
+  if(g.side&&loose&&Math.random()<.35)m=g.side+', and the '+lower(g.main)+temp+mods+'.';
+  else m=pick(["I'll have the "+lower(g.main)+temp+side+mods+'.','Can I do the '+lower(g.main)+side+mods+temp+'?',g.main+' for me'+temp+side+mods+'.']);
+  say(m);
+  if(sepTemp)say(pick(['Oh, '+lower(g.temp)+' on the '+lower(g.main)+'.',g.temp+' on that, please.']));
+  return L;
+}
+function makeChange(table,cfg){
+  const seats=table.seats;const i=rnd(seats.length);const g=seats[i];
+  const opts=['drink','main'];
+  if(cfg.slots.includes('side'))opts.push('side');
+  if(g.temp)opts.push('temp');
+  if(g.starter)opts.push('starter');
+  if(cfg.slots.includes('mods'))opts.push('modadd');
+  if(g.mods.length)opts.push('modrm');
+  const slot=pick(opts);let text,from=null,to=null,key=slot;
+  if(slot==='drink'){from=g.drink;to=pickOther(menu.drinks,from);if(!to)return null;g.drink=to;text=pick(['Actually, can you make that a '+to+' instead of the '+from+'?','Sorry, swap the '+from+' for a '+to+'.'])}
+  else if(slot==='side'){from=g.side;to=pickOther(menu.sides,from);if(!to)return null;g.side=to;text=from?pick(['Actually, '+lower(to)+' instead of the '+lower(from)+'.','Can I get '+lower(to)+' instead of '+lower(from)+'?']):'Oh, can I add '+lower(to)+' on the side?'}
+  else if(slot==='temp'){from=g.temp;to=pickOther(TEMPS,from);g.temp=to;text=pick(['Actually, make that '+lower(to)+', not '+lower(from)+'.','Sorry, '+lower(to)+' on the '+lower(g.main)+'.'])}
+  else if(slot==='starter'){from=g.starter;if(Math.random()<.5){to=null;g.starter=null;text='Actually, skip the '+lower(from)+'.'}else{to=pickOther(menu.starters,from);if(!to)return null;g.starter=to;text='Make that the '+lower(to)+' instead of the '+lower(from)+' to start.'}}
+  else if(slot==='main'){from=g.main;to=pickOther(mainNames(),from);if(!to)return null;const oldTemp=g.temp;g.main=to;g.temp=needsTemp(to)?pick(TEMPS):null;text='Actually, change mine to the '+lower(to)+(g.temp?', '+lower(g.temp):'')+' instead of the '+lower(from)+'.';if(oldTemp)table.stale.push({seat:i,slot:'temp',from:oldTemp,to:g.temp})}
+  else if(slot==='modadd'){to=pickOther(menu.mods.filter(x=>!g.mods.includes(x)),null);if(!to)return null;g.mods.push(to);text=pick(['Oh, and '+lower(to)+' on that.','Can I also get '+lower(to)+'?']);key='mods'}
+  else{from=g.mods[rnd(g.mods.length)];to=null;g.mods=g.mods.filter(x=>x!==from);text='Never mind on the '+lower(from)+'.';key='mods'}
+  table.stale.push({seat:i,slot:key,from,to});
+  return {seat:i,text,change:true};
+}
+function genTable(cfg,num){
+  const seats=[];for(let i=0;i<cfg.seats;i++)seats.push(genGuest(cfg));
+  const table={num,seats,stale:[],lines:[]};
+  const order=cfg.order==='random'?shuffle(seats.map((_,i)=>i)):seats.map((_,i)=>i);
+  let lines=[];const last={};
+  order.forEach(i=>{lines=lines.concat(guestLines(seats[i],i,cfg));last[i]=lines.length-1});
+  for(let c=0;c<cfg.changes;c++){
+    let ch=null;for(let t=0;t<6&&!ch;t++)ch=makeChange(table,cfg);
+    if(!ch)break;
+    const min=last[ch.seat]+1;const pos=min+rnd(lines.length-min+1);
+    lines.splice(pos,0,ch);
+    Object.keys(last).forEach(k=>{if(last[k]>=pos)last[k]++});
+    last[ch.seat]=pos;
+  }
+  table.lines=lines;return table;
+}
+
+/* ---------- speech ---------- */
+function speak(t){
+  if(!settings.tts||!('speechSynthesis' in window))return;
+  try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(t.replace(/&/g,' and '));u.rate=1.02;u.lang='en-US';speechSynthesis.speak(u)}catch(e){}
+}
+function hush(){try{if('speechSynthesis' in window)speechSynthesis.cancel()}catch(e){}}
+
+/* ---------- stages ---------- */
+const STAGES=['setup','floor','sweep','inter','recall','result'];
+function stage(n){clearTimer();STAGES.forEach(s=>{$('#stage-'+s).hidden=(s!==n)});window.scrollTo({top:0})}
+
+$('#btn-start').addEventListener('click',()=>{
+  const cfg=currentCfg();
+  const nums=shuffle([7,9,12,14,16,21,23,31,42,55]).slice(0,cfg.tables);
+  run={cfg,level:cfg.level,tables:nums.map(n=>genTable(cfg,n)),ti:0,li:0,t0:0,tEnc:0,tRec:0,reasks:0,interOK:0,interN:0,spoken:{}};
+  run.t0=now();
+  showFloor();
+});
+function showFloor(){
+  stage('floor');
+  const t=run.tables[run.ti];const line=t.lines[run.li];
+  const done=new Set();for(let k=0;k<run.li;k++)done.add(t.lines[k].seat);
+  $('#floor-diagram').innerHTML=diagram(t.seats.length,line.seat,done,'TABLE '+t.num);
+  $('#floor-table').textContent='Table '+t.num+(run.cfg.tables>1?' ('+(run.ti+1)+' of '+run.cfg.tables+')':'');
+  $('#floor-prog').textContent='Line '+(run.li+1)+' of '+t.lines.length;
+  const el=$('#floor-line');el.classList.toggle('change',!!line.change);
+  $('#floor-who').textContent='Seat '+(line.seat+1)+(line.change?' · changes their mind':'');
+  $('#floor-what').textContent=line.text;
+  speak(line.text);
+  const pace=+settings.pace;
+  $('#btn-next').textContent=pace?'Got it (auto in '+pace+' s)':'Got it';
+  if(pace)timer=setTimeout(advance,pace*1000);
+}
+function advance(){
+  clearTimer();hush();
+  const t=run.tables[run.ti];
+  run.li++;
+  if(run.li>=t.lines.length)showSweep();else showFloor();
+}
+$('#btn-next').addEventListener('click',advance);
+
+function showSweep(){
+  stage('sweep');
+  const t=run.tables[run.ti];const n=t.seats.length;
+  $('#sweep-diagram').innerHTML=diagram(n,-1,new Set(t.seats.map((_,i)=>i)),'TABLE '+t.num);
+  $('#sweep-n').textContent=String(n);
+  $('#reask-seats').hidden=true;$('#reask-card').hidden=true;
+  $('#reask-seats').innerHTML=t.seats.map((_,i)=>'<button class="btn btn-ghost" data-seat="'+i+'">'+(i+1)+'</button>').join('');
+  $$('#reask-seats button').forEach(b=>b.addEventListener('click',()=>reask(+b.dataset.seat)));
+  let c=Math.max(6,n*3);$('#sweep-count').textContent=String(c);
+  timer=setInterval(()=>{c--;$('#sweep-count').textContent=String(c);if(c<=0)sweepDone()},1000);
+}
+function finalOrderText(g){
+  const parts=[g.drink,g.starter||'no starter',g.main+(g.temp?' ('+lower(g.temp)+')':''),g.side||'no side'];
+  if(g.mods.length)parts.push(g.mods.join(', '));
+  return parts.join(' · ');
+}
+function reask(i){
+  run.reasks++;
+  const g=run.tables[run.ti].seats[i];
+  $('#reask-title').textContent='Seat '+(i+1)+' says';
+  $('#reask-text').textContent=finalOrderText(g);
+  $('#reask-card').hidden=false;$('#reask-seats').hidden=true;
+  speak(finalOrderText(g).replace(/·/g,','));
+  setTimeout(()=>{$('#reask-card').hidden=true},6000);
+}
+$('#btn-reask').addEventListener('click',()=>{$('#reask-seats').hidden=!$('#reask-seats').hidden});
+function sweepDone(){
+  clearTimer();hush();
+  if(run.ti<run.tables.length-1){run.ti++;run.li=0;showFloor();return}
+  run.tEnc=now();
+  showInter();
+}
+$('#btn-sweep-done').addEventListener('click',sweepDone);
+
+function interQ(){
+  const k=rnd(3);
+  if(k===0){const a=pick([3,4]);const per=8+rnd(20);return {q:'Table '+(10+rnd(20))+' wants to split $'+(a*per)+' '+a+' ways. What does each pay?',a:per}}
+  if(k===1){const x=12+rnd(30),y=6+rnd(30);return {q:'Bar: a $'+x+' tab and a $'+y+' tab going on one card. Total?',a:x+y}}
+  const x=10+rnd(15),y=1+rnd(x-1);return {q:'Host: '+x+' on the wait list, '+y+' just got seated. How many are still waiting?',a:x-y};
+}
+function showInter(){
+  stage('inter');
+  const mode=run.cfg.inter;
+  $('#inter-walk').hidden=(mode!=='walk');$('#inter-q').hidden=(mode!=='interrupt');
+  if(mode==='none'){showRecall();return}
+  if(mode==='walk'){let c=8;$('#walk-count').textContent='8';timer=setInterval(()=>{c--;$('#walk-count').textContent=String(c);if(c<=0){clearTimer();showRecall()}},1000);return}
+  run.iq=[interQ(),interQ()];run.iqi=0;renderInterQ();
+}
+function renderInterQ(){
+  const q=run.iq[run.iqi];
+  $('#inter-idx').textContent=(run.iqi+1)+' of 2';
+  $('#inter-text').textContent=q.q;$('#inter-ans').value='';$('#inter-fb').textContent='';
+  speak(q.q);
+  setTimeout(()=>$('#inter-ans').focus(),50);
+}
+$('#btn-inter-next').addEventListener('click',()=>{
+  const q=run.iq[run.iqi];const v=+$('#inter-ans').value;
+  run.interN++;if(v===q.a)run.interOK++;
+  run.iqi++;
+  if(run.iqi<run.iq.length)renderInterQ();else showRecall();
+});
+$('#inter-ans').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();$('#btn-inter-next').click()}});
+
+function opt(list,cur,none){
+  let s=none?'<option value="">'+esc(none)+'</option>':'';
+  list.forEach(x=>{s+='<option value="'+esc(x)+'"'+(x===cur?' selected':'')+'>'+esc(x)+'</option>'});
+  return s;
+}
+function showRecall(){
+  stage('recall');hush();
+  run.tRec=now();
+  const cfg=run.cfg;let html='';
+  run.tables.forEach((t,ti)=>{
+    if(cfg.tables>1)html+='<div class="tk-table">Table '+t.num+'</div>';
+    t.seats.forEach((g,i)=>{
+      const id='t'+ti+'s'+i;
+      html+='<div class="ticket" data-t="'+ti+'" data-s="'+i+'"><div class="ticket-h"><span class="seat">Seat '+(i+1)+'</span><span class="tbl">Table '+t.num+'</span></div>';
+      html+='<div class="row"><span class="k"><label for="'+id+'-drink">Drink</label></span><select id="'+id+'-drink" data-slot="drink">'+opt(menu.drinks,'','—')+'</select></div>';
+      if(cfg.slots.includes('starter'))html+='<div class="row"><span class="k"><label for="'+id+'-starter">Starter</label></span><select id="'+id+'-starter" data-slot="starter">'+opt(menu.starters,'','— none')+'</select></div>';
+      html+='<div class="row"><span class="k"><label for="'+id+'-main">Main</label></span><select id="'+id+'-main" data-slot="main">'+opt(mainNames(),'','—')+'</select></div>';
+      html+='<div class="row temp-row" hidden><span class="k"><label for="'+id+'-temp">Temp</label></span><select id="'+id+'-temp" data-slot="temp">'+opt(TEMPS,'','—')+'</select></div>';
+      if(cfg.slots.includes('side'))html+='<div class="row"><span class="k"><label for="'+id+'-side">Side</label></span><select id="'+id+'-side" data-slot="side">'+opt(menu.sides,'','— none')+'</select></div>';
+      if(cfg.slots.includes('mods'))html+='<div class="row"><span class="k">Mods</span><div class="chips" data-slot="mods">'+menu.mods.map(m=>'<button type="button" class="chip" aria-pressed="false" data-v="'+esc(m)+'">'+esc(m)+'</button>').join('')+'</div></div>';
+      html+='</div>';
+    });
+  });
+  $('#recall-tickets').innerHTML=html;
+  $$('#recall-tickets select[data-slot="main"]').forEach(s=>{
+    const row=s.closest('.ticket').querySelector('.temp-row');
+    const upd=()=>{row.hidden=!needsTemp(s.value)};s.addEventListener('change',upd);upd();
+  });
+  $$('#recall-tickets .chip').forEach(c=>c.addEventListener('click',()=>c.setAttribute('aria-pressed',c.getAttribute('aria-pressed')==='true'?'false':'true')));
+}
+
+/* ---------- scoring ---------- */
+function readAnswers(){
+  return run.tables.map((t,ti)=>t.seats.map((_,i)=>{
+    const tk=$('.ticket[data-t="'+ti+'"][data-s="'+i+'"]');
+    const val=slot=>{const s=tk.querySelector('select[data-slot="'+slot+'"]');return s&&s.value?s.value:null};
+    const mainV=val('main');
+    return {drink:val('drink'),starter:val('starter'),main:mainV,temp:(mainV&&needsTemp(mainV))?val('temp'):null,side:val('side'),mods:$$('.chip[aria-pressed="true"]',tk).map(c=>c.dataset.v)};
+  }));
+}
+function scoreTable(t,ans,cfg){
+  const rows=[];const err={miss:0,wrong:0,stale:0,seat:0,extra:0};let items=0;
+  const staleOf=(i,slot,v)=>t.stale.some(s=>s.seat===i&&s.slot===slot&&s.from!=null&&s.from===v);
+  const staleAdd=(i,v)=>t.stale.some(s=>s.seat===i&&s.slot==='mods'&&s.to===v);
+  t.seats.forEach((g,i)=>{
+    const a=ans[i];const seatRows=[];
+    const scalar=['drink'].concat(cfg.slots.includes('starter')?['starter']:[],['main'],(g.temp||a.temp)?['temp']:[],cfg.slots.includes('side')?['side']:[]);
+    scalar.forEach(slot=>{
+      const exp=g[slot],got=a[slot];
+      if(exp!=null)items++;
+      let st='ok';
+      if(exp===got)st='ok';
+      else if(got==null)st='miss';
+      else if(exp==null)st=staleOf(i,slot,got)?'stale':'extra';
+      else if(staleOf(i,slot,got))st='stale';
+      else if(t.seats.some((o,j)=>j!==i&&o[slot]===got))st='seat';
+      else st='wrong';
+      if(st!=='ok')err[st]++;
+      seatRows.push({slot,exp,got,st});
+    });
+    if(cfg.slots.includes('mods')){
+      g.mods.forEach(m=>{items++;const has=a.mods.includes(m);const st=has?'ok':(staleAdd(i,m)?'stale':'miss');if(st!=='ok')err[st]++;seatRows.push({slot:'mod',exp:m,got:has?m:null,st})});
+      a.mods.filter(m=>!g.mods.includes(m)).forEach(m=>{const st=staleOf(i,'mods',m)?'stale':'extra';err[st]++;seatRows.push({slot:'mod',exp:null,got:m,st})});
+      if(!g.mods.length&&!a.mods.length)seatRows.push({slot:'mod',exp:null,got:null,st:'ok'});
+    }
+    rows.push({seat:i,rows:seatRows});
+  });
+  return {rows,err,items:Math.max(items,1)};
+}
+const SLOTNAME={drink:'Drink',starter:'Starter',main:'Main',temp:'Temp',side:'Side',mod:'Mod'};
+const ERRNAME={miss:'missed',wrong:'wrong item',stale:'stale',seat:'wrong seat',extra:'not ordered'};
+$('#btn-submit').addEventListener('click',()=>{
+  const tDone=now();const ans=readAnswers();const cfg=run.cfg;
+  const results=run.tables.map((t,ti)=>scoreTable(t,ans[ti],cfg));
+  const err={miss:0,wrong:0,stale:0,seat:0,extra:0};let items=0;
+  results.forEach(r=>{items+=r.items;Object.keys(err).forEach(k=>err[k]+=r.err[k])});
+  const nErr=Object.values(err).reduce((a,b)=>a+b,0);
+  const perfect=nErr===0&&run.reasks===0;
+  const encS=Math.round((run.tEnc-run.t0)/1000),recS=Math.round((tDone-run.tRec)/1000);
+  let leveled=false;
+  const key=String(run.level);
+  const s=stats.levels[key]||(stats.levels[key]={attempts:0,perfect:0,items:0,errors:0});
+  s.attempts++;s.items+=items;s.errors+=Math.min(nErr,items);
+  if(run.level!=='custom'&&run.level===stats.level){
+    if(perfect){s.perfect++;stats.streak++;if(stats.streak>=3&&stats.level<MAXL){stats.level++;stats.streak=0;leveled=true}}
+    else if(nErr>0){stats.streak=0}
+  }else if(perfect)s.perfect++;
+  stats.history.unshift({ts:tDone,level:run.level,items,err,nErr,perfect,reasks:run.reasks,encS,recS});
+  stats.history=stats.history.slice(0,200);
+  LS.set('soc.stats',stats);
+  renderResult(results,err,nErr,items,perfect,leveled,encS,recS);
+  if(leveled)selLevel.value=String(stats.level);
+  renderLevelCard();
+});
+function renderResult(results,err,nErr,items,perfect,leveled,encS,recS){
+  stage('result');
+  const v=$('#verdict');
+  const acc=Math.max(0,Math.round(100*(1-Math.min(nErr,items)/items)));
+  if(perfect){v.className='verdict clean';v.innerHTML='Clean ticket'+(leveled?'<small>Three in a row. Level '+stats.level+' now. It gets less forgiving.</small>':'<small>'+(run.level==='custom'?'Custom table.':stats.streak+' of 3 toward the next level.')+'</small>')}
+  else if(nErr===0){v.className='verdict clean';v.innerHTML='Clean, with '+run.reasks+' re-ask'+(run.reasks>1?'s':'')+'<small>Nothing wrong reached the kitchen. A re-ask at the table is the right call, but it does not count toward the streak.</small>'}
+  else{v.className='verdict dirty';v.innerHTML=nErr+' wrong on '+items+' items<small>'+(err.stale?'You rang the version they changed. ':'')+(err.seat?'Right food, wrong seat: the anchor slipped. ':'')+(err.miss?'Something was never encoded. Say-back was skipped. ':'')+'Streak reset.</small>'}
+  $('#result-kv').innerHTML='<div><b>'+acc+'%</b><span>Items right</span></div><div><b>'+encS+' s</b><span>At the table</span></div><div><b>'+recS+' s</b><span>At the POS</span></div>'+(run.interN?'<div><b>'+run.interOK+'/'+run.interN+'</b><span>Interruptions</span></div>':'');
+  let html='';
+  results.forEach((r,ti)=>{
+    const t=run.tables[ti];
+    if(run.cfg.tables>1)html+='<div class="tk-table">Table '+t.num+'</div>';
+    r.rows.forEach(sr=>{
+      html+='<div class="ticket"><div class="ticket-h"><span class="seat">Seat '+(sr.seat+1)+'</span><span class="tbl">Table '+t.num+'</span></div>';
+      sr.rows.forEach(x=>{
+        const ok=x.st==='ok';
+        const val=ok?esc(x.exp==null?'—':x.exp):(esc(x.got==null?'—':x.got)+' <span class="was">· was '+esc(x.exp==null?'nothing':x.exp)+'</span>');
+        html+='<div class="r"><span class="mark '+(ok?'ok':'bad')+'">'+(ok?'✓':'✗')+'</span><span class="k">'+SLOTNAME[x.slot]+'</span><span class="v">'+val+'</span>'+(ok?'':'<span class="pill '+x.st+'">'+ERRNAME[x.st]+'</span>')+'</div>';
+      });
+      html+='</div>';
+    });
+  });
+  $('#result-tickets').innerHTML=html;
+}
+$('#btn-again').addEventListener('click',()=>$('#btn-start').click());
+$('#btn-setup').addEventListener('click',()=>{run=null;stage('setup');renderLevelCard()});
+
+/* ---------- stats ---------- */
+function renderStats(){
+  const h=stats.history;
+  const total=h.length,clean=h.filter(x=>x.perfect).length;
+  const best=Math.max(0,...h.filter(x=>x.level!=='custom'&&x.perfect).map(x=>+x.level));
+  const items=h.reduce((a,x)=>a+x.items,0),errs=h.reduce((a,x)=>a+Math.min(x.nErr,x.items),0);
+  $('#stats-kv').innerHTML='<div><b>'+total+'</b><span>Tickets</span></div><div><b>'+clean+'</b><span>Clean</span></div><div><b>'+(best||'—')+'</b><span>Best level cleared</span></div><div><b>'+(items?Math.round(100*(1-errs/items)):0)+'%</b><span>Items right</span></div>';
+  const lb=$('#stats-levels tbody');lb.innerHTML='';
+  Object.keys(stats.levels).sort((a,b)=>(a==='custom')-(b==='custom')||(+a)-(+b)).forEach(k=>{const s=stats.levels[k];lb.innerHTML+='<tr><td>'+(k==='custom'?'Custom':'Level '+k)+'</td><td class="n">'+s.attempts+'</td><td class="n">'+s.perfect+'</td><td class="n">'+(s.items?Math.round(100*(1-s.errors/s.items)):0)+'%</td></tr>'});
+  if(!lb.innerHTML)lb.innerHTML='<tr><td colspan="4" class="muted">No tickets yet.</td></tr>';
+  const e={miss:0,wrong:0,stale:0,seat:0,extra:0};h.forEach(x=>Object.keys(e).forEach(k=>e[k]+=(x.err&&x.err[k])||0));
+  const meaning={miss:'Never encoded. The say-back was skipped or rushed.',stale:'You rang what they said first, not what they changed to. Overwrite out loud.',seat:'Right item, wrong seat. The anchor moved, or you took the order from a different spot.',wrong:'Encoded, but as the wrong thing. Compress less, say more of the exact word.',extra:'Rang something nobody ordered. Usually a bleed from the previous table.'};
+  const eb=$('#stats-errors tbody');eb.innerHTML=Object.keys(e).map(k=>'<tr><td>'+ERRNAME[k]+'</td><td class="n">'+e[k]+'</td><td class="muted">'+meaning[k]+'</td></tr>').join('');
+  const hb=$('#stats-hist tbody');
+  hb.innerHTML=h.slice(0,10).map(x=>{const d=new Date(x.ts);return '<tr><td>'+d.toLocaleDateString(undefined,{month:'short',day:'numeric'})+' '+d.toLocaleTimeString(undefined,{hour:'numeric',minute:'2-digit'})+'</td><td>'+(x.level==='custom'?'C':x.level)+'</td><td>'+(x.perfect?'clean':x.nErr===0?'clean, '+x.reasks+' re-ask':x.nErr+' wrong of '+x.items)+'</td><td class="n">'+x.encS+' s</td><td class="n">'+x.recS+' s</td></tr>'}).join('')||'<tr><td colspan="5" class="muted">No tickets yet.</td></tr>';
+}
+$('#btn-reset-stats').addEventListener('click',()=>{if(confirm('Wipe every saved ticket and start at level 1?')){stats={level:1,streak:0,levels:{},history:[]};LS.set('soc.stats',stats);selLevel.value='1';renderLevelCard();renderStats()}});
+
+/* ---------- shorthand notes ---------- */
+const sh=$('#my-shorthand');sh.value=LS.get('soc.shorthand','');sh.addEventListener('input',()=>LS.set('soc.shorthand',sh.value));
+
+/* ---------- evidence (filled at build time) ---------- */
+
+/* ---------- hot reload for open viewers ---------- */
+function start(data){try{if(data&&data.tab)showTab(data.tab)}catch(e){}}
+try{window.claude&&window.claude.hot&&window.claude.hot.snapshot&&window.claude.hot.snapshot(()=>({tab:currentTab}))}catch(e){}
+try{(window.claude&&window.claude.hot&&window.claude.hot.ready)?window.claude.hot.ready(start):start((window.claude&&window.claude.hot&&window.claude.hot.data)||{})}catch(e){start({})}
+})();
+</script>
