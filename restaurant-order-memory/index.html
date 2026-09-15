@@ -209,6 +209,8 @@ td.code{font-family:var(--f-mono);font-weight:700;white-space:nowrap}
 .mitem .a{grid-column:1 / -1;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3)}
 .mitem .tag{font:600 11px var(--f-body);letter-spacing:.06em;text-transform:uppercase;color:var(--good);grid-column:1 / -1}
 .mitem.playing{border-color:var(--accent);background:var(--accent-soft);box-shadow:0 0 0 2px var(--accent) inset}
+#menu-list:not(.details) .mitem .d,#menu-list:not(.details) .mitem .a{display:none}
+#menu-list:not(.details) .mitem{padding:9px 12px;margin-bottom:4px}
 .mitem:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 .cite{font-size:14px;color:var(--ink-2)}
 .cite li{margin-bottom:8px}
@@ -380,15 +382,17 @@ td.code{font-family:var(--f-mono);font-weight:700;white-space:nowrap}
   <section id="tab-menu" role="tabpanel" aria-labelledby="tabbtn-menu" hidden>
     <div class="eyebrow">Vic on George · Level 3, Myer Sydney City</div>
     <h2>The whole menu, read to you</h2>
-    <p>Press play and it reads every section, item, price and description in order without stopping. Tap any item to start from there. Learn it the way the kitchen says it.</p>
+    <p>Press play and it reads every item name, section by section, without stopping. Tap any item to start from there. Prices, descriptions and allergens are there if you want them, off by default.</p>
     <div class="playbar">
       <button class="btn" id="btn-play">Play whole menu</button>
       <button class="btn btn-ghost" id="btn-stopplay">Stop</button>
     </div>
     <div class="playopts">
       <span id="play-prog" class="muted">Not playing</span>
-      <label class="check"><input type="checkbox" id="play-desc" checked> Descriptions</label>
-      <label class="check"><input type="checkbox" id="play-allergen" checked> Allergens</label>
+      <label class="check"><input type="checkbox" id="play-price"> Say prices</label>
+      <label class="check"><input type="checkbox" id="play-desc"> Say descriptions</label>
+      <label class="check"><input type="checkbox" id="play-allergen"> Say allergens</label>
+      <label class="check"><input type="checkbox" id="show-details"> Show details in the list</label>
       <label>Speed <select id="play-rate"><option value="0.9">Slow</option><option value="1" selected>Normal</option><option value="1.15">Fast</option></select></label>
     </div>
     <div id="menu-list"></div>
@@ -1072,7 +1076,7 @@ function renderMenuTab(){
 function itemSpeech(k,sayTitle){
   const f=FLAT[k],it=f.it;let t='';
   if(sayTitle)t+=f.sec+'. ';
-  t+=it.n+'.';const pr=sayPrice(it);if(pr)t+=' '+pr+'.';
+  t+=it.n+'.';if($('#play-price').checked){const pr=sayPrice(it);if(pr)t+=' '+pr+'.'}
   if($('#play-desc').checked&&it.d)t+=' '+it.d;
   if($('#play-allergen').checked&&it.a)t+=' Contains '+it.a+'.';
   return t.replace(/&/g,' and ');
@@ -1100,6 +1104,7 @@ function playFrom(k){
 }
 function stopPlay(){playing=false;playIdx=-1;try{speechSynthesis.cancel()}catch(e){}markPlaying(-1)}
 $('#btn-play').addEventListener('click',()=>playFrom(0));
+$('#show-details').addEventListener('change',e=>$('#menu-list').classList.toggle('details',e.target.checked));
 $('#btn-stopplay').addEventListener('click',stopPlay);
 $$('.tabs button').forEach(b=>b.addEventListener('click',()=>{if(b.dataset.tab!=='menu')stopPlay()}));
 
