@@ -1,7 +1,7 @@
 {
-  "_note": "Music under the narration. Music files live in music/ and are not committed. Song cues: 'The City Holds My Heart' (Ghostly Kisses), supplied by the user for personal listening. Battle cues: original tracks generated with Google Lyria 3 via OpenRouter (scripts/make_music.py), used in about one chapter in five.",
+  "_note": "Music under the narration. Music files live in music/ and are not committed. Song cues: 'The City Holds My Heart' (Ghostly Kisses), supplied by the user for personal listening; vocals removed with Demucs so only the instrumental plays under the narration. Battle cues: original tracks generated with Google Lyria 3 via OpenRouter (scripts/make_music.py), used in about one chapter in five.",
   "tracks": {
-    "city":   {"file": "music/the_city_holds_my_heart.mp3", "offset": 1.2},
+    "city":   {"file": "music/the_city_holds_my_heart_instrumental.mp3", "offset": 1.2},
     "battle": {"file": "music/battle_dread.mp3", "offset": 0}
   },
   "chapters": {
