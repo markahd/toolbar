@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
-"""Generate audiobook audio from full_book_tts/*.txt with Fish Audio.
+"""Generate audiobook audio from full_book_tts/*.txt with Fish Audio Drama 3,
+called through OpenRouter's text-to-speech endpoint.
 
 Usage:
-  python3 scripts/fish_tts.py                # every chapter not yet generated
-  python3 scripts/fish_tts.py ch01 ch02      # specific chapters
-  python3 scripts/fish_tts.py --force ch01   # regenerate
+  python3 scripts/make_audio.py                # every chapter not yet generated
+  python3 scripts/make_audio.py ch01 ch02      # specific chapters
+  python3 scripts/make_audio.py --force ch01   # regenerate
 
 Settings come from .env (see .env.example). Output: audio/chNN.mp3
 """
@@ -15,12 +16,13 @@ from dotenv import load_dotenv
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 load_dotenv(ROOT / ".env")
 
-API_URL = "https://api.fish.audio/v1/tts"
-KEY = os.getenv("FISH_API_KEY", "").strip()
-VOICE = os.getenv("FISH_VOICE_ID", "").strip()
-MODEL = os.getenv("FISH_MODEL", "s1").strip()
-FMT = os.getenv("FISH_FORMAT", "mp3").strip()
-MAX_CHARS = int(os.getenv("FISH_MAX_CHARS", "1800"))
+API_URL = "https://openrouter.ai/api/v1/audio/speech"
+KEY = os.getenv("OPENROUTER_API_KEY", "").strip()
+MODEL = os.getenv("TTS_MODEL", "fish-audio/drama-3").strip()
+# Empty = the model's default voice (Sarah). Otherwise a Fish Audio reference_id.
+VOICE = os.getenv("TTS_VOICE", "").strip()
+FMT = "mp3"
+MAX_CHARS = int(os.getenv("TTS_MAX_CHARS", "1800"))
 
 
 def chunks(text, limit=MAX_CHARS):
@@ -53,24 +55,25 @@ def chunks(text, limit=MAX_CHARS):
 
 
 def tts(text):
-    body = {"text": text, "format": FMT, "normalize": True, "latency": "normal"}
+    # Drama 3 reads [square brackets] as stage directions; the TTS files contain none.
+    body = {"model": MODEL, "input": text, "response_format": FMT}
     if VOICE:
-        body["reference_id"] = VOICE
-    headers = {"Authorization": f"Bearer {KEY}", "Content-Type": "application/json", "model": MODEL}
+        body["voice"] = VOICE
+    headers = {"Authorization": f"Bearer {KEY}", "Content-Type": "application/json"}
     for attempt in range(5):
         r = requests.post(API_URL, json=body, headers=headers, timeout=300)
-        if r.status_code == 200:
+        if r.status_code == 200 and r.headers.get("content-type", "").startswith("audio"):
             return r.content
-        if r.status_code in (429, 500, 502, 503, 504):
+        if r.status_code in (429, 500, 502, 503, 504, 524, 529):
             time.sleep(2 ** (attempt + 1))
             continue
-        raise SystemExit(f"Fish Audio error {r.status_code}: {r.text[:500]}")
-    raise SystemExit("Fish Audio: too many retries")
+        raise SystemExit(f"TTS error {r.status_code}: {r.text[:500]}")
+    raise SystemExit("TTS: too many retries")
 
 
 def main(argv):
     if not KEY:
-        raise SystemExit("FISH_API_KEY is empty. Fill in .env first.")
+        raise SystemExit("OPENROUTER_API_KEY is empty. Fill in .env first.")
     force = "--force" in argv
     wanted = [a for a in argv if not a.startswith("--")]
     src = sorted((ROOT / "full_book_tts").glob("ch*_tts.txt"))

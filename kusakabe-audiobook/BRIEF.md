@@ -10,7 +10,7 @@ This is the complete creative brief. Everything creative has already been decide
 - **Chapters:** **25** (24 main chapters of about 4,000–4,300 words, plus a shorter epilogue of about 2,000 words).
 - **Point of view:** close third person on Kusakabe, **present tense**, with frequent short inner thoughts.
 - **Style:** exactly like the **Style Reference** in Appendix A. Read it before anything else. Every chapter must read like it was written by the same hand.
-- **Narration:** one narrator voice for the whole book (Fish Audio, default **Sarah** voice). Write for the ear.
+- **Narration:** one narrator voice for the whole book (Fish Audio Drama 3 via OpenRouter, default **Sarah** voice; Drama 3 reads anything in square brackets as a stage direction, so the TTS text must contain none). Write for the ear.
 - **Output per chapter:** two files:
   - `chNN.md`: the reading version (italics allowed for inner thoughts).
   - `chNN_tts.txt`: the audio version (plain text, cleaned for text-to-speech; see section 6).
