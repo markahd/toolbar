@@ -8,6 +8,14 @@
     "battle": {
       "file": "music/battle_dread.mp3",
       "offset": 0
+    },
+    "stillness": {
+      "file": "music/battle_stillness.mp3",
+      "offset": 0
+    },
+    "collapse": {
+      "file": "music/battle_collapse.mp3",
+      "offset": 0
     }
   },
   "chapters": {
@@ -71,6 +79,28 @@
         "from": "At the top of the stairs.",
         "to": "At street level.",
         "swell": false
+      }
+    ],
+    "ch15": [
+      {
+        "track": "stillness",
+        "from": "And then it moves.",
+        "to": "Afterwards. Nobody moves.",
+        "swell": false
+      }
+    ],
+    "ch16": [
+      {
+        "track": "collapse",
+        "from": "Then the air changes again.",
+        "to": "Later. Under the rock.",
+        "swell": false
+      },
+      {
+        "track": "city",
+        "from": "Much later, the slab moves.",
+        "to": null,
+        "swell": true
       }
     ]
   }
