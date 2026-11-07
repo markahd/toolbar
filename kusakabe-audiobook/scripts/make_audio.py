@@ -9,7 +9,7 @@ Usage:
 
 Settings come from .env (see .env.example). Output: audio/chNN.mp3
 """
-import os, re, sys, time, pathlib
+import os, re, sys, time, json, pathlib, subprocess, tempfile
 import requests
 from dotenv import load_dotenv
 
@@ -27,8 +27,10 @@ INSTRUCTIONS = os.getenv("TTS_INSTRUCTIONS", "warm, gentle, intimate audiobook n
 MAX_CHARS = int(os.getenv("TTS_MAX_CHARS", "1800"))
 
 
-def chunks(text, limit=MAX_CHARS):
-    """Split at paragraph boundaries; split an oversized paragraph at sentence ends."""
+def chunks(text, limit=MAX_CHARS, breaks=()):
+    """Split at paragraph boundaries; split an oversized paragraph at sentence ends.
+    A paragraph starting with any string in `breaks` always starts a new chunk
+    (music cues use this so they land on an exact sentence)."""
     paras = [p.strip() for p in re.split(r"\n\s*\n", text) if p.strip()]
     pieces = []
     for p in paras:
@@ -46,7 +48,8 @@ def chunks(text, limit=MAX_CHARS):
             pieces.append(cur)
     out, cur = [], ""
     for p in pieces:
-        if cur and len(cur) + len(p) + 2 > limit:
+        forced = any(p.startswith(b) for b in breaks)
+        if cur and (forced or len(cur) + len(p) + 2 > limit):
             out.append(cur)
             cur = p
         else:
@@ -75,6 +78,22 @@ def tts(text):
     raise SystemExit("TTS: too many retries")
 
 
+def duration(data):
+    with tempfile.NamedTemporaryFile(suffix=".mp3") as f:
+        f.write(data); f.flush()
+        out = subprocess.run(["ffprobe", "-v", "error", "-show_entries", "format=duration",
+                              "-of", "csv=p=0", f.name], capture_output=True, text=True).stdout
+    return float(out.strip() or 0)
+
+
+def cue_breaks(name):
+    path = ROOT / "music_cues.json"
+    if not path.exists():
+        return ()
+    cues = json.loads(path.read_text()).get("chapters", {}).get(name, [])
+    return tuple(a for c in cues for a in (c.get("from"), c.get("to")) if a)
+
+
 def main(argv):
     if not KEY:
         raise SystemExit("OPENROUTER_API_KEY is empty. Fill in .env first.")
@@ -91,14 +110,21 @@ def main(argv):
         if out.exists() and not force:
             print(f"skip {name} (exists)")
             continue
-        parts = chunks(path.read_text(encoding="utf-8"))
+        parts = chunks(path.read_text(encoding="utf-8"), breaks=cue_breaks(name))
         print(f"{name}: {len(parts)} requests")
         tmp = out.with_suffix(out.suffix + ".part")
+        timing, t = [], 0.0
         with open(tmp, "wb") as f:
             for i, part in enumerate(parts, 1):
-                f.write(tts(part))  # MP3 frames concatenate cleanly
+                data = tts(part)
+                f.write(data)  # MP3 frames concatenate cleanly
+                d = duration(data)
+                timing.append({"start": round(t, 3), "dur": round(d, 3), "text": part[:80]})
+                t += d
                 print(f"  {i}/{len(parts)}", flush=True)
         tmp.rename(out)
+        # Chunk start times, used by mix_audio.py to place music cues
+        (outdir / f"{name}.timing.json").write_text(json.dumps(timing, indent=1))
         print(f"wrote {out}")
 
 

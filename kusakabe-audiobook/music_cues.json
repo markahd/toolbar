@@ -1,0 +1,15 @@
+{
+  "_note": "Music under the narration. Music files live in music/ and are not committed. Song cues: 'The City Holds My Heart' (Ghostly Kisses), supplied by the user for personal listening. Battle cues: original tracks generated with Google Lyria 3 via OpenRouter (scripts/make_music.py), used in about one chapter in five.",
+  "tracks": {
+    "city":   {"file": "music/the_city_holds_my_heart.mp3", "offset": 1.2},
+    "battle": {"file": "music/battle_dread.mp3", "offset": 0}
+  },
+  "chapters": {
+    "ch02": [{"track": "city", "from": "The train goes up onto the elevated section.", "to": null, "swell": true}],
+    "ch05": [{"track": "city", "from": "Dawn.", "to": null, "swell": true}],
+    "ch06": [{"track": "battle", "from": "Then the screaming starts.", "to": "Later.", "swell": false}],
+    "ch07": [{"track": "city", "from": "Late in the afternoon, the light comes in low", "to": null, "swell": true}],
+    "ch08": [{"track": "city", "from": "There's a bench outside the clinic", "to": null, "swell": true}],
+    "ch10": [{"track": "city", "from": "Outside, the air has gone cold and clean.", "to": null, "swell": true}]
+  }
+}
