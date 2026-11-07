@@ -102,6 +102,20 @@
         "to": null,
         "swell": true
       }
+    ],
+    "ch18": [
+      {
+        "track": "collapse",
+        "from": "He lifts his hand again, palm out, and the air starts to turn.",
+        "to": "Then it's quiet.",
+        "swell": false
+      },
+      {
+        "track": "city",
+        "from": "The sun clears the top of something broken.",
+        "to": null,
+        "swell": true
+      }
     ]
   }
 }
