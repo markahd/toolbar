@@ -68,7 +68,12 @@ def tts(text):
         body["instructions"] = INSTRUCTIONS
     headers = {"Authorization": f"Bearer {KEY}", "Content-Type": "application/json"}
     for attempt in range(5):
-        r = requests.post(API_URL, json=body, headers=headers, timeout=300)
+        try:
+            r = requests.post(API_URL, json=body, headers=headers, timeout=300)
+        except requests.exceptions.RequestException as e:  # dropped connection, proxy hiccup
+            print(f"  retry after {type(e).__name__}", flush=True)
+            time.sleep(2 ** (attempt + 1))
+            continue
         if r.status_code == 200 and r.headers.get("content-type", "").startswith("audio"):
             return r.content
         if r.status_code in (429, 500, 502, 503, 504, 524, 529):
