@@ -43,4 +43,7 @@ The canon rules are in BRIEF.md section 2 and win over anything here.
 
 ## Lines and images already used (append after each chapter; do not reuse)
 
-(empty — updated by the showrunner after each chapter)
+The authoritative list is the "Continuity updates" section of every file in summaries/. Read them all. Additional notes from the showrunner:
+
+- Ch 1 used "crowd parts like water round a post"; keep the water-and-stone image for the Ch 18 spiral only, phrased differently.
+- Ch 1 and Ch 2 both opened with Appendix A material; later chapters should not open with the alarm, coffee-at-window or train-to-sister routines unless the plan calls for it.
