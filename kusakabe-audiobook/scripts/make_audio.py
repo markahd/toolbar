@@ -22,6 +22,8 @@ MODEL = os.getenv("TTS_MODEL", "fish-audio/drama-3").strip()
 # Fish Audio reference_id; default is "Sarah" (Fish Official). Empty string = model default.
 VOICE = os.getenv("TTS_VOICE", "933563129e564b19a115bedd57b7406a").strip()
 FMT = "mp3"
+# Delivery direction sent to Drama 3 (OpenRouter prepends it as a [direction]).
+INSTRUCTIONS = os.getenv("TTS_INSTRUCTIONS", "warm, gentle, intimate audiobook narration, unhurried, a soft smile in the voice").strip()
 MAX_CHARS = int(os.getenv("TTS_MAX_CHARS", "1800"))
 
 
@@ -59,6 +61,8 @@ def tts(text):
     body = {"model": MODEL, "input": text, "response_format": FMT}
     if VOICE:
         body["voice"] = VOICE
+    if INSTRUCTIONS:
+        body["instructions"] = INSTRUCTIONS
     headers = {"Authorization": f"Bearer {KEY}", "Content-Type": "application/json"}
     for attempt in range(5):
         r = requests.post(API_URL, json=body, headers=headers, timeout=300)
