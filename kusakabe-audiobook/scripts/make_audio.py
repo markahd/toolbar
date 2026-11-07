@@ -19,8 +19,8 @@ load_dotenv(ROOT / ".env")
 API_URL = "https://openrouter.ai/api/v1/audio/speech"
 KEY = os.getenv("OPENROUTER_API_KEY", "").strip()
 MODEL = os.getenv("TTS_MODEL", "fish-audio/drama-3").strip()
-# Empty = the model's default voice (Sarah). Otherwise a Fish Audio reference_id.
-VOICE = os.getenv("TTS_VOICE", "").strip()
+# Fish Audio reference_id; default is "Sarah" (Fish Official). Empty string = model default.
+VOICE = os.getenv("TTS_VOICE", "933563129e564b19a115bedd57b7406a").strip()
 FMT = "mp3"
 MAX_CHARS = int(os.getenv("TTS_MAX_CHARS", "1800"))
 
